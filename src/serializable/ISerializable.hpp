@@ -1,4 +1,6 @@
+#pragma once
 #include <iostream>
+#include "SerializeBuffer.hpp"
 
 using namespace std;
 
@@ -13,12 +15,12 @@ public:
      * @param data シリアライズデータとして append する先
      * @return シリアライズ結果
      */
-    virtual ostream serialize(ostream data);
+    virtual SerializeBuffer *serialize(SerializeBuffer *buffer);
 
     /**
      * デシリアライズ処理を実現する
      */
-    virtual void deserialize(ostream data) = 0;
+    virtual void deserialize(SerializeBuffer *buffer) = 0;
 
     virtual ~ISerializable(){};
 };
