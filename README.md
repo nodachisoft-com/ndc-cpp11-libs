@@ -23,6 +23,9 @@ C++11 用のよく使用する基本ライブラリ群を定義しています�
 
 # gtest インストール
 
+インストール手順
+
+```shell
 wget 'https://github.com/google/googletest/archive/release-1.8.1.tar.gz'
 tar zxvf release-1.8.1.tar.gz
 mkdir -p /usr/local/src
@@ -34,6 +37,7 @@ cd build
 cmake ..
 make
 make install # 権限ないと失敗。手動で header と lib を取得可能
+```
 
 以下がコンパイルされている
 /tmp/googletest-release-1.8.1/build/googlemock/
@@ -56,7 +60,11 @@ cp -r /tmp/googletest-release-1.8.1/googletest/include/* ./lib/dev/gtest/include
 cp /tmp/googletest-release-1.8.1/build/googlemock/gtest/libgtest*.a ./lib/dev/gtest/lib/
 cp /tmp/googletest-release-1.8.1/build/googlemock/libgmock*.a ./lib/dev/gtest/lib/
 
-テストの実行
+
+# Makefile 経由でテストを実行する手順
+> make all
+
+
+## 補足：テストの実行（直接コンパイルで Google Test 実行例）
 > g++ add.cc add_test.cc -o test -I /workspaces/cpp11-ndc-libs/lib/dev/gtest/include -L /workspaces/cpp11-ndc-libs/lib/dev/gtest/lib -g -pthread -lgtest_main -lgtest
 > ./test  （これでテスト結果を出力）
-
