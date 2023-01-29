@@ -88,7 +88,6 @@ ScalableByteArray *ScalableByteArray::appendByte(char value)
   return this;
 }
 
-
 template <typename X>
 ScalableByteArray *ScalableByteArray::append(X value)
 {
@@ -120,6 +119,19 @@ char ScalableByteArray::readChar()
   return result;
 }
 
+// 現在のカーソル位置から short を読み込み、カーソル位置を進める
+short ScalableByteArray::readShort()
+{
+  short result = 0;
+  char *mem = (char *)(void *)(&result);
+
+  for (int i = 0; i < sizeof(short); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
+}
+
 // 現在のカーソル位置から int を読み込み、カーソル位置を進める
 int ScalableByteArray::readInt()
 {
@@ -127,6 +139,45 @@ int ScalableByteArray::readInt()
   char *mem = (char *)(void *)(&result);
 
   for (int i = 0; i < sizeof(int); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
+}
+
+// 現在のカーソル位置から long を読み込み、カーソル位置を進める
+long ScalableByteArray::readLong()
+{
+  long result = 0;
+  char *mem = (char *)(void *)(&result);
+
+  for (int i = 0; i < sizeof(long); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
+}
+
+// 現在のカーソル位置から float を読み込み、カーソル位置を進める
+float ScalableByteArray::readFloat()
+{
+  float result = 0;
+  char *mem = (char *)(void *)(&result);
+
+  for (int i = 0; i < sizeof(float); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
+}
+
+// 現在のカーソル位置から double を読み込み、カーソル位置を進める
+double ScalableByteArray::readDouble()
+{
+  double result = 0;
+  char *mem = (char *)(void *)(&result);
+
+  for (int i = 0; i < sizeof(double); i++)
   {
     mem[i] = readChar();
   }

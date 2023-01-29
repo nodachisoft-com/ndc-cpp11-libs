@@ -33,10 +33,8 @@ public:
   void set(int index, char value);
 
   ScalableByteArray *appendByte(char value);
-
   template <typename X>
   ScalableByteArray *append(X value);
-  // ScalableByteArray *append(std::string value);
 
   char readChar();
   short readShort();

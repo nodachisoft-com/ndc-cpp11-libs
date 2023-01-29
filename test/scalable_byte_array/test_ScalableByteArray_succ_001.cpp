@@ -7,14 +7,14 @@ TEST(ScalableByteArray, testcase1)
   // a->debug();
   ScalableByteArray *a = new ScalableByteArray(2);
   a->append('A');
-  a->append('B');
+  a->append(123.456f);
   a->append(876);
   a->append('C');
 
-  printf("%c", a->readChar());
-  printf("%c", a->readChar());
-  printf("%d", a->readInt());
-  printf("%c", a->readChar());
+  printf("%c ", a->readChar());
+  printf("%f ", a->readFloat());
+  printf("%d ", a->readInt());
+  printf("%c ", a->readChar());
 
   // EXPECT_EQ(3, 3);
 }
