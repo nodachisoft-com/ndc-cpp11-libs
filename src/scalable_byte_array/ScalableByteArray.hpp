@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <string>
 #include "../exception/index.hpp"
 
 class ScalableByteArray
@@ -30,11 +31,20 @@ public:
   ~ScalableByteArray();
   char get(int index);
   void set(int index, char value);
-  ScalableByteArray *append(char value);
-  ScalableByteArray *append(int value);
+
+  ScalableByteArray *appendByte(char value);
+
+  template <typename X>
+  ScalableByteArray *append(X value);
+  // ScalableByteArray *append(std::string value);
 
   char readChar();
+  short readShort();
   int readInt();
+  long readLong();
+  float readFloat();
+  double readDouble();
+  std::string readString();
 
   // 読み取りカーソル位置をバッファの頭にセット
   void setCurPosToHead();

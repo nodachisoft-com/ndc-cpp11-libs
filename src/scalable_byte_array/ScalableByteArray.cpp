@@ -70,7 +70,7 @@ void ScalableByteArray::set(int index, char value)
   memory[slotNo][offset] = value;
 }
 
-ScalableByteArray *ScalableByteArray::append(char value)
+ScalableByteArray *ScalableByteArray::appendByte(char value)
 {
   int nextEndPos = endPos + 1;
   bool isBound = (nextEndPos % memoryBlockSize == 0 ? true : false);
@@ -88,15 +88,23 @@ ScalableByteArray *ScalableByteArray::append(char value)
   return this;
 }
 
-ScalableByteArray *ScalableByteArray::append(int value)
+
+template <typename X>
+ScalableByteArray *ScalableByteArray::append(X value)
 {
   char *byteArray = (char *)(void *)&value;
-  for (int i = 0; i < sizeof(int); i++)
+  for (int i = 0; i < sizeof(X); i++)
   {
-    append(byteArray[i]);
+    appendByte(byteArray[i]);
   }
   return this;
 }
+template ScalableByteArray *ScalableByteArray::append<char>(char);
+template ScalableByteArray *ScalableByteArray::append<short>(short);
+template ScalableByteArray *ScalableByteArray::append<int>(int);
+template ScalableByteArray *ScalableByteArray::append<long>(long);
+template ScalableByteArray *ScalableByteArray::append<float>(float);
+template ScalableByteArray *ScalableByteArray::append<double>(double);
 
 // 読み取りカーソル位置をバッファの頭にセット
 void ScalableByteArray::setCurPosToHead()
