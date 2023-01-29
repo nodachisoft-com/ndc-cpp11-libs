@@ -36,13 +36,20 @@ public:
   template <typename X>
   ScalableByteArray *append(X value);
 
+  // ScalableByteArray *appendCharArray(char *value, int length);
+  ScalableByteArray *appendString(std::string &value);
+
   char readChar();
   short readShort();
   int readInt();
   long readLong();
   float readFloat();
   double readDouble();
-  std::string readString();
+  std::string readString(std::string &value);
+
+  // std::string readString();
+  template <typename X>
+  void read(X &value);
 
   // 読み取りカーソル位置をバッファの頭にセット
   void setCurPosToHead();

@@ -105,6 +105,52 @@ template ScalableByteArray *ScalableByteArray::append<long>(long);
 template ScalableByteArray *ScalableByteArray::append<float>(float);
 template ScalableByteArray *ScalableByteArray::append<double>(double);
 
+ScalableByteArray *ScalableByteArray::appendString(std::string &value)
+{
+  int len = value.length();
+  append(len);
+
+  const char *buf = value.c_str();
+  // 文字列本体を記録
+  for (int i = 0; i < len; i++)
+  {
+    appendByte(buf[i]);
+  }
+  return this;
+}
+
+template <typename X>
+void ScalableByteArray::read(X &value)
+{
+  // short result = 0;
+  char *mem = (char *)(void *)(&value);
+
+  for (int i = 0; i < sizeof(X); i++)
+  {
+    mem[i] = readChar();
+  }
+  // return result;
+}
+template void ScalableByteArray::read<char>(char &v);
+template void ScalableByteArray::read<int>(int &v);
+template void ScalableByteArray::read<float>(float &v);
+
+// テンプレート関数で対応不可の個別処理
+/*
+ScalableByteArray *ScalableByteArray::appendCharArray(char *value, int length)
+{
+  append(length); // 文字列の長さを記録
+
+  // 文字列本体を記録
+  char *byteArray = (char *)(void *)&value;
+  for (int i = 0; i < length; i++)
+  {
+    appendByte(byteArray[i]);
+  }
+  return this;
+}
+*/
+
 // 読み取りカーソル位置をバッファの頭にセット
 void ScalableByteArray::setCurPosToHead()
 {
@@ -181,6 +227,22 @@ double ScalableByteArray::readDouble()
   {
     mem[i] = readChar();
   }
+  return result;
+}
+
+// 現在のカーソル位置から char* を記録された長さぶん読み込み、
+// 末尾に終端文字（\0）を付与して返す。読み取ったぶんのカーソル位置を進める
+std::string ScalableByteArray::readString(std::string &value)
+{
+  int length = readInt();
+  char newCharArray[length + 1];
+  char *mem = (char *)(void *)(&newCharArray);
+  for (int i = 0; i < length; i++)
+  {
+    mem[i] = readChar();
+  }
+  mem[length] = '\0'; // 終端文字を追加
+  std::string result(newCharArray);
   return result;
 }
 
