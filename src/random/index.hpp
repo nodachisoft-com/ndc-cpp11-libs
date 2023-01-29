@@ -1,5 +1,5 @@
 // #pragma once
 // 外部に公開するヘッダー
 
-#include "Randomizer.hpp"
+#include "IRandomizer.hpp"
 #include "RandomProvider.hpp"

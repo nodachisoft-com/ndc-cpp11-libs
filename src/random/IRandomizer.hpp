@@ -3,10 +3,10 @@
 /**
  * 乱数生成器の I/F
  */
-class Randomizer
+class IRandomizer
 {
 public:
-  virtual ~Randomizer(){};
+  virtual ~IRandomizer(){};
 
   virtual float getRndFloat(float from, float to) = 0;
 

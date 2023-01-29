@@ -1,5 +1,5 @@
 #include <random>
-#include "Randomizer.hpp"
+#include "IRandomizer.hpp"
 #include "MtRandomizer.hpp"
 
 // int MtRandomizer::seed;

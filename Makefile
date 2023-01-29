@@ -14,13 +14,16 @@ SOURCES = $(shell find $(SRCROOT) -type f -name "*.cpp")
 
 
 # テスト対象のソースコード
-TEST_SRCS  = ./test/random/*.cpp
+TEST_SRCROOT = ./test
+TEST_SOURCES = $(shell find $(TEST_SRCROOT) -type f -name "test_*.cpp")
+
 
 # オブジェクトファイル名
 # OBJS    = $(SRCS:.cpp=.o)
 
 # インクルードファイルのあるディレクトリパス
 INCDIR  = -I./lib/dev/gtest/include # Google Test 用インクルード
+INCDIR += -I./lib/prod/cereal-1.3.2/include # Cereal 用
 
 # ライブラリファイルのあるディレクトリパス
 LIBDIR  = -L./lib/dev/gtest/lib	# Google Test 用ライブラリ
@@ -31,7 +34,7 @@ LIBS   += -lgtest
 
 # ターゲット：コンパイル＆リンク で Google Test 実行ファイルを作成
 $(RUN_TEST_EXEC_FILE): $(SOURCES)
-	$(CC) $(CFLAGS) $(SOURCES) $(TEST_SRCS) -o $(RUN_TEST_EXEC_FILE) $(INCDIR) $(LIBDIR) $(LIBS)
+	$(CC) $(CFLAGS) $(SOURCES) $(TEST_SOURCES) -o $(RUN_TEST_EXEC_FILE) $(INCDIR) $(LIBDIR) $(LIBS)
 
 
 # テスト用ソースコードのコンパイル＆実行

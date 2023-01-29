@@ -17,11 +17,11 @@ C++11 用のよく使用する基本ライブラリ群を定義しています�
 
 # 環境構築
 
+## gtest インストール
+
 - gcc コンパイル用
 - gtest 自動テスト用
 
-
-# gtest インストール
 
 インストール手順
 
@@ -61,10 +61,21 @@ cp /tmp/googletest-release-1.8.1/build/googlemock/gtest/libgtest*.a ./lib/dev/gt
 cp /tmp/googletest-release-1.8.1/build/googlemock/libgmock*.a ./lib/dev/gtest/lib/
 
 
-# Makefile 経由でテストを実行する手順
+### Makefile 経由でテストを実行する手順
 > make all
 
 
-## 補足：テストの実行（直接コンパイルで Google Test 実行例）
+#### 補足：テストの実行（直接コンパイルで Google Test 実行例）
 > g++ add.cc add_test.cc -o test -I /workspaces/cpp11-ndc-libs/lib/dev/gtest/include -L /workspaces/cpp11-ndc-libs/lib/dev/gtest/lib -g -pthread -lgtest_main -lgtest
 > ./test  （これでテスト結果を出力）
+
+## cereal ライブラリ導入
+
+JSON/XML/Binary のシリアライズ/デシリアライズライブラリ
+
+```
+> cd /tmp/
+> wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.3.2.zip
+> ll v1.3.2.zip
+> unzip v1.3.2.zip
+```

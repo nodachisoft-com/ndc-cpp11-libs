@@ -3,19 +3,18 @@
 
 class SerializeBuffer
 {
+private:
   std::vector<char> buffer;
   long readoffset;
+
+public:
   SerializeBuffer();
-  SerializeBuffer *append(bool v);
-  SerializeBuffer *append(byte v);
-  SerializeBuffer *append(short v);
-  SerializeBuffer *append(long v);
-  SerializeBuffer *append(float v);
-  SerializeBuffer *append(double v);
-  bool readBool();
-  Byte readByte();
-  short readShort();
-  long readLong();
+
+  void setOffsetToHead();
+
+  SerializeBuffer *appendInt(int v);
+  int readInt();
+
+  SerializeBuffer *appendFloat(float v);
   float readFloat();
-  double readDouble();
-}
+};

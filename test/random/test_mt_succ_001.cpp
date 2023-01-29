@@ -6,7 +6,7 @@
 // 確認する
 TEST(random, case1)
 {
-  Randomizer *r = RandomProvider::getRandomizer(RND_TYPE::MT19937, 100);
+  IRandomizer *r = RandomProvider::getRandomizer(RND_TYPE::MT19937, 100);
   int c[10] = {};
   for (int i = 0; i < 10000; i++)
   {
@@ -28,7 +28,7 @@ TEST(random, case1)
 // [5,8] の範囲で正しく取得可能なこと
 TEST(random, case2)
 {
-  Randomizer *r = RandomProvider::getRandomizer(RND_TYPE::MT19937, 100);
+  IRandomizer *r = RandomProvider::getRandomizer(RND_TYPE::MT19937, 100);
   int min = INT32_MAX;
   int max = INT32_MIN;
   for (int i = 0; i < 1000; i++)

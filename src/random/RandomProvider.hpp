@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Randomizer.hpp"
+#include "IRandomizer.hpp"
 
 enum class RND_TYPE : int
 {
@@ -16,5 +16,5 @@ enum class RND_TYPE : int
 class RandomProvider
 {
 public:
-    static Randomizer *getRandomizer(RND_TYPE type, uint seed);
+    static IRandomizer *getRandomizer(RND_TYPE type, uint seed);
 };

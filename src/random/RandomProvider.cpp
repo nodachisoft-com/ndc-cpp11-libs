@@ -1,10 +1,10 @@
 #include "RandomProvider.hpp"
-#include "Randomizer.hpp"
+#include "IRandomizer.hpp"
 #include "MtRandomizer.hpp"
 
-Randomizer *RandomProvider::getRandomizer(RND_TYPE type, uint seed)
+IRandomizer *RandomProvider::getRandomizer(RND_TYPE type, uint seed)
 {
-  Randomizer *rand = NULL;
+  IRandomizer *rand = NULL;
   switch (type)
   {
   case RND_TYPE::LINEAR:

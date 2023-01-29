@@ -4,7 +4,6 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/lib/dev/gtest/include",
                 "${workspaceFolder}/lib/dev/gtest/include"
             ],
             "defines": [],

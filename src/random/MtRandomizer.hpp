@@ -1,8 +1,8 @@
 #pragma once
 #include <random>
-#include "Randomizer.hpp"
+#include "IRandomizer.hpp"
 
-class MtRandomizer : public Randomizer
+class MtRandomizer : public IRandomizer
 {
 public:
   int seed;
