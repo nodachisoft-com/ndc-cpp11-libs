@@ -90,12 +90,10 @@ ScalableByteArray *ScalableByteArray::append(char value)
 
 ScalableByteArray *ScalableByteArray::append(int value)
 {
-  int INT_SIZE = sizeof(int);
-  void *p = (void *)&value;
-  char *t = (char *)p;
-  for (int i = 0; i < INT_SIZE; i++)
+  char *byteArray = (char *)(void *)&value;
+  for (int i = 0; i < sizeof(int); i++)
   {
-    append(t[i]);
+    append(byteArray[i]);
   }
   return this;
 }
@@ -104,6 +102,27 @@ ScalableByteArray *ScalableByteArray::append(int value)
 void ScalableByteArray::setCurPosToHead()
 {
   curPos = 0;
+}
+
+// 現在のカーソル位置から char を読み込み、カーソル位置を進める
+char ScalableByteArray::readChar()
+{
+  char result = get(curPos);
+  curPos++;
+  return result;
+}
+
+// 現在のカーソル位置から int を読み込み、カーソル位置を進める
+int ScalableByteArray::readInt()
+{
+  int result = 0;
+  char *mem = (char *)(void *)(&result);
+
+  for (int i = 0; i < sizeof(int); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
 }
 
 // バイト列保存領域として確保しているメモリ使用量を取得する

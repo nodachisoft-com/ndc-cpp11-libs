@@ -33,6 +33,9 @@ public:
   ScalableByteArray *append(char value);
   ScalableByteArray *append(int value);
 
+  char readChar();
+  int readInt();
+
   // 読み取りカーソル位置をバッファの頭にセット
   void setCurPosToHead();
 
