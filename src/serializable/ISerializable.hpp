@@ -1,8 +1,6 @@
 #pragma once
-#include <iostream>
+#include "../ndclibs.hpp"
 #include "SerializeBuffer.hpp"
-
-using namespace std;
 
 /**
  * Serialize / Deserialize interface

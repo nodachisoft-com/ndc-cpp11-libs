@@ -3,10 +3,7 @@
  * @brief 利用サイズにあわせて自動的にメモリ領域を拡張するバイト列データを扱う機能を提供します。
  */
 #pragma once
-#include <iostream>
-#include <vector>
-#include <string>
-#include "../exception/index.hpp"
+#include "../ndclibs.hpp"
 
 /// @brief 動的に拡張可能なバイト列を管理することができるクラス
 /// @details
@@ -76,6 +73,13 @@ public:
   /// @return Builder パターン実現のための Instance 本体への参照
   ScalableByteArray *appendString(std::string &value);
 
+  /// @brief
+  ///  バイト列の末尾に char[] 型のデータを追記する
+  ///  追記した文字列データは readString() で読み取り可能
+  /// @param[in] value 追記する char[] データへの参照
+  /// @return Builder パターン実現のための Instance 本体への参照
+  ScalableByteArray *appendCharArray(const char value[]);
+
   /// @brief 読み取りカーソル位置から char データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った char データ
   char readChar();
@@ -100,9 +104,13 @@ public:
   /// @return カーソル位置から読み取った double データ
   double readDouble();
 
+  /// @brief 読み取りカーソル位置から bool データを読み取りカーソルを進める
+  /// @return カーソル位置から読み取った bool データ
+  bool readBool();
+
   /// @brief 読み取りカーソル位置から std::string データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った std::string データ
-  std::string readString(std::string &value);
+  std::string readString();
 
   /// @brief 読み取りカーソル位置から指定した型データを読み取り、カーソルを進める
   /// @param[out] value データを読み取り上書きする先の変数

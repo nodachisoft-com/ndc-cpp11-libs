@@ -2,7 +2,7 @@
  * @brief 例外機能をまとめて提供するためのヘッダ
  */
 #pragma once
-#include <string>
+#include "../ndclibs.hpp"
 
 /// @brief
 ///  アプリ基盤の基底の例外クラス。

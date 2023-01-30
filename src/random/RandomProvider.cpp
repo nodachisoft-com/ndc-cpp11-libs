@@ -1,5 +1,5 @@
+#include "../ndclibs.hpp"
 #include "RandomProvider.hpp"
-#include "IRandomizer.hpp"
 #include "MtRandomizer.hpp"
 
 IRandomizer *RandomProvider::getRandomizer(RND_TYPE type, uint seed)

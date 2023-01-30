@@ -1,20 +1,26 @@
 #include <gtest/gtest.h>
-#include <string>
-#include "../../src/scalable_byte_array/index.hpp"
+// #include <string>
+// #include "../../src/scalable_byte_array/index.hpp"
+#include "../../src/ndclibs.hpp"
 
 // 各種 append と read が正しく動作すること
-// TODO: bool / char[] が足りてないYO!
 TEST(ScalableByteArray, succ001)
 {
   ScalableByteArray *buf = new ScalableByteArray(5);
+  ScalableByteArray a(100);
+
   std::string name("Hogehoge!");
-  buf->append((char)10)        // char
-      ->append((short)123)     // short
-      ->append((int)456)       // int
-      ->append((long)1111)     // long
-      ->append((float)1.25f)   // float
-      ->append((double)125.75) // double
-      ->appendString(name);    // std::string
+  std::string comp("ABCD");
+  buf->append((char)10)          // char
+      ->append((short)123)       // short
+      ->append((int)456)         // int
+      ->append((long)1111)       // long
+      ->append((float)1.25f)     // float
+      ->append((double)125.75)   // double
+      ->append((bool)false)      // bool (false)
+      ->append((bool)true)       // bool (true)
+      ->appendString(name)       // std::string
+      ->appendCharArray("ABCD"); // char[]
 
   EXPECT_EQ((char)10, buf->readChar());
   EXPECT_EQ((short)123, buf->readShort());
@@ -22,7 +28,10 @@ TEST(ScalableByteArray, succ001)
   EXPECT_EQ((long)1111, buf->readLong());
   EXPECT_EQ((float)1.25f, buf->readFloat());
   EXPECT_EQ((double)125.75, buf->readDouble());
-  // EXPECT_EQ(true, buf->readString() == name);
+  EXPECT_EQ((bool)false, buf->readBool());
+  EXPECT_EQ((bool)true, buf->readBool());
+  EXPECT_EQ(true, buf->readString() == name);
+  EXPECT_EQ(true, buf->readString() == comp);
   delete buf;
 }
 

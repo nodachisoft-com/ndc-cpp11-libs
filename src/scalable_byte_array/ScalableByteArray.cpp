@@ -1,8 +1,5 @@
-#include <vector>
-#include <string>
-#include <sstream>
+#include "../ndclibs.hpp"
 #include "ScalableByteArray.hpp"
-#include "../exception/index.hpp"
 
 /**
  * コンストラクタ
@@ -98,6 +95,7 @@ template ScalableByteArray *ScalableByteArray::append<int>(int);
 template ScalableByteArray *ScalableByteArray::append<long>(long);
 template ScalableByteArray *ScalableByteArray::append<float>(float);
 template ScalableByteArray *ScalableByteArray::append<double>(double);
+template ScalableByteArray *ScalableByteArray::append<bool>(bool);
 
 ScalableByteArray *ScalableByteArray::appendString(std::string &value)
 {
@@ -109,6 +107,19 @@ ScalableByteArray *ScalableByteArray::appendString(std::string &value)
   for (int i = 0; i < len; i++)
   {
     appendByte(buf[i]);
+  }
+  return this;
+}
+
+ScalableByteArray *ScalableByteArray::appendCharArray(const char value[])
+{
+  int len = strlen(value);
+  append(len);
+
+  //  文字列本体を記録
+  for (int i = 0; i < len; i++)
+  {
+    appendByte(value[i]);
   }
   return this;
 }
@@ -126,24 +137,12 @@ void ScalableByteArray::read(X &value)
   // return result;
 }
 template void ScalableByteArray::read<char>(char &v);
+template void ScalableByteArray::read<short>(short &v);
 template void ScalableByteArray::read<int>(int &v);
+template void ScalableByteArray::read<long>(long &v);
 template void ScalableByteArray::read<float>(float &v);
-
-// テンプレート関数で対応不可の個別処理
-/*
-ScalableByteArray *ScalableByteArray::appendCharArray(char *value, int length)
-{
-  append(length); // 文字列の長さを記録
-
-  // 文字列本体を記録
-  char *byteArray = (char *)(void *)&value;
-  for (int i = 0; i < length; i++)
-  {
-    appendByte(byteArray[i]);
-  }
-  return this;
-}
-*/
+template void ScalableByteArray::read<double>(double &v);
+template void ScalableByteArray::read<bool>(bool &v);
 
 // 読み取りカーソル位置をバッファの頭にセット
 void ScalableByteArray::setCurPosToHead()
@@ -216,8 +215,19 @@ double ScalableByteArray::readDouble()
 {
   double result = 0;
   char *mem = (char *)(void *)(&result);
-
   for (int i = 0; i < sizeof(double); i++)
+  {
+    mem[i] = readChar();
+  }
+  return result;
+}
+
+// 現在のカーソル位置から bool を読み込み、カーソル位置を進める
+bool ScalableByteArray::readBool()
+{
+  bool result = false;
+  char *mem = (char *)(void *)(&result);
+  for (int i = 0; i < sizeof(bool); i++)
   {
     mem[i] = readChar();
   }
@@ -226,16 +236,15 @@ double ScalableByteArray::readDouble()
 
 // 現在のカーソル位置から char* を記録された長さぶん読み込み、
 // 末尾に終端文字（\0）を付与して返す。読み取ったぶんのカーソル位置を進める
-std::string ScalableByteArray::readString(std::string &value)
+std::string ScalableByteArray::readString()
 {
   int length = readInt();
   char newCharArray[length + 1];
-  char *mem = (char *)(void *)(&newCharArray);
   for (int i = 0; i < length; i++)
   {
-    mem[i] = readChar();
+    newCharArray[i] = readChar();
   }
-  mem[length] = '\0'; // 終端文字を追加
+  newCharArray[length] = '\0'; // 終端文字を追加
   std::string result(newCharArray);
   return result;
 }

@@ -1,4 +1,4 @@
-#include <vector>
+#include "../ndclibs.hpp"
 #include "SerializeBuffer.hpp"
 
 // コンストラクタ
@@ -16,7 +16,7 @@ void SerializeBuffer::setOffsetToHead()
 SerializeBuffer *SerializeBuffer::*appendInt(int v)
 {
   // TODO buffer への追加処理を記述
-  
+
   return NULL;
 };
 

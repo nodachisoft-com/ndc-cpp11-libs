@@ -5,7 +5,11 @@
 #pragma once
 
 // 標準ライブラリ系で必要なものをまとめて記述
+#include <cstring>
 #include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
 
 // 各機能へのヘッダーを記述
 #include "exception/index.hpp"
