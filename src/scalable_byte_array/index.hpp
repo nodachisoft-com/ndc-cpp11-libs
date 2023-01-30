@@ -1,4 +1,6 @@
+/**
+ * @brief スケーラブルなバイト列データを扱う機能をまとめて提供するためのヘッダ
+ */
 #pragma once
-// 外部に公開するヘッダー
 
 #include "ScalableByteArray.hpp"

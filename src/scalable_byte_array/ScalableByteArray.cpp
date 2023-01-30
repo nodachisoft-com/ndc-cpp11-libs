@@ -5,12 +5,8 @@
 #include "../exception/index.hpp"
 
 /**
- * @fn
  * コンストラクタ
  * @brief スケーラブルなバイト列操作用のクラスを初期化する
- * @param (引数名) 引数の説明
- * @param (引数名) 引数の説明
- * @return 戻り値の説明
  */
 ScalableByteArray::ScalableByteArray()
 {
@@ -33,11 +29,9 @@ ScalableByteArray::~ScalableByteArray()
   }
 }
 
-// バイト列の指定の要素にアクセスし、１バイトを返す
-// @pram index アクセスするメモリの要素番号
 char ScalableByteArray::get(int index)
 {
-  if (index > endPos)
+  if (index < 0 || index > endPos)
   {
     // メモリ範囲外へのアクセスが発生した
     // アクセス可能な要素の最大を計算
@@ -55,7 +49,7 @@ char ScalableByteArray::get(int index)
 
 void ScalableByteArray::set(int index, char value)
 {
-  if (index > endPos)
+  if (index < 0 || index > endPos)
   {
     // メモリ範囲外へのアクセスが発生した
     // アクセス可能な要素の最大を計算
