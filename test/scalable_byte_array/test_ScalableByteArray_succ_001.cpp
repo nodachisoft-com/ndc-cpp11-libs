@@ -1,6 +1,4 @@
 #include <gtest/gtest.h>
-// #include <string>
-// #include "../../src/scalable_byte_array/index.hpp"
 #include "../../src/ndclibs.hpp"
 
 // 各種 append と read が正しく動作すること
