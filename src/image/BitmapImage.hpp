@@ -9,13 +9,13 @@ typedef struct
   unsigned char r;
   unsigned char g;
   unsigned char b;
-} Color;
+} ColorRGB;
 
 typedef struct
 {
   long height;
   long width;
-  Color *data;
+  ColorRGB *data;
 } ImageDataStruct;
 
 class BitmapImage
@@ -27,6 +27,7 @@ private:
   static const int MAX_IMAGE_MEMORY = (1024 * 1080) * (4 * 2); // @brief 4K レベルを上限
 
   // メタ情報部
+  // TODO: MetaInfo 構造体に入れ込むべき
   unsigned char Bmp_headbuf[54];  /// @brief ヘッダを格納するための変数
   unsigned char Bmp_Pallet[1024]; /// @brief カラーパレットを格納
 
@@ -57,4 +58,6 @@ public:
   void ReadBmp(const char *filename);
   void WriteBmp(const char *filename);
   void PrintBmpInfo(const char *filename);
+
+  // TODO: set、get で色情報の書き込み、読み取りができるようにする
 };

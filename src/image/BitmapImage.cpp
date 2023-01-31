@@ -2,17 +2,19 @@
 
 BitmapImage::BitmapImage(const char *filename)
 {
+  imgp.data = NULL;
   ReadBmp(filename);
 }
 
 BitmapImage::BitmapImage(const int width, const int height)
 {
-  imgp.data = (Color *)malloc(sizeof(Color) * width * height);
+  imgp.data = (ColorRGB *)malloc(sizeof(ColorRGB) * width * height);
 }
 
 BitmapImage::~BitmapImage()
 {
   free(imgp.data);
+  imgp.data = NULL;
 }
 
 void BitmapImage::ReadBmp(const char *filename)
@@ -37,14 +39,20 @@ void BitmapImage::ReadBmp(const char *filename)
     exit(1);
   }
 
-  long imgWidth;
-  long imgHeight;
-  memcpy(&imgWidth, Bmp_headbuf + 18, sizeof(Bmp_width));
-  memcpy(&imgHeight, Bmp_headbuf + 22, sizeof(Bmp_height));
+  memcpy(&imgp.width, Bmp_headbuf + 18, sizeof(imgp.width));
+  memcpy(&imgp.height, Bmp_headbuf + 22, sizeof(imgp.height));
+  if (imgp.width * imgp.height > MAX_IMAGE_MEMORY)
+  {
+    fprintf(stderr, "Error: Image Size is too large. size=%d. Size Limit(X*Y)=%d\n", imgp.width * imgp.height, MAX_IMAGE_MEMORY);
+    exit(1);
+  }
 
-  imgp.width = imgWidth;
-  imgp.height = imgHeight;
-  imgp.data = (Color *)malloc(sizeof(Color) * imgWidth * imgHeight);
+  if (imgp.data != NULL)
+  {
+    // 前回のバッファが存在する場合は解放
+    free(imgp.data);
+  }
+  imgp.data = (ColorRGB *)malloc(sizeof(ColorRGB) * imgp.width * imgp.height);
 
   memcpy(&Bmp_color, Bmp_headbuf + 28, sizeof(Bmp_color));
   if (Bmp_color != 24)
