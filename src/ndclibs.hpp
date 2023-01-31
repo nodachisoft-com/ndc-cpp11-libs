@@ -16,3 +16,4 @@
 #include "random/index.hpp"
 #include "scalable_byte_array/index.hpp"
 #include "serializable/index.hpp"
+#include "image/index.hpp"

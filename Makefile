@@ -54,13 +54,14 @@ all: clean $(RUN_TEST_EXEC_FILE) runtest
 
 # 一時ファイル、実行ファイルを削除
 clean:
-	-rm -f $(RUN_TEST_EXEC_FILE)
+	-rm -f $(RUN_TEST_EXEC_FILE) $(RUN_TMP_ENTRY_EXEC_FILE)
+	-rm -f ./debug/*.bmp
 
 # Google Test の実行
 runtest:
 	$(RUN_TEST_EXEC_FILE)
 
-buildentry: $(RUN_TMP_ENTRY_EXEC_FILE) run
+buildentry: clean $(RUN_TMP_ENTRY_EXEC_FILE) run
 
 run:
 	$(RUN_TMP_ENTRY_EXEC_FILE)
