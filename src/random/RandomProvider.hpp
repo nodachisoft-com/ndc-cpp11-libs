@@ -27,5 +27,5 @@ public:
     /// @param type 使用する乱数アルゴリズム
     /// @param seed 疑似乱数の種を指定
     /// @return 疑似乱数生成機能をもつ API（インターフェイス）
-    static IRandomizer *getRandomizer(RND_TYPE type, uint seed);
+    static IRandomizer *getRandomizer(RND_TYPE type, int seed);
 };

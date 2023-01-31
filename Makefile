@@ -4,8 +4,11 @@ CC  = g++
 CFLAGS    = -g
 CFLAGS   += -pthread
 
-# 実行ファイル名
+# Google Test 用実行ファイル名
 RUN_TEST_EXEC_FILE  = ./debug/test.out
+
+# お試しエントリポイント用実行ファイル名
+RUN_TMP_ENTRY_EXEC_FILE  = ./debug/tmp_entry.out
 
 # コンパイル対象のソースコード一覧を作成
 # SECROOTから再帰的にソースファイルを検索 し
@@ -17,25 +20,34 @@ SOURCES = $(shell find $(SRCROOT) -type f -name "*.cpp")
 TEST_SRCROOT = ./test
 TEST_SOURCES = $(shell find $(TEST_SRCROOT) -type f -name "test_*.cpp")
 
+# お試しエントリポイントのソースコード
+TMP_ENTRY_SRCROOT = ./test/tmp_entry
+TMP_ENTRY_SOURCES = $(shell find $(TMP_ENTRY_SRCROOT) -type f -name "*.cpp")
 
 # オブジェクトファイル名
 # OBJS    = $(SRCS:.cpp=.o)
 
 # インクルードファイルのあるディレクトリパス
-INCDIR  = -I./lib/dev/gtest/include # Google Test 用インクルード
-INCDIR += -I./lib/prod/cereal-1.3.2/include # Cereal 用
+TEST_INCDIR  = -I./lib/dev/gtest/include # Google Test 用インクルード
+# TEST_INCDIR += -I./lib/prod/cereal-1.3.2/include # Cereal 用
 
 # ライブラリファイルのあるディレクトリパス
-LIBDIR  = -L./lib/dev/gtest/lib	# Google Test 用ライブラリ
+TEST_LIBDIR  = -L./lib/dev/gtest/lib	# Google Test 用ライブラリ
 
 # 追加するライブラリファイル
-LIBS    = -lgtest_main
-LIBS   += -lgtest
+TEST_LIBS    = -lgtest_main
+TEST_LIBS   += -lgtest
+
+
+
 
 # ターゲット：コンパイル＆リンク で Google Test 実行ファイルを作成
 $(RUN_TEST_EXEC_FILE): $(SOURCES)
-	$(CC) $(CFLAGS) $(SOURCES) $(TEST_SOURCES) -o $(RUN_TEST_EXEC_FILE) $(INCDIR) $(LIBDIR) $(LIBS)
+	$(CC) $(CFLAGS) $(SOURCES) $(TEST_SOURCES) -o $(RUN_TEST_EXEC_FILE) $(TEST_INCDIR) $(TEST_LIBDIR) $(TEST_LIBS)
 
+# ターゲット：コンパイル＆リンク で お試しの Entry Point 実行ファイルを作成
+$(RUN_TMP_ENTRY_EXEC_FILE): $(SOURCES)
+	$(CC) $(SOURCES) $(TMP_ENTRY_SOURCES) -o $(RUN_TMP_ENTRY_EXEC_FILE)
 
 # テスト用ソースコードのコンパイル＆実行
 all: clean $(RUN_TEST_EXEC_FILE) runtest
@@ -47,3 +59,8 @@ clean:
 # Google Test の実行
 runtest:
 	$(RUN_TEST_EXEC_FILE)
+
+buildentry: $(RUN_TMP_ENTRY_EXEC_FILE) run
+
+run:
+	$(RUN_TMP_ENTRY_EXEC_FILE)

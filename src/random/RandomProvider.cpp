@@ -2,7 +2,7 @@
 #include "RandomProvider.hpp"
 #include "MtRandomizer.hpp"
 
-IRandomizer *RandomProvider::getRandomizer(RND_TYPE type, uint seed)
+IRandomizer *RandomProvider::getRandomizer(RND_TYPE type, int seed)
 {
   IRandomizer *rand = NULL;
   switch (type)
