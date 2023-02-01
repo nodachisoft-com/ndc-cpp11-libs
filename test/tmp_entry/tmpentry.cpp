@@ -3,6 +3,20 @@
 
 int main()
 {
-  Crc32 crc;
-  printf("%x\n", crc.calc((void *)"abcd", 4));
+  Crc32 crc1, crc2;
+  printf("%x\n", crc1.calcUpdateBytes((void *)"abcd", 4));
+
+  char aa[] = "abcd";
+  for (int i = 0; i < 4; i++)
+  {
+    crc2.calcUpdate(aa[i]);
+  }
+  printf("%x\n", crc2.getHash());
+
+  char crc32Hash[8];
+  sprintf(
+      crc32Hash,
+      "%x", crc2.getHash());
+
+  printf("RE=%s", crc32Hash);
 }

@@ -1,34 +1,48 @@
 #include "Crc32.hpp"
+#include <stdio.h>
 
 Crc32::Crc32()
 {
+  hash = 0xffffffff;
   generate_table();
 }
 
 void Crc32::generate_table()
 {
-  const unsigned long poly = 0xedb88320; // CRC-32-IEEE 802.3
+  // CRC-32-IEEE 802.3 規格に準ずる
+  const unsigned long poly = 0xedb88320;
   for (int i = 0; i < 256; i++)
   {
-    unsigned long x = i;
+    unsigned long n = i;
     for (int j = 0; j < 8; j++)
     {
-      unsigned long t = x & 1;
-      x >>= 1;
+      unsigned long t = n & 1;
+      n >>= 1;
       if (t)
-        x ^= poly;
+      {
+        n ^= poly;
+      }
     }
-    table[i] = x;
+    table[i] = n;
   }
 }
 
-unsigned long Crc32::calc(void *d, int len)
+unsigned long Crc32::calcUpdateBytes(void *d, int len)
 {
   unsigned char *c = (unsigned char *)d;
-  unsigned long x = 0xffffffff;
   for (int i = 0; i < len; i++)
   {
-    x = (x >> 8) ^ table[(x & 0xff) ^ c[i]];
+    hash = (hash >> 8) ^ table[(hash & 0xff) ^ c[i]];
   }
-  return x ^ 0xffffffff;
+  return hash ^ 0xffffffff;
+}
+
+void Crc32::calcUpdate(char c)
+{
+  hash = (hash >> 8) ^ table[(hash & 0xff) ^ c];
+}
+
+unsigned long Crc32::getHash()
+{
+  return hash ^ 0xffffffff;
 }
