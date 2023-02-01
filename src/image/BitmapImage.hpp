@@ -47,7 +47,7 @@ private:
   ImageDataStruct imgp; /// 画像データ本体
 
 public:
-  /// コンストラクタ
+  /// @brief コンストラクタ
   BitmapImage(const char *filename);
   BitmapImage(const int width, const int height);
 
@@ -59,5 +59,15 @@ public:
   void WriteBmp(const char *filename);
   void PrintBmpInfo(const char *filename);
 
-  // TODO: set、get で色情報の書き込み、読み取りができるようにする
+  /// @brief 色情報をバッファに書き込む
+  /// @param x 書き込む画像内の位置（左を原点とする）
+  /// @param y 書き込む画像内の位置（上を原点とする）
+  /// @param color 書き込む色情報（RGB）
+  void set(int x, int y, ColorRGB &color);
+
+  /// @brief 指定の画像位置から色情報を取得する
+  /// @param x 書き込む画像内の位置（左を原点とする）
+  /// @param y 書き込む画像内の位置（上を原点とする）
+  /// @return 取得した色情報（RGB）
+  ColorRGB get(int x, int y);
 };
