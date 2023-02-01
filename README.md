@@ -77,6 +77,10 @@ cp /tmp/googletest-release-1.8.1/build/googlemock/libgmock*.a ./lib/dev/gtest/li
 > g++ add.cc add_test.cc -o test -I /workspaces/cpp11-ndc-libs/lib/dev/gtest/include -L /workspaces/cpp11-ndc-libs/lib/dev/gtest/lib -g -pthread -lgtest_main -lgtest
 > ./test （これでテスト結果を出力）
 
+#### 補足：手動でのエントリポイント・コンパイル実行
+
+> g++ ./src/exception/NdcBaseException.cpp ./src/hash/Crc32.cpp ./src/image/BitmapImage.cpp ./src/noise/PerlinNoise1234.cpp ./src/random/MtRandomizer.cpp ./src/random/RandomProvider.cpp ./src/scalable_byte_array/ScalableByteArray.cpp ./src/serializable/SerializeBuffer.cpp ./test/tmp_entry/tmpentry.cpp -o ./debug/tmp_entry.out
+
 ## cereal ライブラリ導入
 
 JSON/XML/Binary のシリアライズ/デシリアライズライブラリ
