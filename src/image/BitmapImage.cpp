@@ -8,7 +8,16 @@ BitmapImage::BitmapImage(const char *filename)
 
 BitmapImage::BitmapImage(const int width, const int height)
 {
-  imgp.data = (ColorRGB *)malloc(sizeof(ColorRGB) * width * height);
+  imgp.width = width;
+  imgp.height = height;
+  Bmp_width = width;
+  Bmp_height = height;
+  Bmp_image_size = width * height * 3;
+  for (int i = 0; i < HEADERSIZE; i++)
+  {
+    Bmp_headbuf[i] = 0;
+  }
+  imgp.data = (ColorRGB *)calloc(width * height, sizeof(ColorRGB));
 }
 
 BitmapImage::~BitmapImage()
@@ -129,8 +138,9 @@ void BitmapImage::WriteBmp(const char *filename)
   Bmp_headbuf[11] = Bmp_headbuf[12] = Bmp_headbuf[13] = 0;
   memcpy(Bmp_headbuf + 14, &Bmp_info_header_size, sizeof(Bmp_info_header_size));
   Bmp_headbuf[15] = Bmp_headbuf[16] = Bmp_headbuf[17] = 0;
-  memcpy(Bmp_headbuf + 18, &imgp.width, sizeof(Bmp_width));
-  memcpy(Bmp_headbuf + 22, &imgp.height, sizeof(Bmp_height));
+
+  memcpy(Bmp_headbuf + 18, &imgp.width, sizeof(imgp.width));
+  memcpy(Bmp_headbuf + 22, &imgp.height, sizeof(imgp.height));
   memcpy(Bmp_headbuf + 26, &Bmp_planes, sizeof(Bmp_planes));
   memcpy(Bmp_headbuf + 28, &Bmp_color, sizeof(Bmp_color));
   memcpy(Bmp_headbuf + 34, &Bmp_image_size, sizeof(Bmp_image_size));
@@ -203,4 +213,22 @@ void BitmapImage::PrintBmpInfo(const char *filename)
   printf("Width      = %ld (ppm)\n", Bmp_yppm);
 
   fclose(Bmp_Fp);
+}
+
+void BitmapImage::set(int x, int y, ColorRGB &color)
+{
+  int pos = imgp.width * y + x;
+  imgp.data[pos].b = color.b;
+  imgp.data[pos].g = color.g;
+  imgp.data[pos].r = color.r;
+}
+
+ColorRGB BitmapImage::get(int x, int y)
+{
+  int pos = imgp.width * y + x;
+  ColorRGB result;
+  result.b = imgp.data[pos].b;
+  result.g = imgp.data[pos].g;
+  result.r = imgp.data[pos].r;
+  return result;
 }
