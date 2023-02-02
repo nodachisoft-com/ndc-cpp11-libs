@@ -2,10 +2,10 @@
 #include "../../src/ndclibs.hpp"
 
 // 各種 append と read が正しく動作すること
-TEST(ScalableByteArray, succ001)
+TEST(MemoryBank, succ001)
 {
-  ScalableByteArray *buf = new ScalableByteArray(5);
-  ScalableByteArray a(100);
+  MemoryBank *buf = new MemoryBank(5);
+  MemoryBank a(100);
 
   std::string name("Hogehoge!");
   std::string comp("ABCD");
@@ -34,9 +34,9 @@ TEST(ScalableByteArray, succ001)
 }
 
 // append した結果を汎用的な read で読み取れること
-TEST(ScalableByteArray, succ002)
+TEST(MemoryBank, succ002)
 {
-  ScalableByteArray *buf = new ScalableByteArray(5);
+  MemoryBank *buf = new MemoryBank(5);
 
   // 書きこみ
   buf->append(5)->append(6)->append(7);
@@ -54,9 +54,9 @@ TEST(ScalableByteArray, succ002)
 }
 
 // append した結果、メモリ使用領域が拡大されていくこと
-TEST(ScalableByteArray, succ003)
+TEST(MemoryBank, succ003)
 {
-  ScalableByteArray *buf = new ScalableByteArray(5);
+  MemoryBank *buf = new MemoryBank(5);
 
   // int INT_SIZE = sizeof(int);
   EXPECT_EQ(0, buf->getAllocMemorySize()); // まだメモリ利用なし
@@ -79,9 +79,9 @@ TEST(ScalableByteArray, succ003)
 }
 
 // get / set でカーソル位置関係なくデータの読み込み、上書きができること
-TEST(ScalableByteArray, succ004)
+TEST(MemoryBank, succ004)
 {
-  ScalableByteArray *buf = new ScalableByteArray(5);
+  MemoryBank *buf = new MemoryBank(5);
   buf->append('A')->append('B')->append('C')->append('D');
   // get できること。get はカーソル位置関係ないこと
   EXPECT_EQ('B', buf->get(1));
@@ -105,9 +105,9 @@ TEST(ScalableByteArray, succ004)
 }
 
 // カーソル位置を初期化（先頭）に設定できること
-TEST(ScalableByteArray, succ005)
+TEST(MemoryBank, succ005)
 {
-  ScalableByteArray *buf = new ScalableByteArray(5);
+  MemoryBank *buf = new MemoryBank(5);
   buf->append('A')->append('B');
 
   // readChar でカーソル操作で読み込み確認

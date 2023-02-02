@@ -1,5 +1,5 @@
 /**
- * @file ScalableByteArray.hpp
+ * @file MemoryBank.hpp
  * @brief 利用サイズにあわせて自動的にメモリ領域を拡張するバイト列データを扱う機能を提供します。
  */
 #pragma once
@@ -12,7 +12,7 @@
 ///  バイト列の末尾に数値型や文字列型、float、double などの基本的な型をバイト列として
 ///  追記することが可能です。
 ///  追加されたバイト列は読み取り位置を指定してデシリアライズ可能です。
-class ScalableByteArray
+class MemoryBank
 {
   /// デフォルトでの 1 つのメモリスロット当たりの領域は 1 [MB]
   const int DEFAULT_MEMORY_BLOCK_SIZE = 1024 * 1024;
@@ -36,14 +36,14 @@ class ScalableByteArray
 
 public:
   /// @brief スケーラブルなバイト列操作用のクラスを初期化する
-  ScalableByteArray();
+  MemoryBank();
 
   /// @brief スケーラブルなバイト列操作用のクラスを初期化する
   /// @param[in] memoryBlockSize クラス内部のメモリ確保の単位(byte）を指定する
-  ScalableByteArray(int memoryBlockSize);
+  MemoryBank(int memoryBlockSize);
 
   /// @brief バイト列の保持で確保した全てのメモリ領域を開放する
-  ~ScalableByteArray();
+  ~MemoryBank();
 
   /// @brief バイト列の n 番目の値を取得する
   /// @param[in] index 取得するバイト列の要素番号
@@ -60,25 +60,25 @@ public:
   /// @brief バイト列の末尾に指定した char を追記する
   /// @param[in] value 追記するバイトデータ
   /// @return Builder パターン実現のための Instance 本体への参照
-  ScalableByteArray *appendByte(char value);
+  MemoryBank *appendByte(char value);
 
   /// @brief バイト列の末尾に指定した型のデータを追記する
   /// @param[in] value 追記するバイトデータ。Primitive 型のみで参照型は不可。
   /// @return Builder パターン実現のための Instance 本体への参照
   template <typename X>
-  ScalableByteArray *append(X value);
+  MemoryBank *append(X value);
 
   /// @brief バイト列の末尾に std::string 型のデータを追記する
   /// @param[in] value 追記する std::string データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
-  ScalableByteArray *appendString(std::string &value);
+  MemoryBank *appendString(std::string &value);
 
   /// @brief
   ///  バイト列の末尾に char[] 型のデータを追記する
   ///  追記した文字列データは readString() で読み取り可能
   /// @param[in] value 追記する char[] データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
-  ScalableByteArray *appendCharArray(const char value[]);
+  MemoryBank *appendCharArray(const char value[]);
 
   /// @brief 読み取りカーソル位置から char データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った char データ

@@ -13,9 +13,10 @@
 
 // 各機能へのヘッダーを記述
 #include "exception/index.hpp"
+#include "file/index.hpp"
 #include "hash/index.hpp"
 #include "image/index.hpp"
 #include "noise/index.hpp"
 #include "random/index.hpp"
-#include "scalable_byte_array/index.hpp"
+#include "memory_bank/index.hpp"
 #include "serializable/index.hpp"

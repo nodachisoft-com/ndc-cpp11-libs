@@ -79,7 +79,7 @@ cp /tmp/googletest-release-1.8.1/build/googlemock/libgmock*.a ./lib/dev/gtest/li
 
 #### 補足：手動でのエントリポイント・コンパイル実行
 
-> g++ ./src/exception/NdcBaseException.cpp ./src/hash/Crc32.cpp ./src/image/BitmapImage.cpp ./src/noise/PerlinNoise1234.cpp ./src/random/MtRandomizer.cpp ./src/random/RandomProvider.cpp ./src/scalable_byte_array/ScalableByteArray.cpp ./src/serializable/SerializeBuffer.cpp ./test/tmp_entry/tmpentry.cpp -o ./debug/tmp_entry.out
+> g++ ./src/exception/NdcBaseException.cpp ./src/hash/Crc32.cpp ./src/image/BitmapImage.cpp ./src/noise/PerlinNoise1234.cpp ./src/random/MtRandomizer.cpp ./src/random/RandomProvider.cpp ./src/memory_bank/MemoryBank.cpp ./src/serializable/SerializeBuffer.cpp ./test/tmp_entry/tmpentry.cpp -o ./debug/tmp_entry.out
 
 ## cereal ライブラリ導入
 

@@ -1,22 +1,22 @@
 #include "../ndclibs.hpp"
-#include "ScalableByteArray.hpp"
+#include "MemoryBank.hpp"
 
 /**
  * コンストラクタ
  * @brief スケーラブルなバイト列操作用のクラスを初期化する
  */
-ScalableByteArray::ScalableByteArray()
+MemoryBank::MemoryBank()
 {
   memoryBlockSize = DEFAULT_MEMORY_BLOCK_SIZE;
 }
 
-ScalableByteArray::ScalableByteArray(int _memoryBlockSize)
+MemoryBank::MemoryBank(int _memoryBlockSize)
 {
   memoryBlockSize = _memoryBlockSize;
 }
 
 // デストラクタ。必要なだけ動的に確保したメモリブロックのスロットを解放する
-ScalableByteArray::~ScalableByteArray()
+MemoryBank::~MemoryBank()
 {
   // 使用しているメモリスロットの参照先メモリを解放する
   int memorySize = memory.size();
@@ -26,7 +26,7 @@ ScalableByteArray::~ScalableByteArray()
   }
 }
 
-char ScalableByteArray::get(int index)
+char MemoryBank::get(int index)
 {
   if (index < 0 || index > endPos)
   {
@@ -44,7 +44,7 @@ char ScalableByteArray::get(int index)
   return result;
 }
 
-void ScalableByteArray::set(int index, char value)
+void MemoryBank::set(int index, char value)
 {
   if (index < 0 || index > endPos)
   {
@@ -61,7 +61,7 @@ void ScalableByteArray::set(int index, char value)
   memory[slotNo][offset] = value;
 }
 
-ScalableByteArray *ScalableByteArray::appendByte(char value)
+MemoryBank *MemoryBank::appendByte(char value)
 {
   int nextEndPos = endPos + 1;
   bool isBound = (nextEndPos % memoryBlockSize == 0 ? true : false);
@@ -80,7 +80,7 @@ ScalableByteArray *ScalableByteArray::appendByte(char value)
 }
 
 template <typename X>
-ScalableByteArray *ScalableByteArray::append(X value)
+MemoryBank *MemoryBank::append(X value)
 {
   char *byteArray = (char *)(void *)&value;
   for (int i = 0; i < sizeof(X); i++)
@@ -89,15 +89,15 @@ ScalableByteArray *ScalableByteArray::append(X value)
   }
   return this;
 }
-template ScalableByteArray *ScalableByteArray::append<char>(char);
-template ScalableByteArray *ScalableByteArray::append<short>(short);
-template ScalableByteArray *ScalableByteArray::append<int>(int);
-template ScalableByteArray *ScalableByteArray::append<long>(long);
-template ScalableByteArray *ScalableByteArray::append<float>(float);
-template ScalableByteArray *ScalableByteArray::append<double>(double);
-template ScalableByteArray *ScalableByteArray::append<bool>(bool);
+template MemoryBank *MemoryBank::append<char>(char);
+template MemoryBank *MemoryBank::append<short>(short);
+template MemoryBank *MemoryBank::append<int>(int);
+template MemoryBank *MemoryBank::append<long>(long);
+template MemoryBank *MemoryBank::append<float>(float);
+template MemoryBank *MemoryBank::append<double>(double);
+template MemoryBank *MemoryBank::append<bool>(bool);
 
-ScalableByteArray *ScalableByteArray::appendString(std::string &value)
+MemoryBank *MemoryBank::appendString(std::string &value)
 {
   int len = value.length();
   append(len);
@@ -111,7 +111,7 @@ ScalableByteArray *ScalableByteArray::appendString(std::string &value)
   return this;
 }
 
-ScalableByteArray *ScalableByteArray::appendCharArray(const char value[])
+MemoryBank *MemoryBank::appendCharArray(const char value[])
 {
   int len = strlen(value);
   append(len);
@@ -125,7 +125,7 @@ ScalableByteArray *ScalableByteArray::appendCharArray(const char value[])
 }
 
 template <typename X>
-void ScalableByteArray::read(X &value)
+void MemoryBank::read(X &value)
 {
   // short result = 0;
   char *mem = (char *)(void *)(&value);
@@ -136,22 +136,22 @@ void ScalableByteArray::read(X &value)
   }
   // return result;
 }
-template void ScalableByteArray::read<char>(char &v);
-template void ScalableByteArray::read<short>(short &v);
-template void ScalableByteArray::read<int>(int &v);
-template void ScalableByteArray::read<long>(long &v);
-template void ScalableByteArray::read<float>(float &v);
-template void ScalableByteArray::read<double>(double &v);
-template void ScalableByteArray::read<bool>(bool &v);
+template void MemoryBank::read<char>(char &v);
+template void MemoryBank::read<short>(short &v);
+template void MemoryBank::read<int>(int &v);
+template void MemoryBank::read<long>(long &v);
+template void MemoryBank::read<float>(float &v);
+template void MemoryBank::read<double>(double &v);
+template void MemoryBank::read<bool>(bool &v);
 
 // 読み取りカーソル位置をバッファの頭にセット
-void ScalableByteArray::setCurPosToHead()
+void MemoryBank::setCurPosToHead()
 {
   curPos = 0;
 }
 
 // 現在のカーソル位置から char を読み込み、カーソル位置を進める
-char ScalableByteArray::readChar()
+char MemoryBank::readChar()
 {
   char result = get(curPos);
   curPos++;
@@ -159,7 +159,7 @@ char ScalableByteArray::readChar()
 }
 
 // 現在のカーソル位置から short を読み込み、カーソル位置を進める
-short ScalableByteArray::readShort()
+short MemoryBank::readShort()
 {
   short result = 0;
   char *mem = (char *)(void *)(&result);
@@ -172,7 +172,7 @@ short ScalableByteArray::readShort()
 }
 
 // 現在のカーソル位置から int を読み込み、カーソル位置を進める
-int ScalableByteArray::readInt()
+int MemoryBank::readInt()
 {
   int result = 0;
   char *mem = (char *)(void *)(&result);
@@ -185,7 +185,7 @@ int ScalableByteArray::readInt()
 }
 
 // 現在のカーソル位置から long を読み込み、カーソル位置を進める
-long ScalableByteArray::readLong()
+long MemoryBank::readLong()
 {
   long result = 0;
   char *mem = (char *)(void *)(&result);
@@ -198,7 +198,7 @@ long ScalableByteArray::readLong()
 }
 
 // 現在のカーソル位置から float を読み込み、カーソル位置を進める
-float ScalableByteArray::readFloat()
+float MemoryBank::readFloat()
 {
   float result = 0;
   char *mem = (char *)(void *)(&result);
@@ -211,7 +211,7 @@ float ScalableByteArray::readFloat()
 }
 
 // 現在のカーソル位置から double を読み込み、カーソル位置を進める
-double ScalableByteArray::readDouble()
+double MemoryBank::readDouble()
 {
   double result = 0;
   char *mem = (char *)(void *)(&result);
@@ -223,7 +223,7 @@ double ScalableByteArray::readDouble()
 }
 
 // 現在のカーソル位置から bool を読み込み、カーソル位置を進める
-bool ScalableByteArray::readBool()
+bool MemoryBank::readBool()
 {
   bool result = false;
   char *mem = (char *)(void *)(&result);
@@ -236,7 +236,7 @@ bool ScalableByteArray::readBool()
 
 // 現在のカーソル位置から char* を記録された長さぶん読み込み、
 // 末尾に終端文字（\0）を付与して返す。読み取ったぶんのカーソル位置を進める
-std::string ScalableByteArray::readString()
+std::string MemoryBank::readString()
 {
   int length = readInt();
   char newCharArray[length + 1];
@@ -251,7 +251,7 @@ std::string ScalableByteArray::readString()
 
 // バイト列保存領域として確保しているメモリ使用量を取得する
 // @return バッファのメモリ使用量
-int ScalableByteArray::getAllocMemorySize()
+int MemoryBank::getAllocMemorySize()
 {
   int usingMemorySlot = memory.size();
   long memorySize = usingMemorySlot * memoryBlockSize;
@@ -263,13 +263,13 @@ int ScalableByteArray::getAllocMemorySize()
 // 確保したメモリ容量ブロックはスロット単位であり、 getAllocMemorySize() とは
 // 異なる結果となる
 // @return バイト列の長さ。
-int ScalableByteArray::getUsingSize()
+int MemoryBank::getUsingSize()
 {
   return endPos + 1;
 }
 
 // 使用しているメモリスロット数、メモリ容量などのデバッグ情報を出力します
-void ScalableByteArray::debug()
+void MemoryBank::debug()
 {
   int usingMemorySlot = memory.size();
   long memorySize = usingMemorySlot * memoryBlockSize;
@@ -281,7 +281,7 @@ void ScalableByteArray::debug()
 // ========= PRIVATE METHOD ===========
 // 追加でメモリスロットにメモリを割り当て、領域をすべて 0 で初期化する
 // @return 処理成功なら TRUE、メモリ確保に失敗した場合 FALSE を返す
-bool ScalableByteArray::useNewMemorySlot()
+bool MemoryBank::useNewMemorySlot()
 {
   // char *newBlock = (char *)malloc(sizeof(char) * memoryBlockSize);
   char *newBlock = (char *)calloc(memoryBlockSize, sizeof(int));
