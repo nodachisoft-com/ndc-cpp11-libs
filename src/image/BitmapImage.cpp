@@ -2,7 +2,10 @@
 
 BitmapImage::BitmapImage(const char *filename)
 {
-  imgp.data = NULL;
+  ImageDataStruct imageDataStruct{
+      64, 64, NULL};
+  // imgp.data = NULL;
+  imgp = imageDataStruct;
   ReadBmp(filename);
 }
 
@@ -47,12 +50,11 @@ void BitmapImage::ReadBmp(const char *filename)
     fprintf(stderr, "Error: %s is not a bmp file.\n", filename);
     exit(1);
   }
-
   memcpy(&imgp.width, Bmp_headbuf + 18, sizeof(imgp.width));
   memcpy(&imgp.height, Bmp_headbuf + 22, sizeof(imgp.height));
   if (imgp.width * imgp.height > MAX_IMAGE_MEMORY)
   {
-    fprintf(stderr, "Error: Image Size is too large. size=%ld. Size Limit(X*Y)=%d\n", imgp.width * imgp.height, MAX_IMAGE_MEMORY);
+    fprintf(stderr, "Error: Image Size is too large. size=%d. Size Limit(X*Y)=%d\n", imgp.width * imgp.height, MAX_IMAGE_MEMORY);
     exit(1);
   }
 

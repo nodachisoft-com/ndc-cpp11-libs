@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <iostream>
 #include <string.h>
 #include <stdlib.h>
 
@@ -13,8 +14,8 @@ typedef struct
 
 typedef struct
 {
-  long height;
-  long width;
+  int height;
+  int width;
   ColorRGB *data;
 } ImageDataStruct;
 
