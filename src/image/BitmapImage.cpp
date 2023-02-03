@@ -52,7 +52,7 @@ void BitmapImage::ReadBmp(const char *filename)
   memcpy(&imgp.height, Bmp_headbuf + 22, sizeof(imgp.height));
   if (imgp.width * imgp.height > MAX_IMAGE_MEMORY)
   {
-    fprintf(stderr, "Error: Image Size is too large. size=%d. Size Limit(X*Y)=%d\n", imgp.width * imgp.height, MAX_IMAGE_MEMORY);
+    fprintf(stderr, "Error: Image Size is too large. size=%ld. Size Limit(X*Y)=%d\n", imgp.width * imgp.height, MAX_IMAGE_MEMORY);
     exit(1);
   }
 
