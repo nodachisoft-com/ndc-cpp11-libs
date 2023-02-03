@@ -19,5 +19,5 @@ TEST(BitmapImage, case1)
 TEST(BitmapImage, case2)
 {
   BitmapImage image("test_bmp_001.bmp");
-  bitmap.WriteBmp("../../debug/copied.bmp");
+  image.WriteBmp("../../debug/copied.bmp");
 }
