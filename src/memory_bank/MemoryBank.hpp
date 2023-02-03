@@ -3,7 +3,8 @@
  * @brief 利用サイズにあわせて自動的にメモリ領域を拡張するバイト列データを扱う機能を提供します。
  */
 #pragma once
-#include "../ndclibs.hpp"
+#include <string>
+#include <vector>
 
 /// @brief 動的に拡張可能なバイト列を管理することができるクラス
 /// @details

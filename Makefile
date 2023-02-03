@@ -56,6 +56,7 @@ all: clean $(RUN_TEST_EXEC_FILE) runtest
 clean:
 	-rm -f $(RUN_TEST_EXEC_FILE) $(RUN_TMP_ENTRY_EXEC_FILE)
 	-rm -f ./debug/*.bmp
+	-rm -rf ./debug/*
 
 # Google Test の実行
 runtest:

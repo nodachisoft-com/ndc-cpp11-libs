@@ -7,11 +7,11 @@ class FileAccessMgr
 public:
   FileAccessMgr();
 
-  static void mkdir(std::string filename);
+  static void mkdir1(std::string filename);
 
-  static void rmdir(std::string filename);
+  static void rmdir1(std::string filename);
 
-  static void rmfile(std::string filename);
+  static void rmfile1(std::string filename);
 
   static FileType isExistFileOrDir(std::string filepath);
 
