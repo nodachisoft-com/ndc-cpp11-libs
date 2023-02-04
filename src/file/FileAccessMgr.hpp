@@ -1,5 +1,6 @@
 #pragma once
 #include "FileAccessor.hpp"
+#include "FileApiConvert.hpp"
 #include <string>
 
 class FileAccessMgr
@@ -7,11 +8,11 @@ class FileAccessMgr
 public:
   FileAccessMgr();
 
-  static void mkdir1(std::string filename);
+  static void makedir(std::string filename);
 
-  static void rmdir1(std::string filename);
+  static void removedir(std::string filename);
 
-  static void rmfile1(std::string filename);
+  static void removefile(std::string filename);
 
   static FileType isExistFileOrDir(std::string filepath);
 

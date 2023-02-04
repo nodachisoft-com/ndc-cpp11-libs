@@ -5,7 +5,7 @@
  *  API 利用にあたっては具体的なアルゴリズムは隠蔽化され、利用者は意識する必要が無い。
  */
 #pragma once
-#include "../ndclibs.hpp"
+#include "IRandomizer.hpp"
 
 /// @brief 乱数生成のアルゴリズム種類を定義
 enum class RND_TYPE : int

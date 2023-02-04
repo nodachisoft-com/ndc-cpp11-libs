@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../src/ndclibs.hpp"
 
-#incluce < string>
+#include <string>
 
 // カレントディレクトリのパスを取得する
 TEST(FileAccessMgr, case1)

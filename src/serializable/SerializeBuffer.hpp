@@ -1,5 +1,5 @@
 #pragma once
-#include "../ndclibs.hpp"
+#include <vector>
 
 class SerializeBuffer
 {
