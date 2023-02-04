@@ -29,7 +29,6 @@ FileType FileAccessMgr::isExistFileOrDir(std::string filepath)
   }
   if ((st.st_mode & S_IFMT) == S_IFDIR)
   {
-    // printf("%s is directory.\n", argv[1]);
     return FileType::DIR;
   }
 
@@ -44,7 +43,7 @@ FileType FileAccessMgr::isExistFileOrDir(std::string filepath)
 
 FileAccessor FileAccessMgr::getFileInfo(std::string filename)
 {
-  FileAccessor fa;
+  FileAccessor fa(filename);
   return fa;
 }
 

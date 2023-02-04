@@ -2,6 +2,7 @@
 
 #include "../memory_bank/index.hpp"
 #include <string>
+#include <sys/stat.h>
 
 enum class FileStatus
 {
@@ -30,7 +31,7 @@ private:
   FileStatus fileStatus;
 
 public:
-  FileAccessor();
+  FileAccessor(std::string filepath);
 
   long calcCrc32();
   void readFileSync();
