@@ -28,7 +28,7 @@ FileAccessor::FileAccessor(std::string _filepath)
 
 long FileAccessor::calcMemoryCrc32()
 {
-  return 0;
+  return memory->calcCrc32();
 }
 
 void FileAccessor::readFileSync()
@@ -80,6 +80,13 @@ void FileAccessor::readFileSync()
 
 void FileAccessor::writeFileSync()
 {
+  FILE *fp = fopen(filePath.c_str(), "w");
+  long size = memory->getUsingSize();
+  for (int i = 0; i < size; i++)
+  {
+    fputc(memory->get(i), fp);
+  }
+  fclose(fp);
 }
 
 void FileAccessor::appendStringSync(std::string text)

@@ -102,4 +102,7 @@ int main()
   t.appendByte('c');
   t.appendByte('d');
   printf("abcd MemoryBank crc32=%x\n", t.calcCrc32());
+
+  fa.setFilePath(std::string("XXX.txt"));
+  fa.writeFileSync();
 }
