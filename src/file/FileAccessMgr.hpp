@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 class FileAccessMgr
 {
@@ -25,5 +26,10 @@ public:
 
   static std::string getCurDir();
 
-  static FileAccessor *getFilesRecursively(std::string dirPath);
+  static std::vector<FileAccessor> getFilesRecursively(std::string dirPath);
+
+  static std::vector<FileAccessor> getDirsRecursively(std::string dirPath);
+
+private:
+  static std::vector<FileAccessor> _getInnerDirsRecursively(std::string dirPath, std::vector<FileAccessor> &dirlist);
 };

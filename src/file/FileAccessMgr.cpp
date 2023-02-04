@@ -52,25 +52,94 @@ std::string FileAccessMgr::getCurDir()
   return FileApiConvert::wrappedGetCwd();
 }
 
-FileAccessor *FileAccessMgr::getFilesRecursively(std::string dirPath)
+std::vector<FileAccessor> FileAccessMgr::getFilesRecursively(std::string dirPath)
 {
-  /*
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir("c:\\src\\")) != NULL)
+  std::vector<FileAccessor> result{};
+  DIR *dir;
+  struct dirent *ent;
+  if ((dir = opendir(dirPath.c_str())) != NULL)
+  {
+    while ((ent = readdir(dir)) != NULL)
     {
-      while ((ent = readdir(dir)) != NULL)
+      if (strlen(ent->d_name) == 1 && ent->d_name[0] == '.')
+      {
+      }
+      else if (strlen(ent->d_name) == 2 && ent->d_name[0] == '.' && ent->d_name[1] == '.')
+      {
+      }
+      else
       {
         printf("%s\n", ent->d_name);
+        FileAccessor fa(ent->d_name);
+        result.push_back(fa);
       }
-      closedir(dir);
     }
-    else
-    {
+    closedir(dir);
+  }
+  else
+  {
 
-      perror("");
-      return EXIT_FAILURE;
+    perror("");
+    // return EXIT_FAILURE;
+    return result;
+  }
+
+  return result;
+}
+
+std::vector<FileAccessor> FileAccessMgr::getDirsRecursively(std::string dirPath)
+{
+  std::vector<FileAccessor> result{};
+  return _getInnerDirsRecursively(dirPath, result);
+}
+
+std::vector<FileAccessor> FileAccessMgr::_getInnerDirsRecursively(std::string dirPath, std::vector<FileAccessor> &dirlist)
+{
+
+  DIR *dir;
+  struct dirent *ent;
+  std::string fileOrDirName;
+  if ((dir = opendir(dirPath.c_str())) != NULL)
+  {
+    while ((ent = readdir(dir)) != NULL)
+    {
+      fileOrDirName = std::string(ent->d_name);
+      if (strlen(ent->d_name) == 1 && ent->d_name[0] == '.')
+      {
+      }
+      else if (strlen(ent->d_name) == 2 && ent->d_name[0] == '.' && ent->d_name[1] == '.')
+      {
+      }
+      else
+      {
+        std::string nextDirPath = dirPath + fileOrDirName;
+        FileAccessor fa(nextDirPath);
+        if (fa.getFiletype() == FileType::DIR)
+        {
+
+          dirlist.push_back(fa);
+
+          // printf("DIR:: %s\n", nextDirPath.c_str());
+          dirlist = _getInnerDirsRecursively(nextDirPath + "/", dirlist);
+        }
+        else if (fa.getFiletype() == FileType::FILE)
+        {
+          // printf("FILE:: %s\n", nextDirPath.c_str());
+        }
+        else
+        {
+          // printf("Unknown:: %s\n", nextDirPath.c_str());
+        }
+      }
     }
-    */
-  return NULL;
+    closedir(dir);
+  }
+  else
+  {
+
+    perror("");
+    return dirlist;
+  }
+
+  return dirlist;
 }

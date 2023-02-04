@@ -1,5 +1,6 @@
 #include "../../src/ndclibs.hpp"
 #include <string>
+#include <vector>
 
 int main()
 {
@@ -78,31 +79,41 @@ int main()
   }
   */
 
-  FileAccessor fa = FileAccessMgr::getFileInfo(std::string("aiueo.txt"));
-  fa.readFileSync();
-  MemoryBank *mem = fa.getMemoryBank();
-  int size = mem->getUsingSize();
-  for (int i = 0; i < size; i++)
-  {
-    std::cout << mem->readChar();
-  }
-  printf("CRC32=%x\n", mem->calcCrc32());
+  /*
+    FileAccessor fa = FileAccessMgr::getFileInfo(std::string("aiueo.txt"));
+    fa.readFileSync();
+    MemoryBank *mem = fa.getMemoryBank();
+    int size = mem->getUsingSize();
+    for (int i = 0; i < size; i++)
+    {
+      std::cout << mem->readChar();
+    }
+    printf("CRC32=%x\n", mem->calcCrc32());
 
-  Crc32 crc;
-  char text[] = "abcd";
-  for (int i = 0; i < 4; i++)
-  {
-    crc.calcUpdate(text[i]);
-  }
-  // EXPECT_EQ(3984772369, crc.getHash());
-  printf("abcd crc32=%x\n", crc.getHash());
-  MemoryBank t;
-  t.appendByte('a');
-  t.appendByte('b');
-  t.appendByte('c');
-  t.appendByte('d');
-  printf("abcd MemoryBank crc32=%x\n", t.calcCrc32());
+    Crc32 crc;
+    char text[] = "abcd";
+    for (int i = 0; i < 4; i++)
+    {
+      crc.calcUpdate(text[i]);
+    }
+    // EXPECT_EQ(3984772369, crc.getHash());
+    printf("abcd crc32=%x\n", crc.getHash());
+    MemoryBank t;
+    t.appendByte('a');
+    t.appendByte('b');
+    t.appendByte('c');
+    t.appendByte('d');
+    printf("abcd MemoryBank crc32=%x\n", t.calcCrc32());
 
-  fa.setFilePath(std::string("XXX.txt"));
-  fa.writeFileSync();
+    fa.setFilePath(std::string("XXX.txt"));
+    fa.writeFileSync();
+    */
+  std::cout << "DIRECTORY" << std::endl;
+  std::vector<FileAccessor> result = FileAccessMgr::getDirsRecursively(std::string("./"));
+
+  std::cout << "DIRLEN:" << result.size() << std::endl;
+  for (int i = 0; i < result.size(); i++)
+  {
+    std::cout << "DIR:" << result[i].getFilePath() << std::endl;
+  }
 }
