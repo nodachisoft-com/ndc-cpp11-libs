@@ -16,3 +16,24 @@ std::string FileApiConvert::wrappedGetCwd()
   return std::string(path);
 #endif
 };
+
+bool FileApiConvert::wrappedMkDir(std::string dirname)
+{
+#if defined(_WIN32)
+  // _mkdir は direct.h に含まれる
+  if (_mkdir(dirname.c_str()) == 0)
+  {
+    // ディレクトリ作成成功
+    return true;
+  }
+  return false;
+#else
+  // mkdir は <sys/stat.h> に含まれる
+  if (mkdir(dirname.c_str(), 0777) == 0)
+  {
+    // Directory 作成成功
+    return true;
+  }
+  return false;
+#endif
+}

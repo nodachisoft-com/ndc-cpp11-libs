@@ -7,7 +7,7 @@ FileAccessMgr::FileAccessMgr()
 void FileAccessMgr::makedir(std::string dirname)
 {
   errno = 0;
-  if (mkdir(dirname.c_str(), 0777) == 0)
+  if (FileApiConvert::wrappedMkDir(dirname))
     // if (mkdir(dirname.c_str()) == 0)
     printf("ディレクトリ%sを作成しました。\n", dirname.c_str());
   else
