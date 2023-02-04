@@ -9,8 +9,6 @@
 #include <iostream>
 #include <sstream>
 
-#include "../exception/index.hpp"
-
 /// @brief 動的に拡張可能なバイト列を管理することができるクラス
 /// @details
 ///  利用サイズにあわせて自動的にメモリ領域を拡張するバイト列データを扱うクラスです。
@@ -74,13 +72,13 @@ public:
   template <typename X>
   MemoryBank *append(X value);
 
-  /// @brief バイト列の末尾に std::string 型のデータを追記する
+  /// @brief バイト列の末尾に std::string 型の、文字列の長さ＋文字列データ本体を追記する
   /// @param[in] value 追記する std::string データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
   MemoryBank *appendString(std::string &value);
 
   /// @brief
-  ///  バイト列の末尾に char[] 型のデータを追記する
+  ///  バイト列の末尾に char[] 型の、文字列の長さ＋文字列データ本体を追記する
   ///  追記した文字列データは readString() で読み取り可能
   /// @param[in] value 追記する char[] データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
@@ -135,6 +133,10 @@ public:
   /// @brief 管理しているバイト列の長さを取得します。
   /// @return バイト列の長さ。
   int getUsingSize();
+
+  /// @brief CRC32 の計算を行う
+  /// @return CRC32 計算結果を返す
+  long calcCrc32();
 
   /// @brief クラス内で使用しているメモリスロット数、メモリ容量などのデバッグ情報を標準出力します
   void debug();

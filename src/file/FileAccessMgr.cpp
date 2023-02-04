@@ -54,5 +54,23 @@ std::string FileAccessMgr::getCurDir()
 
 FileAccessor *FileAccessMgr::getFilesRecursively(std::string dirPath)
 {
+  /*
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir("c:\\src\\")) != NULL)
+    {
+      while ((ent = readdir(dir)) != NULL)
+      {
+        printf("%s\n", ent->d_name);
+      }
+      closedir(dir);
+    }
+    else
+    {
+
+      perror("");
+      return EXIT_FAILURE;
+    }
+    */
   return NULL;
 }

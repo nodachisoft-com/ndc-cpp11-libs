@@ -1,8 +1,9 @@
 #include "../../src/ndclibs.hpp"
-// #include "../../src/image/index.hpp"
+#include <string>
 
 int main()
 {
+  /*
   std::string path = FileAccessMgr::getCurDir();
   std::cout << "PATH=" << path << std::endl;
 
@@ -75,4 +76,30 @@ int main()
   {
     std::cout << "NG: README.md file NOT Found" << std::endl;
   }
+  */
+
+  FileAccessor fa = FileAccessMgr::getFileInfo(std::string("aiueo.txt"));
+  fa.readFileSync();
+  MemoryBank *mem = fa.getMemoryBank();
+  int size = mem->getUsingSize();
+  for (int i = 0; i < size; i++)
+  {
+    std::cout << mem->readChar();
+  }
+  printf("CRC32=%x\n", mem->calcCrc32());
+
+  Crc32 crc;
+  char text[] = "abcd";
+  for (int i = 0; i < 4; i++)
+  {
+    crc.calcUpdate(text[i]);
+  }
+  // EXPECT_EQ(3984772369, crc.getHash());
+  printf("abcd crc32=%x\n", crc.getHash());
+  MemoryBank t;
+  t.appendByte('a');
+  t.appendByte('b');
+  t.appendByte('c');
+  t.appendByte('d');
+  printf("abcd MemoryBank crc32=%x\n", t.calcCrc32());
 }

@@ -1,4 +1,6 @@
+#include "../exception/index.hpp"
 #include "MemoryBank.hpp"
+#include "../hash/index.hpp"
 
 /**
  * コンストラクタ
@@ -265,6 +267,18 @@ int MemoryBank::getAllocMemorySize()
 int MemoryBank::getUsingSize()
 {
   return endPos + 1;
+}
+
+// メモリの CRC32 を計算する
+long MemoryBank::calcCrc32()
+{
+  Crc32 crc;
+  long length = getUsingSize();
+  for (int i = 0; i < length; i++)
+  {
+    crc.calcUpdate(get(i));
+  }
+  return crc.getHash();
 }
 
 // 使用しているメモリスロット数、メモリ容量などのデバッグ情報を出力します

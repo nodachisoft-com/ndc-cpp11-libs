@@ -22,19 +22,30 @@ enum class FileType
 class FileAccessor
 {
 private:
-  MemoryBank memory;
+  MemoryBank *memory;
   std::string filePath;
   long filesize;
   FileType filetype;
-  bool isOpenFile;
+  bool isOpenFileFlag;
   float progress;
   FileStatus fileStatus;
 
 public:
   FileAccessor(std::string filepath);
 
-  long calcCrc32();
+  long calcMemoryCrc32();
   void readFileSync();
   void writeFileSync();
   void appendStringSync(std::string text);
+
+  // Accessor Mehods
+  MemoryBank *getMemoryBank();
+  void setMemoryBank(MemoryBank *memory);
+  std::string getFilePath();
+  void setFilePath(std::string filePath);
+  long getFilesize();
+  FileType getFiletype();
+  bool isOpenFile();
+  float getProgress();
+  FileStatus getFileStatus();
 };
