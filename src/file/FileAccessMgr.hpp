@@ -13,11 +13,11 @@ class FileAccessMgr
 public:
   FileAccessMgr();
 
-  static void makedir(std::string filename);
+  static bool makedir(std::string filename);
 
-  static void removedir(std::string filename);
+  static bool removedir(std::string filename);
 
-  static void removefile(std::string filename);
+  static bool removefile(std::string filename);
 
   static FileType isExistFileOrDir(std::string filepath);
 

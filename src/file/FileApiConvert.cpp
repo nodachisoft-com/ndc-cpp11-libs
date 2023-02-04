@@ -2,17 +2,22 @@
 
 std::string FileApiConvert::wrappedGetCwd()
 {
-
-#if defined(_MSC_VER)
-  // Windows 環境
+#if defined(_WIN32) && defined(__GNUC__)
+  // Windows環境 Mingw + GCC 環境向け
+  std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows + Mingw GetCWD" << std::endl;
+  char path[1024 * 16];
+  getcwd(path, 1024 * 16);
+  return std::string(path);
+#elif defined(_WIN32) && defined(_MSC_VER)
+  // Windows 環境 + VisutlStudio
   std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows 環境用 GetCWD" << std::endl;
   return std::string(_getcwd(), 1024 * 64);
 #elif defined(__GNUC__)
 
   // GCC 環境向け
   std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Linux 環境用 GetCWD" << std::endl;
-  char path[1024 * 4];
-  getcwd(path, 1024 * 4);
+  char path[1024 * 16];
+  getcwd(path, 1024 * 16);
   return std::string(path);
 #endif
 };
@@ -26,6 +31,7 @@ bool FileApiConvert::wrappedMkDir(std::string dirname)
     // ディレクトリ作成成功
     return true;
   }
+  errno = 0;
   return false;
 #elif defined(_WIN32) && defined(_MSC_VER)
   // MS VC でコンパイルした場合
@@ -35,6 +41,7 @@ bool FileApiConvert::wrappedMkDir(std::string dirname)
     // ディレクトリ作成成功
     return true;
   }
+  errno = 0;
   return false;
 #else
   // mkdir は <sys/stat.h> に含まれる
@@ -43,6 +50,26 @@ bool FileApiConvert::wrappedMkDir(std::string dirname)
     // Directory 作成成功
     return true;
   }
+  errno = 0;
   return false;
 #endif
+}
+
+bool FileApiConvert::wrappedRmDir(std::string dirname)
+{
+  if (rmdir(dirname.c_str()) == 0)
+  {
+    // ディレクトリ削除成功
+    return true;
+  }
+  return false;
+}
+
+bool FileApiConvert::wrappedRmFile(std::string filename)
+{
+  if (_unlink(filename.c_str()))
+  {
+    return false;
+  }
+  return true;
 }

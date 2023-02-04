@@ -4,48 +4,42 @@ FileAccessMgr::FileAccessMgr()
 {
 }
 
-void FileAccessMgr::makedir(std::string dirname)
+bool FileAccessMgr::makedir(std::string dirname)
 {
-  errno = 0;
-  if (FileApiConvert::wrappedMkDir(dirname))
-    // if (mkdir(dirname.c_str()) == 0)
-    printf("ディレクトリ%sを作成しました。\n", dirname.c_str());
-  else
-  {
-    if (errno == EEXIST)
-    {
-      printf("ディレクトリ%sは既に存在します。\n", dirname.c_str());
-    }
-    else if (errno == ENOENT)
-    {
-      printf("パス%sが存在しません。\n", dirname.c_str());
-    }
-    else
-    {
-      printf("ディレクトリ%sを作成できませんでした。\n", dirname.c_str());
-    }
-
-    // errnoを0に戻しておく
-    errno = 0;
-  }
+  return FileApiConvert::wrappedMkDir(dirname);
 }
 
-void FileAccessMgr::removedir(std::string filename)
+bool FileAccessMgr::removedir(std::string filename)
 {
-  // rmdir(filename.c_str());
+  return FileApiConvert::wrappedRmDir(filename);
 }
 
-void FileAccessMgr::removefile(std::string filename) {}
+bool FileAccessMgr::removefile(std::string filename)
+{
+  return FileApiConvert::wrappedRmFile(filename);
+}
 
 FileType FileAccessMgr::isExistFileOrDir(std::string filepath)
 {
+  struct stat st;
+  int result = stat(filepath.c_str(), &st);
+  if (result != 0)
+  {
+    return FileType::FILE_NOT_FOUND;
+  }
+  if ((st.st_mode & S_IFMT) == S_IFDIR)
+  {
+    // printf("%s is directory.\n", argv[1]);
+    return FileType::DIR;
+  }
+
   FILE *fp = fopen(filepath.c_str(), "r");
   if (fp == NULL)
   {
     return FileType::FILE_NOT_FOUND;
   }
   fclose(fp);
-  return FileType::FILE_NOT_FOUND;
+  return FileType::FILE;
 }
 
 FileAccessor FileAccessMgr::getFileInfo(std::string filename)
