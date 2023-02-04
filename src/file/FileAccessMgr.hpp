@@ -31,5 +31,7 @@ public:
   static std::vector<FileAccessor> getDirsRecursively(std::string dirPath);
 
 private:
+  static std::vector<FileAccessor> _getInnerFilesRecursively(std::string dirPath, std::vector<FileAccessor> &filelist);
+
   static std::vector<FileAccessor> _getInnerDirsRecursively(std::string dirPath, std::vector<FileAccessor> &dirlist);
 };

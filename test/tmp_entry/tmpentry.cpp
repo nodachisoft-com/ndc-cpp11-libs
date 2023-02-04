@@ -108,12 +108,12 @@ int main()
     fa.setFilePath(std::string("XXX.txt"));
     fa.writeFileSync();
     */
-  std::cout << "DIRECTORY" << std::endl;
-  std::vector<FileAccessor> result = FileAccessMgr::getDirsRecursively(std::string("./"));
+  std::cout << "FILES" << std::endl;
+  std::vector<FileAccessor> result = FileAccessMgr::getFilesRecursively(std::string("./"));
 
-  std::cout << "DIRLEN:" << result.size() << std::endl;
+  std::cout << "FILE COUNT:" << result.size() << std::endl;
   for (int i = 0; i < result.size(); i++)
   {
-    std::cout << "DIR:" << result[i].getFilePath() << std::endl;
+    std::cout << "FILES:" << result[i].getFilePath() << std::endl;
   }
 }

@@ -55,12 +55,20 @@ std::string FileAccessMgr::getCurDir()
 std::vector<FileAccessor> FileAccessMgr::getFilesRecursively(std::string dirPath)
 {
   std::vector<FileAccessor> result{};
+  return _getInnerFilesRecursively(dirPath, result);
+}
+
+std::vector<FileAccessor> FileAccessMgr::_getInnerFilesRecursively(std::string dirPath, std::vector<FileAccessor> &filelist)
+{
+
   DIR *dir;
   struct dirent *ent;
+  std::string fileOrDirName;
   if ((dir = opendir(dirPath.c_str())) != NULL)
   {
     while ((ent = readdir(dir)) != NULL)
     {
+      fileOrDirName = std::string(ent->d_name);
       if (strlen(ent->d_name) == 1 && ent->d_name[0] == '.')
       {
       }
@@ -69,9 +77,22 @@ std::vector<FileAccessor> FileAccessMgr::getFilesRecursively(std::string dirPath
       }
       else
       {
-        printf("%s\n", ent->d_name);
-        FileAccessor fa(ent->d_name);
-        result.push_back(fa);
+        std::string nextDirPath = dirPath + fileOrDirName;
+        FileAccessor fa(nextDirPath);
+        if (fa.getFiletype() == FileType::DIR)
+        {
+          // printf("DIR:: %s\n", nextDirPath.c_str());
+          filelist = _getInnerFilesRecursively(nextDirPath + "/", filelist);
+        }
+        else if (fa.getFiletype() == FileType::FILE)
+        {
+          filelist.push_back(fa);
+          // printf("FILE:: %s\n", nextDirPath.c_str());
+        }
+        else
+        {
+          // printf("Unknown:: %s\n", nextDirPath.c_str());
+        }
       }
     }
     closedir(dir);
@@ -80,11 +101,10 @@ std::vector<FileAccessor> FileAccessMgr::getFilesRecursively(std::string dirPath
   {
 
     perror("");
-    // return EXIT_FAILURE;
-    return result;
+    return filelist;
   }
 
-  return result;
+  return filelist;
 }
 
 std::vector<FileAccessor> FileAccessMgr::getDirsRecursively(std::string dirPath)
