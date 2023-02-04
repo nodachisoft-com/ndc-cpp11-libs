@@ -3,6 +3,7 @@
 
 FileAccessor::FileAccessor(std::string _filepath)
 {
+  appendWriteFp = NULL;
   filePath = _filepath;
   filesize = 0;
   isOpenFileFlag = false;
@@ -23,6 +24,15 @@ FileAccessor::FileAccessor(std::string _filepath)
   if (filetype == FileType::FILE)
   {
     filesize = st.st_size; // ファイルサイズ取得
+  }
+}
+
+FileAccessor::~FileAccessor()
+{
+  if (appendWriteFp == NULL)
+  {
+    // 追記モードを利用していた場合はファイルへのポインタを解放する
+    fclose(appendWriteFp);
   }
 }
 
@@ -91,6 +101,17 @@ void FileAccessor::writeFileSync()
 
 void FileAccessor::appendStringSync(std::string text)
 {
+  if (appendWriteFp == NULL)
+  {
+    // 初回のファイルオープン処理
+    appendWriteFp = fopen(filePath.c_str(), "a");
+  }
+  long size = text.size();
+  // const char text[] = text.c_str();
+  for (int i = 0; i < size; i++)
+  {
+    fputc(text[i], appendWriteFp);
+  }
 }
 
 MemoryBank *FileAccessor::getMemoryBank()

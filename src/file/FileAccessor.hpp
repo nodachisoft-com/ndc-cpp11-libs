@@ -29,9 +29,11 @@ private:
   bool isOpenFileFlag;
   float progress;
   FileStatus fileStatus;
+  FILE *appendWriteFp;
 
 public:
   FileAccessor(std::string filepath);
+  ~FileAccessor();
 
   long calcMemoryCrc32();
   void readFileSync();
