@@ -1,10 +1,4 @@
 #include "FileAccessMgr.hpp"
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-
 
 FileAccessMgr::FileAccessMgr()
 {
@@ -14,6 +8,7 @@ void FileAccessMgr::makedir(std::string dirname)
 {
   errno = 0;
   if (mkdir(dirname.c_str(), 0777) == 0)
+    // if (mkdir(dirname.c_str()) == 0)
     printf("ディレクトリ%sを作成しました。\n", dirname.c_str());
   else
   {
@@ -61,9 +56,7 @@ FileAccessor FileAccessMgr::getFileInfo(std::string filename)
 
 std::string FileAccessMgr::getCurDir()
 {
-  char path[1024 * 4];
-  getcwd(path, 1024 * 4);
-  return std::string(path);
+  return FileApiConvert::wrappedGetCwd();
 }
 
 FileAccessor *FileAccessMgr::getFilesRecursively(std::string dirPath)

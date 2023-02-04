@@ -1,7 +1,12 @@
 #pragma once
-#include "FileAccessor.hpp"
 #include "FileApiConvert.hpp"
+#include "FileAccessor.hpp"
+
 #include <string>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 class FileAccessMgr
 {

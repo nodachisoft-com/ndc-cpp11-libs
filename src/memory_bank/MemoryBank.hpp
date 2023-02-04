@@ -4,7 +4,12 @@
  */
 #pragma once
 #include <string>
+#include <cstring>
 #include <vector>
+#include <iostream>
+#include <sstream>
+
+#include "../exception/index.hpp"
 
 /// @brief 動的に拡張可能なバイト列を管理することができるクラス
 /// @details
