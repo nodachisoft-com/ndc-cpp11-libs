@@ -19,7 +19,16 @@ std::string FileApiConvert::wrappedGetCwd()
 
 bool FileApiConvert::wrappedMkDir(std::string dirname)
 {
-#if defined(_WIN32)
+#if defined(_WIN32) && defined(__GNUC__)
+  // Windows 上の Mingw で gcc コンパイルした場合
+  if (mkdir(dirname.c_str()) == 0)
+  {
+    // ディレクトリ作成成功
+    return true;
+  }
+  return false;
+#elif defined(_WIN32) && defined(_MSC_VER)
+  // MS VC でコンパイルした場合
   // _mkdir は direct.h に含まれる
   if (_mkdir(dirname.c_str()) == 0)
   {
