@@ -43,6 +43,10 @@ TEST(FileAccessMgr, directory_operation_case1)
 // 深いディレクトリを作成し、再帰的にデータを取得した後、ディレクトリを削除する
 TEST(FileAccessMgr, getDirsRecursively_case1)
 {
+  std::vector<FileAccessor> files;
+  files = FileAccessMgr::getDirsRecursively("./debug");
+  EXPECT_EQ(files.size(), 0); // 0 件のディレクトリ
+
   const std::string TESTTMP_DIR("./debug");
   EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2"), true);
   EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/001"), true);
@@ -53,7 +57,7 @@ TEST(FileAccessMgr, getDirsRecursively_case1)
   EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004/cde"), true);
 
   // 一覧取得
-  std::vector<FileAccessor> files = FileAccessMgr::getDirsRecursively("./debug");
+  files = FileAccessMgr::getDirsRecursively("./debug");
   EXPECT_EQ(files.size(), 7); // 7 件のディレクトリが取得できている
   EXPECT_EQ(files[0].getFilePath(), TESTTMP_DIR + "/makedir_case2");
   EXPECT_EQ(files[1].getFilePath(), TESTTMP_DIR + "/makedir_case2/001");
@@ -64,4 +68,15 @@ TEST(FileAccessMgr, getDirsRecursively_case1)
   EXPECT_EQ(files[6].getFilePath(), TESTTMP_DIR + "/makedir_case2/004/cde");
 
   // ディレクトリの削除(深いほうから削除)
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004/cde"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004/ab"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/003"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/002"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/001"), true);
+  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2"), true);
+
+  // 一覧取得
+  files = FileAccessMgr::getDirsRecursively("./debug");
+  EXPECT_EQ(files.size(), 0); // 0 件のディレクトリ
 }
