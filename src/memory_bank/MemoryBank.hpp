@@ -75,14 +75,14 @@ public:
   /// @brief バイト列の末尾に std::string 型の、文字列の長さ＋文字列データ本体を追記する
   /// @param[in] value 追記する std::string データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
-  MemoryBank *appendString(std::string &value);
+  MemoryBank *appendStringWithLength(std::string &value);
 
   /// @brief
   ///  バイト列の末尾に char[] 型の、文字列の長さ＋文字列データ本体を追記する
   ///  追記した文字列データは readString() で読み取り可能
   /// @param[in] value 追記する char[] データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
-  MemoryBank *appendCharArray(const char value[]);
+  MemoryBank *appendCharArrayWithLength(const char value[]);
 
   /// @brief 読み取りカーソル位置から char データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った char データ
@@ -114,7 +114,7 @@ public:
 
   /// @brief 読み取りカーソル位置から std::string データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った std::string データ
-  std::string readString();
+  std::string readStringWithLength();
 
   /// @brief 読み取りカーソル位置から指定した型データを読み取り、カーソルを進める
   /// @param[out] value データを読み取り上書きする先の変数

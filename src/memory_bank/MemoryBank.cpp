@@ -98,7 +98,7 @@ template MemoryBank *MemoryBank::append<float>(float);
 template MemoryBank *MemoryBank::append<double>(double);
 template MemoryBank *MemoryBank::append<bool>(bool);
 
-MemoryBank *MemoryBank::appendString(std::string &value)
+MemoryBank *MemoryBank::appendStringWithLength(std::string &value)
 {
   int len = value.length();
   append(len);
@@ -112,7 +112,7 @@ MemoryBank *MemoryBank::appendString(std::string &value)
   return this;
 }
 
-MemoryBank *MemoryBank::appendCharArray(const char value[])
+MemoryBank *MemoryBank::appendCharArrayWithLength(const char value[])
 {
   int len = strlen(value);
   append(len);
@@ -237,7 +237,7 @@ bool MemoryBank::readBool()
 
 // 現在のカーソル位置から char* を記録された長さぶん読み込み、
 // 末尾に終端文字（\0）を付与して返す。読み取ったぶんのカーソル位置を進める
-std::string MemoryBank::readString()
+std::string MemoryBank::readStringWithLength()
 {
   int length = readInt();
   char newCharArray[length + 1];

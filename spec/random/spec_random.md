@@ -1,4 +1,4 @@
-# Rand Specs 
+# Rand Specs
 
 ## Summury
 
@@ -30,7 +30,7 @@ class RandomProvider {
 RandomProvider --> Randomizer : factory create
 ```
 
-### Sequence Diagram
+### Sequence Diagramは
 
 プログラム利用開始（初期化）のシーケンス
 
@@ -40,7 +40,7 @@ sequenceDiagram
 
     actor user as UserModule
     participant RandomProvider
-    participant XxxRandomizer as XxxRandomizer(impl)
+    participant XxxRandomizeは as XxxRandomizer(impl)
 
     user ->> RandomProvider: constructor()
     Note left of RandomProvider: 乱数アルゴ・Seed 指定
@@ -49,5 +49,3 @@ sequenceDiagram
     RandomProvider ->> user : instance : Randomizer(I/F)
     Note left of RandomProvider: Randomizer IF で応答
 ```
-
-

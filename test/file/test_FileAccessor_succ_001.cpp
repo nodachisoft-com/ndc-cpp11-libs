@@ -7,7 +7,7 @@
 const std::string TESTTMP_DIR("./debug/");
 
 // 存在しないファイルへのアクセス処理
-TEST(FileAccessor, fa_case1)
+TEST(FileAccessor, fa_constructor_case1)
 {
   std::string path("./debug/fa_case1_not_exists.txt");
   FileAccessor fa(path);
@@ -42,4 +42,25 @@ TEST(FileAccessor, fa_case2_writeFileSync)
   // 書き込みが成功した場合、ファイルへのアクセスが可能である
   EXPECT_EQ(fa.getFiletype(), FileType::FILE);
   EXPECT_EQ(fa.getFileStatus(), FileStatus::AVAILABLE);
+}
+
+// 1.存在しないファイルへのアクセス処理でファイルを作成
+// 2.作成したファイルを読み込み
+TEST(FileAccessor, fa_case2_writeFileSync_and_read)
+{
+  std::string path("./debug/fa_case2_writeFileSync_and_read.txt");
+  FileAccessor fa(path);
+  EXPECT_EQ(fa.getFiletype(), FileType::FILE_NOT_FOUND);
+
+  // メモリバッファに文字列追加
+  std::string msg1("1st Message!");
+  std::string msg2("2nd Next Message!");
+  fa.getMemoryBank()->appendStringWithLength(msg1);
+  fa.getMemoryBank()->appendStringWithLength(msg2);
+  EXPECT_EQ(fa.writeFileSync(), true); // 書き込み
+
+  // 別途新しくファイルを開く
+  FileAccessor fa2(path);
+  EXPECT_EQ(fa2.getFiletype(), FileType::FILE);
+  // EXPECT_EQ(fa2.getMemoryBank()->readString, FileType::FILE);
 }

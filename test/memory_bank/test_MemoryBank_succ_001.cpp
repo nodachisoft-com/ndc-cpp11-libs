@@ -9,16 +9,16 @@ TEST(MemoryBank, succ001)
 
   std::string name("Hogehoge!");
   std::string comp("ABCD");
-  buf->append((char)10)          // char
-      ->append((short)123)       // short
-      ->append((int)456)         // int
-      ->append((long)1111)       // long
-      ->append((float)1.25f)     // float
-      ->append((double)125.75)   // double
-      ->append((bool)false)      // bool (false)
-      ->append((bool)true)       // bool (true)
-      ->appendString(name)       // std::string
-      ->appendCharArray("ABCD"); // char[]
+  buf->append((char)10)                    // char
+      ->append((short)123)                 // short
+      ->append((int)456)                   // int
+      ->append((long)1111)                 // long
+      ->append((float)1.25f)               // float
+      ->append((double)125.75)             // double
+      ->append((bool)false)                // bool (false)
+      ->append((bool)true)                 // bool (true)
+      ->appendStringWithLength(name)       // std::string
+      ->appendCharArrayWithLength("ABCD"); // char[]
 
   EXPECT_EQ((char)10, buf->readChar());
   EXPECT_EQ((short)123, buf->readShort());
@@ -28,8 +28,8 @@ TEST(MemoryBank, succ001)
   EXPECT_EQ((double)125.75, buf->readDouble());
   EXPECT_EQ((bool)false, buf->readBool());
   EXPECT_EQ((bool)true, buf->readBool());
-  EXPECT_EQ(true, buf->readString() == name);
-  EXPECT_EQ(true, buf->readString() == comp);
+  EXPECT_EQ(true, buf->readStringWithLength() == name);
+  EXPECT_EQ(true, buf->readStringWithLength() == comp);
   delete buf;
 }
 
