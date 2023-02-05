@@ -77,12 +77,23 @@ std::vector<FileAccessor> FileAccessMgr::_getInnerFilesRecursively(std::string d
       }
       else
       {
-        std::string nextDirPath = dirPath + fileOrDirName;
+        std::string nextDirPath;
+        // 指定された PATH の末尾が 「/」 で終わっているかをチェック
+        char tailCharOfPath = dirPath[dirPath.length() - 1];
+        if (tailCharOfPath == '/')
+        {
+          nextDirPath = dirPath + fileOrDirName;
+        }
+        else
+        {
+          nextDirPath = dirPath + "/" + fileOrDirName;
+        }
+
         FileAccessor fa(nextDirPath);
         if (fa.getFiletype() == FileType::DIR)
         {
           // printf("DIR:: %s\n", nextDirPath.c_str());
-          filelist = _getInnerFilesRecursively(nextDirPath + "/", filelist);
+          filelist = _getInnerFilesRecursively(nextDirPath, filelist);
         }
         else if (fa.getFiletype() == FileType::FILE)
         {
@@ -132,23 +143,22 @@ std::vector<FileAccessor> FileAccessMgr::_getInnerDirsRecursively(std::string di
       }
       else
       {
-        std::string nextDirPath = dirPath + fileOrDirName;
-        FileAccessor fa(nextDirPath);
-        if (fa.getFiletype() == FileType::DIR)
+        std::string nextDirPath;
+        // 指定された PATH の末尾が 「/」 で終わっているかをチェック
+        char tailCharOfPath = dirPath[dirPath.length() - 1];
+        if (tailCharOfPath == '/')
         {
-
-          dirlist.push_back(fa);
-
-          // printf("DIR:: %s\n", nextDirPath.c_str());
-          dirlist = _getInnerDirsRecursively(nextDirPath + "/", dirlist);
-        }
-        else if (fa.getFiletype() == FileType::FILE)
-        {
-          // printf("FILE:: %s\n", nextDirPath.c_str());
+          nextDirPath = dirPath + fileOrDirName;
         }
         else
         {
-          // printf("Unknown:: %s\n", nextDirPath.c_str());
+          nextDirPath = dirPath + "/" + fileOrDirName;
+        }
+        FileAccessor fa(nextDirPath);
+        if (fa.getFiletype() == FileType::DIR)
+        {
+          dirlist.push_back(fa);
+          dirlist = _getInnerDirsRecursively(nextDirPath, dirlist);
         }
       }
     }

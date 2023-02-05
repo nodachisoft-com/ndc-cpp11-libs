@@ -2,9 +2,9 @@
 
 BitmapImage::BitmapImage(const char *filename)
 {
+  // 8x8 サイズの画素で初期化する
   ImageDataStruct imageDataStruct{
-      64, 64, NULL};
-  // imgp.data = NULL;
+      8, 8, NULL};
   imgp = imageDataStruct;
   ReadBmp(filename);
 }

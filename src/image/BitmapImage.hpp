@@ -1,3 +1,6 @@
+/**
+ * @brief デバッグ等に利用可能な Bitmap 画像形式の読み込み、書き込み機能を提供する
+ */
 #pragma once
 
 #include <stdio.h>
@@ -5,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+/// @brief RBB形式の画素情報
 typedef struct
 {
   unsigned char r;
@@ -12,6 +16,7 @@ typedef struct
   unsigned char b;
 } ColorRGB;
 
+/// @brief 画像データのデータ部
 typedef struct
 {
   int height;
@@ -19,13 +24,14 @@ typedef struct
   ColorRGB *data;
 } ImageDataStruct;
 
+/// @brief Bitmap １つの画像ファイル、データを扱う
 class BitmapImage
 {
 private:
   // 定数
   static const int HEADERSIZE = 54;
   static const int PALLETSIZE = 1024;
-  static const int MAX_IMAGE_MEMORY = (1024 * 1080) * (4 * 2); // @brief 4K レベルを上限
+  static const int MAX_IMAGE_MEMORY = (1024 * 1080) * (4 * 2); // @brief 4K レベルを扱い可能な上限サイズとする
 
   // メタ情報部
   // TODO: MetaInfo 構造体に入れ込むべき
@@ -61,14 +67,14 @@ public:
   void PrintBmpInfo(const char *filename);
 
   /// @brief 色情報をバッファに書き込む
-  /// @param x 書き込む画像内の位置（左を原点とする）
-  /// @param y 書き込む画像内の位置（上を原点とする）
-  /// @param color 書き込む色情報（RGB）
+  /// @param[in] x 書き込む画像内の位置（左を原点とする）
+  /// @param[in] y 書き込む画像内の位置（上を原点とする）
+  /// @param[in] color 書き込む色情報（RGB）
   void set(int x, int y, ColorRGB &color);
 
   /// @brief 指定の画像位置から色情報を取得する
-  /// @param x 書き込む画像内の位置（左を原点とする）
-  /// @param y 書き込む画像内の位置（上を原点とする）
+  /// @param[in] x 書き込む画像内の位置（左を原点とする）
+  /// @param[in] y 書き込む画像内の位置（上を原点とする）
   /// @return 取得した色情報（RGB）
   ColorRGB get(int x, int y);
 };
