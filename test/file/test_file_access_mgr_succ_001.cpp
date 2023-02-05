@@ -22,22 +22,22 @@ TEST(FileAccessMgr, directory_operation_case1)
   std::string targetDir = std::string(TESTTMP_DIR) + "makedir_case1";
 
   // 対象ディレクトリがまだ存在しないこと
-  FileAccessor dircheck1 = FileAccessMgr::isExistFileOrDir(targetDir);
-  EXPCT_EQ(dircheck1.getFiletype, FileType::FILE_NOT_FOUND);
+  FileType dircheck1 = FileAccessMgr::isExistFileOrDir(targetDir);
+  EXPECT_EQ(dircheck1, FileType::FILE_NOT_FOUND);
 
   // makedir が成功していること
   EXPECT_EQ(FileAccessMgr::makedir(targetDir), 1);
 
   // path の情報を取得し ディレクトリであること内容に問題ないこと
-  FileAccessor newDirAcc = FileAccessMgr::isExistFileOrDir(targetDir);
-  EXPECT_EQ(newDirAcc.getFiletype(), FileType::DIR);
+  FileType newDirAcc = FileAccessMgr::isExistFileOrDir(targetDir);
+  EXPECT_EQ(newDirAcc, FileType::DIR);
 
   // removedir が成功していること
   EXPECT_EQ(FileAccessMgr::removedir(targetDir), 1);
 
   // 対象ディレクトリが削除されており、存在しないこと
-  FileAccessor dircheck2 = FileAccessMgr::isExistFileOrDir(targetDir);
-  EXPCT_EQ(dircheck2.getFiletype, FileType::FILE_NOT_FOUND);
+  FileType dircheck2 = FileAccessMgr::isExistFileOrDir(targetDir);
+  EXPECT_EQ(dircheck2, FileType::FILE_NOT_FOUND);
 }
 
 // 深いディレクトリを作成し、再帰的にデータを取得した後、ディレクトリを削除する

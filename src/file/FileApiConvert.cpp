@@ -4,18 +4,18 @@ std::string FileApiConvert::wrappedGetCwd()
 {
 #if defined(_WIN32) && defined(__GNUC__)
   // Windows環境 Mingw + GCC 環境向け
-  std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows + Mingw GetCWD" << std::endl;
+  // std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows + Mingw GetCWD" << std::endl;
   char path[1024 * 16];
   getcwd(path, 1024 * 16);
   return std::string(path);
 #elif defined(_WIN32) && defined(_MSC_VER)
   // Windows 環境 + VisutlStudio
-  std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows 環境用 GetCWD" << std::endl;
+  // std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Windows 環境用 GetCWD" << std::endl;
   return std::string(_getcwd(), 1024 * 64);
 #elif defined(__GNUC__)
 
   // GCC 環境向け
-  std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Linux 環境用 GetCWD" << std::endl;
+  // std::cout << "[DEBUG] FileApiConvert::wrappedGetCwd() : Linux 環境用 GetCWD" << std::endl;
   char path[1024 * 16];
   getcwd(path, 1024 * 16);
   return std::string(path);
@@ -67,9 +67,21 @@ bool FileApiConvert::wrappedRmDir(std::string dirname)
 
 bool FileApiConvert::wrappedRmFile(std::string filename)
 {
+#if defined(_WIN32) && defined(__GNUC__)
   if (_unlink(filename.c_str()))
   {
     return false;
   }
+#elif defined(_WIN32) && defined(_MSC_VER)
+  if (_unlink(filename.c_str()))
+  {
+    return false;
+  }
+#else
+  if (unlink(filename.c_str()))
+  {
+    return false;
+  }
+#endif
   return true;
 }
