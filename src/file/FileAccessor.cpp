@@ -41,20 +41,27 @@ long FileAccessor::calcMemoryCrc32()
   return memory->calcCrc32();
 }
 
-void FileAccessor::readFileSync()
+bool FileAccessor::readFileSync()
 {
+  if (filetype == FileType::DIR || filetype == FileType::FILE_NOT_FOUND)
+  {
+    // ディレクトリ or ファイルが存在しないなら読み取り不可
+    return false;
+  }
+
   long READ_BLOCK_LENGTH = 16;
   FILE *fp = fopen(filePath.c_str(), "rb");
   if (fp == NULL)
   {
     // ファイルオープンエラーの処理
-    return;
+    return false;
   }
 
   // ファイルサイズの取得
   if (fseek(fp, 0, SEEK_END) != 0)
   {
     // fseek エラーの処理
+    return false;
   }
 
   long fileByteSize = ftell(fp);
@@ -62,6 +69,7 @@ void FileAccessor::readFileSync()
   if (fseek(fp, 0L, SEEK_SET) != 0)
   {
     // fseek エラーの処理
+    return false;
   }
 
   // ファイル全体を格納するメモリを割り当てる
@@ -69,6 +77,7 @@ void FileAccessor::readFileSync()
   if (buffer == NULL)
   {
     // メモリ割り当てエラーの処理
+    return false;
   }
 
   while (true)
@@ -86,9 +95,13 @@ void FileAccessor::readFileSync()
   }
   free(buffer);
   fclose(fp);
+  filetype = FileType::FILE;
+  fileStatus = FileStatus::AVAILABLE;
+  progress = 1.0f;
+  return true;
 }
 
-void FileAccessor::writeFileSync()
+bool FileAccessor::writeFileSync()
 {
   FILE *fp = fopen(filePath.c_str(), "w");
   long size = memory->getUsingSize();
@@ -97,9 +110,13 @@ void FileAccessor::writeFileSync()
     fputc(memory->get(i), fp);
   }
   fclose(fp);
+  filetype = FileType::FILE;
+  fileStatus = FileStatus::AVAILABLE;
+  progress = 1.0f;
+  return true;
 }
 
-void FileAccessor::appendStringSync(std::string text)
+bool FileAccessor::appendStringSync(std::string text)
 {
   if (appendWriteFp == NULL)
   {
@@ -107,11 +124,11 @@ void FileAccessor::appendStringSync(std::string text)
     appendWriteFp = fopen(filePath.c_str(), "a");
   }
   long size = text.size();
-  // const char text[] = text.c_str();
   for (int i = 0; i < size; i++)
   {
     fputc(text[i], appendWriteFp);
   }
+  return true;
 }
 
 MemoryBank *FileAccessor::getMemoryBank()

@@ -9,7 +9,37 @@ const std::string TESTTMP_DIR("./debug/");
 // 存在しないファイルへのアクセス処理
 TEST(FileAccessor, fa_case1)
 {
-  FileAccessor fa("./debug/fa_case1.txt");
+  std::string path("./debug/fa_case1_not_exists.txt");
+  FileAccessor fa(path);
+  EXPECT_EQ(fa.calcMemoryCrc32(), 0);
+  EXPECT_EQ(fa.readFileSync(), false);
   EXPECT_EQ(fa.getFilesize(), 0);
   EXPECT_EQ(fa.getFiletype(), FileType::FILE_NOT_FOUND);
+  EXPECT_EQ(fa.getMemoryBank()->getUsingSize(), 0);
+  EXPECT_EQ(fa.getFilePath(), path);
+  EXPECT_EQ(fa.isOpenFile(), false);
+  EXPECT_EQ(fa.getProgress(), 0.0f);
+  EXPECT_EQ(fa.getFileStatus(), FileStatus::NOT_LOADING);
+}
+
+// 存在しないファイルへのアクセス処理でファイルを作成
+TEST(FileAccessor, fa_case2_writeFileSync)
+{
+  std::string path("./debug/fa_case2_newfile.txt");
+  FileAccessor fa(path);
+  EXPECT_EQ(fa.getFiletype(), FileType::FILE_NOT_FOUND);
+  EXPECT_EQ(fa.getMemoryBank()->getUsingSize(), 0);
+  EXPECT_EQ(fa.getFileStatus(), FileStatus::NOT_LOADING);
+
+  // メモリバッファに文字列追加
+  std::string msg("This is Test Message!");
+  for (int i = 0; i < msg.size(); i++)
+  {
+    fa.getMemoryBank()->appendByte(msg[i]);
+  }
+  EXPECT_EQ(fa.writeFileSync(), true); // 書き込み
+
+  // 書き込みが成功した場合、ファイルへのアクセスが可能である
+  EXPECT_EQ(fa.getFiletype(), FileType::FILE);
+  EXPECT_EQ(fa.getFileStatus(), FileStatus::AVAILABLE);
 }

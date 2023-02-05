@@ -65,18 +65,18 @@ public:
   /// @brief 初期化時 / setFilePath で指定したパスのファイルを同期処理で読み込み
   /// TODO 対象がディレクトリ、読み込み権限不足などで処理失敗した場合は false を返すようにすべき
   /// TODO 非同期処理が走っている場合は false を返すべき
-  void readFileSync();
+  bool readFileSync();
 
   /// @brief 初期化時 / setFilePath で指定したパスのファイルに同期処理で上書き
   /// TODO 対象がディレクトリ、書き込み権限不足などで処理失敗した場合は false を返すようにすべき
   /// TODO 非同期処理が走っている場合は false を返すべき
-  void writeFileSync();
+  bool writeFileSync();
 
   /// @brief 初期化時 / setFilePath で指定したパスのファイルに同期処理で文字列を追記（改行なし）
   /// @param[in] text 追記するテキスト
   /// TODO 対象がディレクトリ、書き込み権限不足などで処理失敗した場合は false を返すようにすべき
   /// TODO 非同期処理が走っている場合は false を返すべき
-  void appendStringSync(std::string text);
+  bool appendStringSync(std::string text);
 
   // ====== 以下はアクセサメソッド ======
   /// @brief 読み書き対象データへのポインタを取得
