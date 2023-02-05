@@ -134,7 +134,9 @@ std::vector<FileAccessor> FileAccessMgr::_getInnerDirsRecursively(std::string di
   {
     while ((ent = readdir(dir)) != NULL)
     {
+      std::cout << "START LOOP" << std::endl;
       fileOrDirName = std::string(ent->d_name);
+      std::cout << "OBJECT:" << fileOrDirName << std::endl;
       if (strlen(ent->d_name) == 1 && ent->d_name[0] == '.')
       {
       }
@@ -145,7 +147,17 @@ std::vector<FileAccessor> FileAccessMgr::_getInnerDirsRecursively(std::string di
       {
         std::string nextDirPath;
         // 指定された PATH の末尾が 「/」 で終わっているかをチェック
-        char tailCharOfPath = dirPath[dirPath.length() - 1];
+        const char *dirPathChars = dirPath.c_str();
+        int dirPathLen = strlen(dirPathChars);
+        printf("DIRPATH_LEN=%d\n", dirPathLen);
+        char tailCharOfPath = dirPathChars[dirPathLen - 1];
+        for (int i = 0; i < dirPathLen; i++)
+        {
+          printf("%c,", dirPathChars[i]);
+        }
+
+        // char tailCharOfPath = dirPath[dirPath.length() - 1];
+        printf("TAIL=%c\n", tailCharOfPath);
         if (tailCharOfPath == '/')
         {
           nextDirPath = dirPath + fileOrDirName;
@@ -154,14 +166,20 @@ std::vector<FileAccessor> FileAccessMgr::_getInnerDirsRecursively(std::string di
         {
           nextDirPath = dirPath + "/" + fileOrDirName;
         }
+        std::cout << "NEXT_DIR_PATH:" << nextDirPath << std::endl;
         FileAccessor fa(nextDirPath);
+        std::cout << "INIT" << std::endl;
         if (fa.getFiletype() == FileType::DIR)
         {
+          std::cout << "push_back" << std::endl;
           dirlist.push_back(fa);
           dirlist = _getInnerDirsRecursively(nextDirPath, dirlist);
         }
+        std::cout << "IF END" << std::endl;
       }
+      std::cout << "LOOP END" << std::endl;
     }
+    std::cout << "CloseDir" << std ::endl;
     closedir(dir);
   }
   else

@@ -29,7 +29,7 @@ FileAccessor::FileAccessor(std::string _filepath)
 
 FileAccessor::~FileAccessor()
 {
-  if (appendWriteFp == NULL)
+  if (appendWriteFp != NULL)
   {
     // 追記モードを利用していた場合はファイルへのポインタを解放する
     fclose(appendWriteFp);
