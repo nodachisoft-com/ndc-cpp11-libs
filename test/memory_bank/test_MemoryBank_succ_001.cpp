@@ -120,7 +120,17 @@ TEST(MemoryBank, succ005)
   EXPECT_EQ('B', buf.readChar());
 }
 
+// MemoryBank の crc32 結果と Crc32 クラスの結果を突合する
 TEST(MemoryBank, crc_largedata)
 {
-  MemoryBank buf(5);
+  MemoryBank buf;
+  Crc32 crc;
+  for (int i = 0; i < 1024 * 10; i++)
+  {
+    unsigned char data = (unsigned char)(i % 255);
+    buf.appendByte(data);
+    crc.calcUpdate(data);
+  }
+  EXPECT_EQ(485967120, buf.calcCrc32());
+  EXPECT_EQ(485967120, crc.getHash());
 }

@@ -74,3 +74,28 @@ TEST(FileAccessor, fa_case3_appendStringToFileSync)
   EXPECT_EQ(fa.readFileSync(), true);
   EXPECT_EQ(0xed82cd11, fa.calcMemoryCrc32());
 }
+
+// 大き目のファイルで CRC32 計算を行う
+// FileAccessor に渡すメモリの CRC32、ファイル経由での CRC32 、再読み込み後の CRC32 を比較
+TEST(FileAccessor, fa_crc32_largefile_case001)
+{
+  std::string path = TESTTMP_DIR + "fa_crc32_largefile_case001.bin";
+  FileAccessor faWrite(path);
+
+  MemoryBank mem;
+  for (int i = 0; i < 1024 * 16; i++)
+  {
+    mem.appendByte((unsigned char)(i % 255));
+  }
+
+  faWrite.setMemoryBank(&mem);
+  EXPECT_EQ(333031102, mem.calcCrc32());
+  EXPECT_EQ(333031102, faWrite.calcMemoryCrc32());
+
+  faWrite.writeFileSync();
+
+  // 改めてファイルを読み込み
+  FileAccessor faRead(path);
+  faRead.readFileSync();
+  EXPECT_EQ(333031102, faRead.calcMemoryCrc32());
+}

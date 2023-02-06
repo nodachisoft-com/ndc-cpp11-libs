@@ -30,42 +30,31 @@ TEST(PerlinNoise1234, MT19937_HF_case001)
 // PPN で再現可能な HeightField 画像を生成し、CRC32 でチェックする
 TEST(PerlinNoise1234, MT19937_HF_case002)
 {
-  // BitmapImage image(64, 64);
-  BitmapImage image(64, 64);
+  int width = 70;
+  int height = 46;
+  BitmapImage image(width, height);
   PerlinNoise1234 pn(100);
-
-  int height = image.getHeight();
-  int width = image.getWidth();
   int noisePointX = 8;
   int noisePointY = 8;
 
   Crc32 crc;
-  std::ostringstream oss;
   for (int v = 0; v < height; v++)
   {
     for (int u = 0; u < width; u++)
     {
-
       float res = pn.pnoise2((u * noisePointX) / (float)width, (v * noisePointY) / (float)height, noisePointX, noisePointY, 255.0f);
-      // float res = pn.pnoise2((3 * noisePointX) / (float)width, 0, noisePointX, noisePointY, 255.0f);
       unsigned char color_elem = (unsigned char)res;
-      crc.calcUpdateBytes(&color_elem, 1);
+      crc.calcUpdate(color_elem);
       ColorRGB color{color_elem, color_elem, color_elem};
       image.set(u, v, color);
-      // oss << std::fixed << std::setprecision(0) << res << " ";
     }
-    // oss << std::endl;
   }
-  image.WriteBmp(TESTTMP_DIR + "pn_case001.bmp");
+  image.WriteBmp(TESTTMP_DIR + "MT19937_HF_case002.bmp");
 
   // CRC32 を取得する
-  FileAccessor fa(TESTTMP_DIR + "pn_case001.bmp");
+  FileAccessor fa(TESTTMP_DIR + "MT19937_HF_case002.bmp");
   EXPECT_EQ(fa.readFileSync(), true);
-  EXPECT_EQ(fa.getFilesize(), 12342);
-  // EXPECT_EQ(fa.calcMemoryCrc32(), 4003259559);
-  // EXPECT_EQ(fa.calcMemoryCrc32(), 4003259559);
-  // EXPECT_EQ(fa.calcMemoryCrc32(), 4003259559);
-  // EXPECT_EQ(fa.calcMemoryCrc32(), 4003259559);
-  EXPECT_EQ(crc.getHash(), 420534182L);
-  // std::cout << oss.str();
+  EXPECT_EQ(fa.getFilesize(), 9806);
+  EXPECT_EQ(fa.calcMemoryCrc32(), 278549108); // BITMAP 構造体 + データ本体
+  EXPECT_EQ(crc.getHash(), 2085138398);       // データ本体のみの CRC32
 }

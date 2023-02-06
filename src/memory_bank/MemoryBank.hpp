@@ -64,7 +64,7 @@ public:
   /// @brief バイト列の末尾に指定した char を追記する
   /// @param[in] value 追記するバイトデータ
   /// @return Builder パターン実現のための Instance 本体への参照
-  MemoryBank *appendByte(const char value);
+  MemoryBank *appendByte(const unsigned char value);
 
   /// @brief バイト列の末尾に指定した型のデータを追記する
   /// @param[in] value 追記するバイトデータ。Primitive 型のみで参照型は不可。

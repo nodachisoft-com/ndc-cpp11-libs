@@ -62,7 +62,7 @@ void MemoryBank::set(const int index, const char value)
   memory[slotNo][offset] = value;
 }
 
-MemoryBank *MemoryBank::appendByte(const char value)
+MemoryBank *MemoryBank::appendByte(const unsigned char value)
 {
   int nextEndPos = endPos + 1;
   bool isBound = (nextEndPos % memoryBlockSize == 0 ? true : false);
