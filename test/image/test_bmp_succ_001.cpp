@@ -20,5 +20,5 @@ TEST(BitmapImage, case1)
 TEST(BitmapImage, case2)
 {
   BitmapImage image("test/image/test_bmp_001.bmp");
-  image.WriteBmp(TESTTMP_DIR + "test_BitmapImage_case2.bmp");
+  image.WriteBmp("test_BitmapImage_case2.bmp");
 }

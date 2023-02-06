@@ -28,7 +28,8 @@ TMP_ENTRY_SOURCES = $(shell find $(TMP_ENTRY_SRCROOT) -type f -name "*.cpp")
 # OBJS    = $(SRCS:.cpp=.o)
 
 # インクルードファイルのあるディレクトリパス
-TEST_INCDIR  = -I./lib/dev/gtest/include # Google Test 用インクルード
+TEST_INCDIR   = -I./lib/dev/gtest/include # Google Test 用インクルード
+TEST_INCDIR  += -I./lib/dev # Test 共通定義用インクルード
 # TEST_INCDIR += -I./lib/prod/cereal-1.3.2/include # Cereal 用
 
 # ライブラリファイルのあるディレクトリパス

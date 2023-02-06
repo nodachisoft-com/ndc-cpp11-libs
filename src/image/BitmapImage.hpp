@@ -55,6 +55,7 @@ private:
 
 public:
   /// @brief コンストラクタ
+  BitmapImage(const std::string filename);
   BitmapImage(const char *filename);
   BitmapImage(const int width, const int height);
 
@@ -62,8 +63,11 @@ public:
   ~BitmapImage();
 
   // 操作
+  void ReadBmp(const std::string filename);
   void ReadBmp(const char *filename);
+  void WriteBmp(const std::string filename);
   void WriteBmp(const char *filename);
+  void PrintBmpInfo(const std::string filename);
   void PrintBmpInfo(const char *filename);
 
   /// @brief 色情報をバッファに書き込む

@@ -1,5 +1,10 @@
 #include "BitmapImage.hpp"
 
+BitmapImage::BitmapImage(const std::string filename)
+{
+  BitmapImage(filename.c_str());
+}
+
 BitmapImage::BitmapImage(const char *filename)
 {
   // 8x8 サイズの画素で初期化する
@@ -27,6 +32,11 @@ BitmapImage::~BitmapImage()
 {
   free(imgp.data);
   imgp.data = NULL;
+}
+
+void BitmapImage::ReadBmp(const std::string filename)
+{
+  ReadBmp(filename.c_str());
 }
 
 void BitmapImage::ReadBmp(const char *filename)
@@ -103,6 +113,11 @@ void BitmapImage::ReadBmp(const char *filename)
   fclose(Bmp_Fp);
 }
 
+void BitmapImage::WriteBmp(const std::string filename)
+{
+  WriteBmp(filename.c_str());
+}
+
 void BitmapImage::WriteBmp(const char *filename)
 {
   FILE *Out_Fp = fopen(filename, "wb");
@@ -174,6 +189,11 @@ void BitmapImage::WriteBmp(const char *filename)
   }
   free(Bmp_Data); // １行用のメモリ解放
   fclose(Out_Fp); // ファイルを閉じる
+}
+
+void BitmapImage::PrintBmpInfo(const std::string filename)
+{
+  PrintBmpInfo(filename.c_str());
 }
 
 void BitmapImage::PrintBmpInfo(const char *filename)
