@@ -27,7 +27,7 @@ MemoryBank::~MemoryBank()
   }
 }
 
-char MemoryBank::get(int index)
+char MemoryBank::get(const int index)
 {
   if (index < 0 || index > endPos)
   {
@@ -45,7 +45,7 @@ char MemoryBank::get(int index)
   return result;
 }
 
-void MemoryBank::set(int index, char value)
+void MemoryBank::set(const int index, const char value)
 {
   if (index < 0 || index > endPos)
   {
@@ -62,7 +62,7 @@ void MemoryBank::set(int index, char value)
   memory[slotNo][offset] = value;
 }
 
-MemoryBank *MemoryBank::appendByte(char value)
+MemoryBank *MemoryBank::appendByte(const char value)
 {
   int nextEndPos = endPos + 1;
   bool isBound = (nextEndPos % memoryBlockSize == 0 ? true : false);
@@ -81,7 +81,7 @@ MemoryBank *MemoryBank::appendByte(char value)
 }
 
 template <typename X>
-MemoryBank *MemoryBank::append(X value)
+MemoryBank *MemoryBank::append(const X value)
 {
   char *byteArray = (char *)(void *)&value;
   for (int i = 0; i < sizeof(X); i++)
@@ -98,7 +98,7 @@ template MemoryBank *MemoryBank::append<float>(float);
 template MemoryBank *MemoryBank::append<double>(double);
 template MemoryBank *MemoryBank::append<bool>(bool);
 
-MemoryBank *MemoryBank::appendStringWithLength(std::string &value)
+MemoryBank *MemoryBank::appendStringWithLength(const std::string &value)
 {
   int len = value.length();
   append(len);

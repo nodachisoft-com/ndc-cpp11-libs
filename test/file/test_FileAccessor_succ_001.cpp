@@ -45,7 +45,7 @@ TEST(FileAccessor, fa_case2_writeFileSync)
 }
 
 // 1.存在しないファイルへのアクセス処理でファイルを作成
-// 2.作成したファイルを読み込み
+// 2.作成したファイルを読み込み、データ取り出し
 TEST(FileAccessor, fa_case2_writeFileSync_and_read)
 {
   std::string path("./debug/fa_case2_writeFileSync_and_read.txt");
@@ -62,5 +62,19 @@ TEST(FileAccessor, fa_case2_writeFileSync_and_read)
   // 別途新しくファイルを開く
   FileAccessor fa2(path);
   EXPECT_EQ(fa2.getFiletype(), FileType::FILE);
-  // EXPECT_EQ(fa2.getMemoryBank()->readString, FileType::FILE);
+  EXPECT_EQ(fa2.readFileSync(), true);                                         // ファイル内容の読み込み
+  EXPECT_EQ(fa2.getMemoryBank()->readStringWithLength(), "1st Message!");      // 取り出し
+  EXPECT_EQ(fa2.getMemoryBank()->readStringWithLength(), "2nd Next Message!"); // 取り出し
+}
+
+// 追記モードでファイルに文字列を書き込み
+TEST(FileAccessor, fa_case3_appendStringToFileSync)
+{
+  std::string path("./debug/fa_case3_appendStringToFileSync.txt");
+  FileAccessor::appendStringToFileSync(path, "abcd");
+  FileAccessor fa(path);
+  EXPECT_EQ(fa.readFileSync(), true);
+  // EXPECT_EQ(3984772369, fa.calcMemoryCrc32());
+  EXPECT_EQ(0xed82cd11, fa.calcMemoryCrc32());
+  // ed82cd11
 }

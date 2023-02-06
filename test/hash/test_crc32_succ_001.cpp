@@ -9,8 +9,8 @@ TEST(Crc32, case1)
   unsigned long result = crc.calcUpdateBytes((void *)text.c_str(), text.length());
 
   // 計算結果確認
-  EXPECT_EQ(3984772369, result);
-  EXPECT_EQ(3984772369, crc.getHash());
+  EXPECT_EQ(0xed82cd11, result);
+  EXPECT_EQ(0xed82cd11, crc.getHash());
 }
 
 // １文字づつ読み取り方式で、結果が想定通りであること
@@ -22,5 +22,5 @@ TEST(Crc32, case2)
   {
     crc.calcUpdate(text[i]);
   }
-  EXPECT_EQ(3984772369, crc.getHash());
+  EXPECT_EQ(0xed82cd11, crc.getHash());
 }

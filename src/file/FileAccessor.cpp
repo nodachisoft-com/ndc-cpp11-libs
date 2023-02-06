@@ -3,7 +3,6 @@
 
 FileAccessor::FileAccessor(std::string _filepath)
 {
-  appendWriteFp = NULL;
   filePath = _filepath;
   filesize = 0;
   isOpenFileFlag = false;
@@ -29,11 +28,11 @@ FileAccessor::FileAccessor(std::string _filepath)
 
 FileAccessor::~FileAccessor()
 {
-  if (appendWriteFp != NULL)
-  {
-    // 追記モードを利用していた場合はファイルへのポインタを解放する
-    fclose(appendWriteFp);
-  }
+  // if (appendWriteFp != NULL)
+  //{
+  //  追記モードを利用していた場合はファイルへのポインタを解放する
+  //  fclose(appendWriteFp);
+  //}
 }
 
 long FileAccessor::calcMemoryCrc32()
@@ -116,21 +115,6 @@ bool FileAccessor::writeFileSync()
   return true;
 }
 
-bool FileAccessor::appendStringSync(std::string text)
-{
-  if (appendWriteFp == NULL)
-  {
-    // 初回のファイルオープン処理
-    appendWriteFp = fopen(filePath.c_str(), "a");
-  }
-  long size = text.size();
-  for (int i = 0; i < size; i++)
-  {
-    fputc(text[i], appendWriteFp);
-  }
-  return true;
-}
-
 MemoryBank *FileAccessor::getMemoryBank()
 {
   return memory;
@@ -171,4 +155,26 @@ float FileAccessor::getProgress()
 FileStatus FileAccessor::getFileStatus()
 {
   return fileStatus;
+}
+
+// ================ 以下 static で提供する機能 ====================
+// ファイルへ追記
+bool FileAccessor::appendStringToFileSync(const std::string filepath, const std::string text)
+{
+
+  /// 文字列追記処理を行う間、保持される FILE へのハンドラ
+  FILE *appendWriteFp;
+
+  if (appendWriteFp == NULL)
+  {
+    // 初回のファイルオープン処理
+    appendWriteFp = fopen(filepath.c_str(), "a");
+  }
+  long size = text.size();
+  for (int i = 0; i < size; i++)
+  {
+    fputc(text[i], appendWriteFp);
+  }
+  fclose(appendWriteFp);
+  return true;
 }

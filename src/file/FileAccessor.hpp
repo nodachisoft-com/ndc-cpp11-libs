@@ -49,9 +49,6 @@ private:
   /// @brief ファイル状況を管理
   FileStatus fileStatus;
 
-  /// @brief 文字列追記処理を行う間、保持される FILE へのハンドラ
-  FILE *appendWriteFp;
-
 public:
   /// @brief コンストラクタ。対象パスのメタ情報を初期化時に収集する
   /// @param[in] filepath 対象パス
@@ -71,12 +68,6 @@ public:
   /// TODO 対象がディレクトリ、書き込み権限不足などで処理失敗した場合は false を返すようにすべき
   /// TODO 非同期処理が走っている場合は false を返すべき
   bool writeFileSync();
-
-  /// @brief 初期化時 / setFilePath で指定したパスのファイルに同期処理で文字列を追記（改行なし）
-  /// @param[in] text 追記するテキスト
-  /// TODO 対象がディレクトリ、書き込み権限不足などで処理失敗した場合は false を返すようにすべき
-  /// TODO 非同期処理が走っている場合は false を返すべき
-  bool appendStringSync(std::string text);
 
   // ====== 以下はアクセサメソッド ======
   /// @brief 読み書き対象データへのポインタを取得
@@ -112,4 +103,13 @@ public:
 
   /// @brief ファイルの状況を返す。読み書きの最中か、などを判別可能
   FileStatus getFileStatus();
+
+public:
+  // ============ Static 関数。メモリ操作不要な単体で完結する操作 =========
+
+  /// @brief 初期化時 / setFilePath で指定したパスのファイルに同期処理で文字列を追記（改行なし）
+  /// @param[in] text 追記するテキスト
+  /// TODO 対象がディレクトリ、書き込み権限不足などで処理失敗した場合は false を返すようにすべき
+  /// TODO 非同期処理が走っている場合は false を返すべき
+  static bool appendStringToFileSync(const std::string filepath, const std::string text);
 };

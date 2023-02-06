@@ -44,7 +44,7 @@ public:
 
   /// @brief スケーラブルなバイト列操作用のクラスを初期化する
   /// @param[in] memoryBlockSize クラス内部のメモリ確保の単位(byte）を指定する
-  MemoryBank(int memoryBlockSize);
+  MemoryBank(const int memoryBlockSize);
 
   /// @brief バイト列の保持で確保した全てのメモリ領域を開放する
   ~MemoryBank();
@@ -53,29 +53,29 @@ public:
   /// @param[in] index 取得するバイト列の要素番号
   /// @return 取得したバイトデータ。
   /// @exception OutOfRangeAccessException - 保持するバイト列の範囲外にアクセス
-  char get(int index);
+  char get(const int index);
 
   /// @brief バイト列の n 番目の値を上書きする
   /// @param[in] index 上書きするバイト列の要素番号
   /// @param[in] value 上書きするバイトデータ
   /// @exception OutOfRangeAccessException - 保持するバイト列の範囲外にアクセス
-  void set(int index, char value);
+  void set(const int index, const char value);
 
   /// @brief バイト列の末尾に指定した char を追記する
   /// @param[in] value 追記するバイトデータ
   /// @return Builder パターン実現のための Instance 本体への参照
-  MemoryBank *appendByte(char value);
+  MemoryBank *appendByte(const char value);
 
   /// @brief バイト列の末尾に指定した型のデータを追記する
   /// @param[in] value 追記するバイトデータ。Primitive 型のみで参照型は不可。
   /// @return Builder パターン実現のための Instance 本体への参照
   template <typename X>
-  MemoryBank *append(X value);
+  MemoryBank *append(const X value);
 
   /// @brief バイト列の末尾に std::string 型の、文字列の長さ＋文字列データ本体を追記する
   /// @param[in] value 追記する std::string データへの参照
   /// @return Builder パターン実現のための Instance 本体への参照
-  MemoryBank *appendStringWithLength(std::string &value);
+  MemoryBank *appendStringWithLength(const std::string &value);
 
   /// @brief
   ///  バイト列の末尾に char[] 型の、文字列の長さ＋文字列データ本体を追記する
