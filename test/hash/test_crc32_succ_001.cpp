@@ -36,5 +36,13 @@ TEST(Crc32, calcUpdate_LargeData_case001)
     }
   }
   EXPECT_EQ(3952659139, crc.getHash());
-  // std::cout << "CRC.getHash()=" << crc.getHash() << std::endl;
+}
+
+// 文字列から hash 値（数値）を生成
+TEST(Crc32, calcUpdate_calcUpdateBytes_case001)
+{
+  Crc32 crc;
+  unsigned long worldseed = crc.calcUpdateBytes("This is a test world!");
+
+  EXPECT_EQ(2222250284, worldseed);
 }

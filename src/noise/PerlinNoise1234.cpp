@@ -1,8 +1,9 @@
 #include "PerlinNoise1234.hpp"
 
-PerlinNoise1234::PerlinNoise1234(int randseed)
+PerlinNoise1234::PerlinNoise1234(int _randseed)
 {
-  MtRandomizer rand(randseed);
+  randseed = _randseed;
+  MtRandomizer rand(_randseed);
 
   for (int i = 0; i < 255; i++)
   {

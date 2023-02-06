@@ -37,6 +37,11 @@ unsigned long Crc32::calcUpdateBytes(void *d, int len)
   return hash ^ 0xffffffff;
 }
 
+unsigned long Crc32::calcUpdateBytes(const std::string msg)
+{
+  return calcUpdateBytes((void *)msg.c_str(), msg.size());
+}
+
 void Crc32::calcUpdate(unsigned char c)
 {
   hash = (hash >> 8) ^ table[(hash & 0xff) ^ c];

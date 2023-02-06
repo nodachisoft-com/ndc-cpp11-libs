@@ -4,6 +4,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 
 /// @brief バイト列に対する CRC32 計算機能を提供するクラス
 class Crc32
@@ -27,6 +28,11 @@ public:
   /// @param length 計算するバイト列の長さ（バイト数）
   /// @return 計算完了時の CRC32 値
   unsigned long calcUpdateBytes(void *byteBlock, int length);
+
+  /// @brief 文字列から数値のハッシュ値を取得する
+  /// @param msg 文字列
+  /// @return CRC32 計算結果
+  unsigned long calcUpdateBytes(const std::string msg);
 
   /// @brief 1 バイトを追加で CRC32 計算する
   /// @param character 1バイトキャラクタ

@@ -10,10 +10,16 @@
 class PerlinNoise1234
 {
 private:
+  int randseed;
+
   float fade(float t)
   {
     return (t * t * t * (t * (t * 6 - 15) + 10));
   }
+
+  /// @brief 高速用の inline floor 計算用
+  /// @param x 計算対象の値
+  /// @return floor 結果
   int fastfloor(float x)
   {
     return (((int)(x) < (x)) ? ((int)x) : ((int)x - 1));
