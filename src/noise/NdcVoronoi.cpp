@@ -69,7 +69,7 @@ unsigned char NdcVoronoi::pos2(float x, float y)
   if (distUR < minDist)
   {
     minDist = distUR;
-    nearPoint = UL;
+    nearPoint = UR;
   }
   if (distBL < minDist)
   {

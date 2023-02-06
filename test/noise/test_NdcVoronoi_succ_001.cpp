@@ -6,7 +6,7 @@
 // Voronoi 図形で 64 x 64 画像を生成する
 TEST(NdcVoronoi, genMap_case001)
 {
-  int width = 64, height = 64;
+  int width = 640, height = 640;
   int noisePx = 4, noisePy = 4;
   unsigned char typeRange = 3;
   long randomSeed = 100;
@@ -28,5 +28,5 @@ TEST(NdcVoronoi, genMap_case001)
   }
   image.WriteBmp(TESTTMP_DIR + "genMap_case001.bmp");
 
-  EXPECT_EQ(crc.getHash(), 244368239); // データ本体部の CRC32
+  EXPECT_EQ(crc.getHash(), 1884973970); // データ本体部の CRC32
 }
