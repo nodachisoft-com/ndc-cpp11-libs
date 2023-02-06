@@ -1,15 +1,13 @@
 #include <gtest/gtest.h>
+#include <test_common/index.hpp>
 #include "../../src/ndclibs.hpp"
 
 #include <string>
 
-// デバッグ用ディレクトリを設定
-const std::string TESTTMP_DIR("./debug/");
-
 // 存在しないファイルへのアクセス処理
 TEST(FileAccessor, fa_constructor_case1)
 {
-  std::string path("./debug/fa_case1_not_exists.txt");
+  std::string path = TESTTMP_DIR + "fa_case1_not_exists.txt";
   FileAccessor fa(path);
   EXPECT_EQ(fa.calcMemoryCrc32(), 0);
   EXPECT_EQ(fa.readFileSync(), false);
@@ -25,7 +23,7 @@ TEST(FileAccessor, fa_constructor_case1)
 // 存在しないファイルへのアクセス処理でファイルを作成
 TEST(FileAccessor, fa_case2_writeFileSync)
 {
-  std::string path("./debug/fa_case2_newfile.txt");
+  std::string path = TESTTMP_DIR + "fa_case2_newfile.txt";
   FileAccessor fa(path);
   EXPECT_EQ(fa.getFiletype(), FileType::FILE_NOT_FOUND);
   EXPECT_EQ(fa.getMemoryBank()->getUsingSize(), 0);
@@ -48,7 +46,7 @@ TEST(FileAccessor, fa_case2_writeFileSync)
 // 2.作成したファイルを読み込み、データ取り出し
 TEST(FileAccessor, fa_case2_writeFileSync_and_read)
 {
-  std::string path("./debug/fa_case2_writeFileSync_and_read.txt");
+  std::string path = TESTTMP_DIR + "fa_case2_writeFileSync_and_read.txt";
   FileAccessor fa(path);
   EXPECT_EQ(fa.getFiletype(), FileType::FILE_NOT_FOUND);
 
@@ -70,11 +68,9 @@ TEST(FileAccessor, fa_case2_writeFileSync_and_read)
 // 追記モードでファイルに文字列を書き込み
 TEST(FileAccessor, fa_case3_appendStringToFileSync)
 {
-  std::string path("./debug/fa_case3_appendStringToFileSync.txt");
-  FileAccessor::appendStringToFileSync(path, "abcd");
+  std::string path = TESTTMP_DIR + "fa_case3_appendStringToFileSync.txt";
+  EXPECT_EQ(FileAccessor::appendStringToFileSync(path, "abcd"), true);
   FileAccessor fa(path);
   EXPECT_EQ(fa.readFileSync(), true);
-  // EXPECT_EQ(3984772369, fa.calcMemoryCrc32());
   EXPECT_EQ(0xed82cd11, fa.calcMemoryCrc32());
-  // ed82cd11
 }

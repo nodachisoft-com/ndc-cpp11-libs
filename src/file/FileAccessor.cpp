@@ -162,13 +162,12 @@ FileStatus FileAccessor::getFileStatus()
 bool FileAccessor::appendStringToFileSync(const std::string filepath, const std::string text)
 {
 
-  /// 文字列追記処理を行う間、保持される FILE へのハンドラ
-  FILE *appendWriteFp;
-
+  // 文字列追記処理を行う間、保持される FILE へのハンドラ
+  FILE *appendWriteFp = fopen(filepath.c_str(), "a");
   if (appendWriteFp == NULL)
   {
-    // 初回のファイルオープン処理
-    appendWriteFp = fopen(filepath.c_str(), "a");
+    // ハンドラ取得失敗
+    return false;
   }
   long size = text.size();
   for (int i = 0; i < size; i++)

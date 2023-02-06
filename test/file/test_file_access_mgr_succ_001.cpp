@@ -1,10 +1,8 @@
 #include <gtest/gtest.h>
+#include <test_common/index.hpp>
 #include "../../src/ndclibs.hpp"
 
 #include <string>
-
-// #define TESTTMP_DIR ("debug/")
-const std::string TESTTMP_DIR("./debug/");
 
 // カレントディレクトリのパスを取得する
 TEST(FileAccessMgr, curDir_case1)
@@ -19,7 +17,7 @@ TEST(FileAccessMgr, curDir_case1)
 TEST(FileAccessMgr, directory_operation_case1)
 {
 
-  std::string targetDir = std::string(TESTTMP_DIR) + "makedir_case1";
+  std::string targetDir = TESTTMP_DIR + "makedir_case1";
 
   // 対象ディレクトリがまだ存在しないこと
   FileType dircheck1 = FileAccessMgr::isExistFileOrDir(targetDir);
