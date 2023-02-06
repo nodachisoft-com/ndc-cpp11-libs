@@ -41,6 +41,17 @@ private:
     return (x % width) + (y % height) * width;
   }
 
+  /// @brief inline メソッドにて 2 点間の距離を 2 乗した値を高速に求める
+  /// @param x1 点1 の X 成分
+  /// @param y1 点1 の y 成分
+  /// @param x2 点2 の x 成分
+  /// @param y2 点2 の y 成分
+  /// @return 2 点の距離を 2 乗した結果
+  float dist_pow2(float x1, float y1, float x2, float y2)
+  {
+    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+  }
+
 public:
   /// @brief Voronoi 図形の定義を設定し初期化する
   /// @param randomSeed 乱数を定義

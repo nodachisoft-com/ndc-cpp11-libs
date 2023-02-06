@@ -48,14 +48,38 @@ unsigned char NdcVoronoi::pos2(float x, float y)
     isBottomLoop = true;
   }
 
-  int rightPosX = (floorX + 1) % width;
-  int bottomPosY = (floorY + 1) % height;
+  UL = point[calcPosIndex(floorX, floorY)];
+  UR = point[calcPosIndex(floorX + 1, floorY)];
+  BL = point[calcPosIndex(floorX, floorY + 1)];
+  BR = point[calcPosIndex(floorX + 1, floorY + 1)];
 
-  // TODO calcPosIndex で置き換え
-  UL = point[floorX + floorY * width];
-  UR = point[rightPosX + floorY * width];
-  BL = point[floorX + bottomPosY * width];
-  BR = point[rightPosX + bottomPosY * width];
+  float leftX = floorX;
+  float upperY = floorY;
+  float rightX = isRightLoop ? width : floorX + 1;
+  float bottomY = isRightLoop ? height : floorY + 1;
 
-  return 1;
+  float distUL = dist_pow2(x, y, leftX + UL.x, upperY + UL.y);
+  float distUR = dist_pow2(x, y, rightX + UR.x, upperY + UR.y);
+  float distBL = dist_pow2(x, y, leftX + BL.x, bottomY + BL.y);
+  float distBR = dist_pow2(x, y, rightX + BR.x, bottomY + BR.y);
+
+  // 4 点のうち最短のポイントを取得する
+  float minDist = distUL;
+  Point nearPoint = UL;
+  if (distUR < minDist)
+  {
+    minDist = distUR;
+    nearPoint = UL;
+  }
+  if (distBL < minDist)
+  {
+    minDist = distBL;
+    nearPoint = BL;
+  }
+  if (distBR < minDist)
+  {
+    minDist = distBR;
+    nearPoint = BR;
+  }
+  return nearPoint.type;
 }
