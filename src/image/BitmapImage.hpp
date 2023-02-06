@@ -81,4 +81,10 @@ public:
   /// @param[in] y 書き込む画像内の位置（上を原点とする）
   /// @return 取得した色情報（RGB）
   ColorRGB get(int x, int y);
+
+  /// @brief 画像の横方向ピクセル数を取得する
+  long getWidth();
+
+  /// @brief 画像の縦方向ピクセル数を取得する
+  long getHeight();
 };

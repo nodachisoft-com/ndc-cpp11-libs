@@ -35,7 +35,7 @@ FileAccessor::~FileAccessor()
   //}
 }
 
-long FileAccessor::calcMemoryCrc32()
+unsigned long FileAccessor::calcMemoryCrc32()
 {
   return memory->calcCrc32();
 }

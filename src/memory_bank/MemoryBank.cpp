@@ -270,7 +270,7 @@ int MemoryBank::getUsingSize()
 }
 
 // メモリの CRC32 を計算する
-long MemoryBank::calcCrc32()
+unsigned long MemoryBank::calcCrc32()
 {
   Crc32 crc;
   long length = getUsingSize();

@@ -57,7 +57,7 @@ public:
 
   /// @brief 読み書き管理データ内容の CRC32 を計算して返す
   /// @return CRC32 計算結果
-  long calcMemoryCrc32();
+  unsigned long calcMemoryCrc32();
 
   /// @brief 初期化時 / setFilePath で指定したパスのファイルを同期処理で読み込み
   /// TODO 対象がディレクトリ、読み込み権限不足などで処理失敗した場合は false を返すようにすべき

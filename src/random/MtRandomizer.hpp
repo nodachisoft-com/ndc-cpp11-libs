@@ -4,14 +4,13 @@
  */
 #pragma once
 #include <random>
-#include "IRandomizer.hpp"
 
 /**
  * @brief
  *  MT19937 アルゴリズムを用いた乱数の生成、機能を提供する。
  *  IRandomizer インターフェイスにキャストしての使用を想定。
  */
-class MtRandomizer : public IRandomizer
+class MtRandomizer
 {
 public:
   /// @brief 乱数生成の種を設定
@@ -24,9 +23,9 @@ public:
   /// @param[in] seed 乱数生成の種を指定
   MtRandomizer(int seed);
 
-  /// @brief IRandomizer::getRndFloat 参照
-  float getRndFloat(float from, float to) override;
+  /// @brief [from,to) の範囲で生成する
+  float getRndFloat(float from, float to);
 
-  /// @brief IRandomizer::getRndFloat 参照
-  int getRndInt(int from, int to) override;
+  /// @brief [from,to] の範囲で生成する
+  int getRndInt(int from, int to);
 };

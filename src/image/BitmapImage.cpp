@@ -254,3 +254,13 @@ ColorRGB BitmapImage::get(int x, int y)
   result.r = imgp.data[pos].r;
   return result;
 }
+
+long BitmapImage::getWidth()
+{
+  return imgp.width;
+}
+
+long BitmapImage::getHeight()
+{
+  return imgp.height;
+}

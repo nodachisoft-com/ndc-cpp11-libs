@@ -136,7 +136,7 @@ public:
 
   /// @brief CRC32 の計算を行う
   /// @return CRC32 計算結果を返す
-  long calcCrc32();
+  unsigned long calcCrc32();
 
   /// @brief クラス内で使用しているメモリスロット数、メモリ容量などのデバッグ情報を標準出力します
   void debug();

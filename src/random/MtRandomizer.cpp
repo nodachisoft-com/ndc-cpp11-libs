@@ -1,16 +1,15 @@
 #include <random>
-#include "IRandomizer.hpp"
 #include "MtRandomizer.hpp"
 
-MtRandomizer::MtRandomizer(int seed)
+MtRandomizer::MtRandomizer(int _seed)
 {
-  this->seed = seed;
-  mt = std::mt19937(seed);
+  seed = _seed;
+  mt = std::mt19937(_seed);
 }
 
 float MtRandomizer::getRndFloat(float from, float to)
 {
-  std::uniform_real_distribution<> dist(0.0, 1.0);
+  std::uniform_real_distribution<> dist(from, to);
   return dist(mt);
 }
 
