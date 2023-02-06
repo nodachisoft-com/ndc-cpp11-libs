@@ -24,3 +24,17 @@ TEST(Crc32, case2)
   }
   EXPECT_EQ(0xed82cd11, crc.getHash());
 }
+
+TEST(Crc32, calcUpdate_LargeData_case001)
+{
+  Crc32 crc;
+  for (int set = 0; set < 1000; set++)
+  {
+    for (unsigned char i = 0; i < 255; i++)
+    {
+      crc.calcUpdate(i);
+    }
+  }
+  EXPECT_EQ(3952659139, crc.getHash());
+  // std::cout << "CRC.getHash()=" << crc.getHash() << std::endl;
+}

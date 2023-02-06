@@ -30,7 +30,7 @@ public:
 
   /// @brief 1 バイトを追加で CRC32 計算する
   /// @param character 1バイトキャラクタ
-  void calcUpdate(char character);
+  void calcUpdate(unsigned char character);
 
   /// @brief CRC32 計算結果を取得する
   /// @return CRC32 ハッシュ値
