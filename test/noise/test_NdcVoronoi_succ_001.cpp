@@ -6,7 +6,7 @@
 // Voronoi 図形で 64 x 64 画像を生成する
 TEST(NdcVoronoi, genMap_case001)
 {
-  int width = 32, height = 32;
+  int width = 64, height = 64;
   int noisePx = 4, noisePy = 4;
   unsigned char typeRange = 3;
   long randomSeed = 100;
@@ -21,12 +21,12 @@ TEST(NdcVoronoi, genMap_case001)
   {
     for (int u = 0; u < height; u++)
     {
-      unsigned char res = voro.pos2((float)v * noisePx / (float)width, (float)u * noisePy / (float)height);
+      unsigned char res = voro.pos2(v * noisePx / (float)width, u * noisePy / (float)height);
       crc.calcUpdate(res);
       image.set(u, v, colorTable[res]);
     }
   }
   image.WriteBmp(TESTTMP_DIR + "genMap_case001.bmp");
 
-  EXPECT_EQ(crc.getHash(), 3894535006); // データ本体部の CRC32
+  EXPECT_EQ(crc.getHash(), 244368239); // データ本体部の CRC32
 }
