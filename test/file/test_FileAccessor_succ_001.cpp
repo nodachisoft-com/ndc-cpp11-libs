@@ -99,3 +99,14 @@ TEST(FileAccessor, fa_crc32_largefile_case001)
   faRead.readFileSync();
   EXPECT_EQ(333031102, faRead.calcMemoryCrc32());
 }
+
+// 追記モードで文字列をファイルへ書き出す
+TEST(FileAccessor, fa_appendStringToFileSync_case001)
+{
+  std::string path(TESTTMP_DIR + "fa_appendStringToFileSync_case001.txt");
+  std::string msg("This is test!");
+  FileAccessor::appendStringToFileSync(path, msg);
+  FileAccessor faCheck(path);
+  EXPECT_EQ(faCheck.readFileSync(), true);
+  EXPECT_EQ(faCheck.calcMemoryCrc32(), 413162141);
+}
