@@ -3,9 +3,10 @@
 #include <math.h>
 #include "../../src/ndclibs.hpp"
 
-// Voronoi 図形で 64 x 64 画像を生成する
+// Voronoi 図形で画像を生成し、CRC32 チェックを行う
 TEST(NdcVoronoi, genMap_case001)
 {
+  std::string path(TESTTMP_DIR + "genMap_case001.bmp");
   int width = 640, height = 640;
   int noisePx = 4, noisePy = 4;
   unsigned char typeRange = 3;
@@ -26,7 +27,7 @@ TEST(NdcVoronoi, genMap_case001)
       image.set(u, v, colorTable[res]);
     }
   }
-  image.WriteBmp(TESTTMP_DIR + "genMap_case001.bmp");
+  image.WriteBmp(path);
 
   EXPECT_EQ(crc.getHash(), 1884973970); // データ本体部の CRC32
 }

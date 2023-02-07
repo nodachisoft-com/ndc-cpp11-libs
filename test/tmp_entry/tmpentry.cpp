@@ -5,22 +5,8 @@
 int main()
 {
   /*
-  std::string path = FileAccessMgr::getCurDir();
-  std::cout << "PATH=" << path << std::endl;
-
-  int r = 0;
 
   std::string ttt("ttttt");
-
-  FileType filetype = FileAccessMgr::isExistFileOrDir(ttt);
-  if (filetype == FileType::FILE_NOT_FOUND)
-  {
-    std::cout << "OK: Directory Not Found" << std::endl;
-  }
-  else
-  {
-    std::cout << "NG: Directory Found" << std::endl;
-  }
 
   if (FileApiConvert::wrappedMkDir(ttt))
   {

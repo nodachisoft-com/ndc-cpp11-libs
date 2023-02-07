@@ -16,7 +16,6 @@ TEST(FileAccessMgr, curDir_case1)
 // ディレクトリ作成、情報取得、削除を行う
 TEST(FileAccessMgr, directory_operation_case1)
 {
-
   std::string targetDir = TESTTMP_DIR + "makedir_case1";
 
   // 対象ディレクトリがまだ存在しないこと
@@ -38,82 +37,52 @@ TEST(FileAccessMgr, directory_operation_case1)
   EXPECT_EQ(dircheck2, FileType::FILE_NOT_FOUND);
 }
 
-TEST(FileAccessMgr, getDirsRecursively_caseXXX)
-{
-  // FileAccessor fa("./debug/.gitkeep");
-  /*
-  DIR *dir;
-  struct dirent *ent;
-  std::string dirPath("./debug");
-  std::string fileOrDirName;
-  if ((dir = opendir(dirPath.c_str())) != NULL)
-  {
-    while ((ent = readdir(dir)) != NULL)
-    {
-      std::cout << "START LOOP" << std::endl;
-      fileOrDirName = std::string(ent->d_name);
-      std::cout << "FILE PATH:" << fileOrDirName << std::endl;
-      if ((!(strlen(ent->d_name) == 1 && ent->d_name[0] == '.')) &&
-          (!(strlen(ent->d_name) == 2 && ent->d_name[0] == '.' && ent->d_name[1] == '.')))
-      {
-        std::string fileTargetname(dirPath + "/" + fileOrDirName);
-        std::cout << "FILE: " << fileTargetname << std::endl;
-        FileAccessor fa(fileTargetname);
-        // char *AA = (char *)malloc(1024 * 1024);
-      }
-    }
-  }
-  */
-}
-
 // 深いディレクトリを作成し、再帰的にデータを取得した後、ディレクトリを削除する
-/*
 TEST(FileAccessMgr, getDirsRecursively_case1)
 {
-  std::cout << "WEE0" << std::endl;
+  std::vector<FileAccessor> dirs = FileAccessMgr::getDirsRecursively(TESTTMP_DIR);
+  EXPECT_EQ(dirs.size(), 0); // 0 件のディレクトリ
 
-  std::vector<FileAccessor> files{};
+  // 作成するディレクトリの一覧（上から順番に作成）
+  std::vector<std::string> dirPathList = {
+      TESTTMP_DIR + "makedir_case2",
+      TESTTMP_DIR + "makedir_case2/001",
+      TESTTMP_DIR + "makedir_case2/002",
+      TESTTMP_DIR + "makedir_case2/003",
+      TESTTMP_DIR + "makedir_case2/004",
+      TESTTMP_DIR + "makedir_case2/004/ab",
+      TESTTMP_DIR + "makedir_case2/004/cde"};
 
-  std::cout << "WEE0-1" << std::endl;
-  files = FileAccessMgr::getDirsRecursively("./debug");
-  EXPECT_EQ(files.size(), 0); // 0 件のディレクトリ
-
-  std::cout << "WEE1" << std::endl;
-
-  const std::string TESTTMP_DIR("./debug");
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/001"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/002"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/003"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004/ab"), true);
-  EXPECT_EQ(FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004/cde"), true);
-
-  std::cout << "WEE2" << std::endl;
+  // ディレクトリの作成
+  for (int i = 0; i < dirPathList.size(); i++)
+  {
+    EXPECT_EQ(FileAccessMgr::makedir(dirPathList[i]), true);
+  }
 
   // 一覧取得
-  files = FileAccessMgr::getDirsRecursively("./debug");
-  EXPECT_EQ(files.size(), 7); // 7 件のディレクトリが取得できている
-  EXPECT_EQ(files[0].getFilePath(), TESTTMP_DIR + "/makedir_case2");
-  EXPECT_EQ(files[1].getFilePath(), TESTTMP_DIR + "/makedir_case2/001");
-  EXPECT_EQ(files[2].getFilePath(), TESTTMP_DIR + "/makedir_case2/002");
-  EXPECT_EQ(files[3].getFilePath(), TESTTMP_DIR + "/makedir_case2/003");
-  EXPECT_EQ(files[4].getFilePath(), TESTTMP_DIR + "/makedir_case2/004");
-  EXPECT_EQ(files[5].getFilePath(), TESTTMP_DIR + "/makedir_case2/004/ab");
-  EXPECT_EQ(files[6].getFilePath(), TESTTMP_DIR + "/makedir_case2/004/cde");
-  std::cout << "WEE3" << std::endl;
+  dirs = FileAccessMgr::getDirsRecursively(TESTTMP_DIR);
+  EXPECT_EQ(dirs.size(), 7); // 7 件のディレクトリが取得できている
+  for (int i = 0; i < dirs.size(); i++)
+  {
+    bool isExist = false;
+    // std::string eachPath = dirs[i].getFilePath();
+    for (int m = 0; m < dirPathList.size(); m++)
+    {
+      if (dirs[i].getFilePath() == dirPathList[m])
+      {
+        isExist = true;
+      }
+    }
+    EXPECT_EQ(isExist, true);
+  }
 
   // ディレクトリの削除(深いほうから削除)
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004/cde"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004/ab"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/004"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/003"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/002"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2/001"), true);
-  EXPECT_EQ(FileAccessMgr::removedir(TESTTMP_DIR + "/makedir_case2"), true);
+  for (int i = dirPathList.size() - 1; i >= 0; i--)
+  {
+    EXPECT_EQ(FileAccessMgr::removedir(dirPathList[i]), true);
+  }
 
   // 一覧取得
-  files = FileAccessMgr::getDirsRecursively("./debug");
-  EXPECT_EQ(files.size(), 0); // 0 件のディレクトリ
+  dirs = FileAccessMgr::getDirsRecursively(TESTTMP_DIR);
+  EXPECT_EQ(dirs.size(), 0); // 0 件のディレクトリ
 }
-*/
