@@ -91,3 +91,34 @@ JSON/XML/Binary のシリアライズ/デシリアライズライブラリ
 > ll v1.3.2.zip
 > unzip v1.3.2.zip
 ```
+
+# 動的ライブラリへのリリースと、外部からのライブラリ利用
+
+git clone などで利用したいプロジェクト側から参照可能なパスで
+このプロジェクトをビルドします。
+
+```
+sh build.sh
+```
+
+publish ディレクトリ内に必要な includes 定義、 libs 配下に動的ライブラリ（.a）が生成されます。
+
+例えば、以下のようなコードを作成します。
+
+```
+#include "publish/includes/ndclibs.hpp"
+int main(void)
+{
+  BitmapImage image(200, 100);
+  image.WriteBmp("ttt.bmp");
+  return 0;
+}
+```
+
+以下でコンパイル・リンクし実行可能ファイルを生成できます。
+
+```
+> g++ -o main.out main.cpp -L./publish/libs -lNdclibs -g
+```
+
+-L には塔プロジェクトの publish 配下にあるライブラリの位置を指定します。
