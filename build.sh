@@ -13,4 +13,15 @@ ar rcs libNdclibs.a *.o
 rm -f *.o
 
 # copy to publish dirs
-mv *a ../publish
+mkdir ../publish/libs
+mkdir ../publish/includes
+mv *a ../publish/libs
+
+# make directories of include files
+cd ../src/
+
+# create dirs recursively
+find . -type d | xargs -I{} mkdir -p ../publish/includes/{}
+
+# copy include files to publish
+find ./ -type f | grep .hpp | xargs -I{} cp {} ../publish/includes/{}
