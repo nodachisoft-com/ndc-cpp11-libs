@@ -1,4 +1,5 @@
 #pragma once
+#include "../exception/index.hpp"
 
 template <class T>
 class Memory1d
@@ -8,20 +9,38 @@ class Memory1d
   int width;
 
 public:
-  Memory1d(int _width)
+  Memory1d(const int _width, const T initialValue)
   {
-    buf = new T(_width);
-    width = _width;
+    try
+    {
+      buf = new T[_width];
+      width = _width;
+    }
+    catch (std::bad_alloc &ex)
+    {
+      std::string msg("Memory1d: Failed To Allocate Memory!");
+      throw OutOfMemoryException(msg);
+    }
+    // 初期化
+    for (int i = 0; i < _width; i++)
+    {
+      buf[i] = initialValue;
+    }
   }
   ~Memory1d()
   {
-    delete buf;
+    delete[] buf;
   }
-  void setOutOtRangeData(T t)
+  int size()
+  {
+    return width;
+  }
+
+  void setOutOfRangeData(const T t)
   {
     outOfRangeData = t;
   }
-  bool setWithIgnoreOutOfRangeData(int x, T val)
+  bool setWithIgnoreOutOfRangeData(const int x, const T val)
   {
     if (x < 0 || width <= x)
     {
@@ -30,12 +49,42 @@ public:
     buf[x] = val;
     return true;
   }
-  T getWithIgnoreOutOfRangeData(int x)
+  T getWithIgnoreOutOfRangeData(const int x)
   {
     if (x < 0 || width <= x)
     {
       return outOfRangeData;
     }
     return buf[x];
+  }
+
+  /// @brief
+  ///   位置 x に対してループとなるように要素を返す
+  ///   例 データ列 [3,4,5] => 3, 4, 5, 3, 4, 5 ... と結果が返る
+  /// @param x 取得する要素の位置
+  /// @return 取得した要素
+  T getDataPerodic(const int x)
+  {
+    if (x < 0)
+    {
+      return buf[width - (-x % width)];
+    }
+    return buf[x % width];
+  }
+
+  /// @brief
+  ///  位置 x に対してループとなるよう要素番号を射影して値をセットする
+  /// @param x 設定する要素の位置
+  /// @param value 設定する値
+  void setDataPerodic(const int x, const T value)
+  {
+    if (x < 0)
+    {
+      buf[width - (-x % width)] = value;
+    }
+    else
+    {
+      buf[x % width] = value;
+    }
   }
 };
