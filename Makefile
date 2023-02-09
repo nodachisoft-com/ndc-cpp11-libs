@@ -51,19 +51,19 @@ $(RUN_TMP_ENTRY_EXEC_FILE): $(SOURCES)
 	$(CC) $(SOURCES) $(TMP_ENTRY_SOURCES) -o $(RUN_TMP_ENTRY_EXEC_FILE)
 
 # テスト用ソースコードのコンパイル＆実行
-all: clean $(RUN_TEST_EXEC_FILE) runtest
+test: cleantest $(RUN_TEST_EXEC_FILE) exectest
 
 # 一時ファイル、実行ファイルを削除
-clean:
+cleantest:
 	-rm -f $(RUN_TEST_EXEC_FILE) $(RUN_TMP_ENTRY_EXEC_FILE)
 	-rm -f ./debug/*.bmp
 	-rm -rf ./debug/*
 
 # Google Test の実行
-runtest:
+exectest:
 	$(RUN_TEST_EXEC_FILE)
 
-buildentry: clean $(RUN_TMP_ENTRY_EXEC_FILE) run
+buildentry: cleantest $(RUN_TMP_ENTRY_EXEC_FILE) run
 
 run:
 	$(RUN_TMP_ENTRY_EXEC_FILE)
