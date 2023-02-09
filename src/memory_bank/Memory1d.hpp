@@ -87,4 +87,12 @@ public:
       buf[x % width] = value;
     }
   }
+
+  void writeMemory1dWithTrimOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int destBeginX)
+  {
+  }
+
+  void writeMemory1dWithPerodicOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int destBeginX))
+  {
+  }
 };
