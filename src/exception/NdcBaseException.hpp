@@ -34,3 +34,9 @@ class OutOfRangeAccessException : public NdcBaseException
 {
   using NdcBaseException::NdcBaseException;
 };
+
+/// @brief 機能に渡された引数が想定外である時に発生する例ギア
+class ArgumentValidatioinException : public NdcBaseException
+{
+  using NdcBaseException::NdcBaseException;
+};

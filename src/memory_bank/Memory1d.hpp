@@ -88,11 +88,35 @@ public:
     }
   }
 
-  void writeMemory1dWithTrimOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int destBeginX)
+  void writeMemory1dWithTrimOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int copyLength, const int destBeginX)
   {
+    if (srcBeginX < 0 || srcBeginX + copyLength > src.width)
+    {
+      // コピー元が範囲外である
+      std::string msg(typeid(*this).name());
+      msg += ":out of range.";
+      throw ArgumentValidatioinException(msg);
+    }
+
+    for (int i = 0; i < copyLength && i + destBeginX < width; i++)
+    {
+      buf[i + destBeginX] = src.buf[i + srcBeginX];
+    }
   }
 
-  void writeMemory1dWithPerodicOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int destBeginX))
+  void writeMemory1dWithPerodicOutOfRange(const Memory1d<T> &src, const int srcBeginX, const int copyLength, const int destBeginX)
   {
+    if (srcBeginX < 0)
+    {
+      // コピー元が範囲外である
+      std::string msg(typeid(*this).name());
+      msg += ":out of range.";
+      throw ArgumentValidatioinException(msg);
+    }
+
+    for (int i = 0; i < copyLength; i++)
+    {
+      buf[(i + destBeginX) % width] = src.buf[i + srcBeginX];
+    }
   }
 };

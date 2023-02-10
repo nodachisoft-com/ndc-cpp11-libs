@@ -96,3 +96,127 @@ TEST(Memory1d, setDataPerodic_succ001)
   }
   EXPECT_EQ(isExpected, true);
 }
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] に [100,101,102] を上書きする
+TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ001)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 0, 3, 0);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 100);
+  EXPECT_EQ(memBase.getDataPerodic(1), 101);
+  EXPECT_EQ(memBase.getDataPerodic(2), 102);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] の要素の 2 番目から [100,101,102] を上書きする。結果 [0, 100, 101] を期待
+TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ002)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 0, 3, 1);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 0);
+  EXPECT_EQ(memBase.getDataPerodic(1), 100);
+  EXPECT_EQ(memBase.getDataPerodic(2), 101);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] の要素の 2 番目から [100,101,102] の 2 番目要素を上書きする
+// 結果 [0, 101, 2] を期待
+TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ003)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 1, 1, 1);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 0);
+  EXPECT_EQ(memBase.getDataPerodic(1), 101);
+  EXPECT_EQ(memBase.getDataPerodic(2), 2);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] に [100,101,102] を上書きする
+// 結果 [100, 101, 102] を期待
+TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ001)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithPerodicOutOfRange(memUpdate, 0, 3, 0);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 100);
+  EXPECT_EQ(memBase.getDataPerodic(1), 101);
+  EXPECT_EQ(memBase.getDataPerodic(2), 102);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] の要素の 2 番目から [100,101,102] を上書きする
+// 結果 [102, 100, 101] を期待
+TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ002)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithPerodicOutOfRange(memUpdate, 0, 3, 1);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 102);
+  EXPECT_EQ(memBase.getDataPerodic(1), 100);
+  EXPECT_EQ(memBase.getDataPerodic(2), 101);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// [0,1,2] の要素の 3 番目から [100,101,102] の 2~3番目要素を上書きする
+// 結果 [102, 1, 101] を期待
+TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ003)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithPerodicOutOfRange(memUpdate, 1, 2, 2);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 102);
+  EXPECT_EQ(memBase.getDataPerodic(1), 1);
+  EXPECT_EQ(memBase.getDataPerodic(2), 101);
+}
