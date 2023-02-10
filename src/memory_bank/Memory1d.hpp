@@ -4,7 +4,7 @@
 template <class T>
 class Memory1d
 {
-  T *buf;
+  T *buf = NULL;
   T outOfRangeData;
 
   /// @brief 他の Memory1d データで上書きする際に、特定のデータを無視するか
@@ -17,6 +17,18 @@ class Memory1d
 public:
   Memory1d(const int _width, const T initialValue)
   {
+    resizeMemory(_width);
+    setWholeData(initialValue);
+  }
+
+  void resizeMemory(const int _width)
+  {
+    if (buf != NULL)
+    {
+      // 初回の初期化以外では前回確保分のメモリ削除を行う
+      delete[] buf;
+    }
+
     try
     {
       buf = new T[_width];
@@ -27,8 +39,12 @@ public:
       std::string msg("Memory1d: Failed To Allocate Memory!");
       throw OutOfMemoryException(msg);
     }
+  }
+
+  void setWholeData(const T initialValue)
+  {
     // 初期化
-    for (int i = 0; i < _width; i++)
+    for (int i = 0; i < width; i++)
     {
       buf[i] = initialValue;
     }
@@ -161,6 +177,28 @@ public:
         }
       }
       buf[(i + destBeginX) % width] = src.buf[i + srcBeginX];
+    }
+  }
+
+  /// @brief TODO: copyTo で引数内容を直接編集するのではなく、
+  ///   スマートポインタで new した結果を返すのが望ましい。
+  /// @param from
+  /// @param to
+  /// @param copyTo
+  void getCopyRange(const int from, const int to, Memory1d<T> &copyTo)
+  {
+    if (0 > from || width <= to || from > to)
+    {
+      // コピー元が範囲外である
+      std::string msg(typeid(*this).name());
+      msg += ":out of range.";
+      throw ArgumentValidatioinException(msg);
+    }
+    int newWidth = to - from;
+    copyTo.resizeMemory(newWidth);
+    for (int i = 0; i < newWidth; i++)
+    {
+      copyTo.setWithIgnoreOutOfRangeData(i, buf[from + i]);
     }
   }
 };
