@@ -159,6 +159,56 @@ TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ003)
 }
 
 // Memory1d に別の Memory1d データを上書きで書き込めることを確認する
+// 上書きが Deep Copy であることを確認する
+TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ004)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, i + 100);
+  }
+
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 0, 3, 0);
+  memUpdate.setWithIgnoreOutOfRangeData(0, 200);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 100); // 200 ではなく 100 である
+}
+
+// データ 100 はマスクする指定をし、[0,1,2] に [100,555,100] をコピー指定する
+// 結果、[0,555,2] を期待
+TEST(Memory1d, writeMemory1dWithTrimOutOfRange_succ005)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, 100);
+  }
+  memUpdate.setWithIgnoreOutOfRangeData(1, 555);
+
+  // マスク機能を ON にし、100 をマスク対象に指定
+  memBase.setEnableMaskCondition(100);
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 0, 3, 0);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 0);
+  EXPECT_EQ(memBase.getDataPerodic(1), 555);
+  EXPECT_EQ(memBase.getDataPerodic(2), 2);
+
+  // マスク機能を OFF にし、再度コピー
+  memBase.setDisableMaskCondition();
+  memBase.writeMemory1dWithTrimOutOfRange(memUpdate, 0, 3, 0);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 100);
+  EXPECT_EQ(memBase.getDataPerodic(1), 555);
+  EXPECT_EQ(memBase.getDataPerodic(2), 100);
+}
+
+// Memory1d に別の Memory1d データを上書きで書き込めることを確認する
 // [0,1,2] に [100,101,102] を上書きする
 // 結果 [100, 101, 102] を期待
 TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ001)
@@ -219,4 +269,27 @@ TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ003)
   EXPECT_EQ(memBase.getDataPerodic(0), 102);
   EXPECT_EQ(memBase.getDataPerodic(1), 1);
   EXPECT_EQ(memBase.getDataPerodic(2), 101);
+}
+
+// データ 100 はマスクする指定をし、[0,1,2] の 2 番目要素から [100,555,100] をコピー指定する
+// 結果、[0,1,555] を期待
+TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ004)
+{
+  Memory1d<int> memBase(3, 0);
+  Memory1d<int> memUpdate(3, 0);
+
+  for (int i = 0; i < 3; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+    memUpdate.setWithIgnoreOutOfRangeData(i, 100);
+  }
+  memUpdate.setWithIgnoreOutOfRangeData(1, 555);
+
+  // マスク機能を ON にし、100 をマスク対象に指定
+  memBase.setEnableMaskCondition(100);
+  memBase.writeMemory1dWithPerodicOutOfRange(memUpdate, 0, 3, 1);
+
+  EXPECT_EQ(memBase.getDataPerodic(0), 0);
+  EXPECT_EQ(memBase.getDataPerodic(1), 1);
+  EXPECT_EQ(memBase.getDataPerodic(2), 555);
 }

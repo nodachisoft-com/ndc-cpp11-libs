@@ -6,6 +6,12 @@ class Memory1d
 {
   T *buf;
   T outOfRangeData;
+
+  /// @brief 他の Memory1d データで上書きする際に、特定のデータを無視するか
+  bool isMaskConditionEnable = false;
+
+  /// @brief 無視するデータ定義。isMaskConditionEnable が true なら読み取られる
+  T maskConditionData;
   int width;
 
 public:
@@ -27,10 +33,12 @@ public:
       buf[i] = initialValue;
     }
   }
+
   ~Memory1d()
   {
     delete[] buf;
   }
+
   int size()
   {
     return width;
@@ -40,6 +48,25 @@ public:
   {
     outOfRangeData = t;
   }
+
+  /// @brief ほかの Memory1d データで上書きする際に、無視するデータを指定
+  /// @param t 無視する対象のデータ
+  void setMaskConditionWhenWriteMemory(const T t)
+  {
+    maskConditionData = t;
+  }
+
+  void setEnableMaskCondition(const T mask)
+  {
+    isMaskConditionEnable = true;
+    maskConditionData = mask;
+  }
+
+  void setDisableMaskCondition()
+  {
+    isMaskConditionEnable = false;
+  }
+
   bool setWithIgnoreOutOfRangeData(const int x, const T val)
   {
     if (x < 0 || width <= x)
@@ -49,6 +76,7 @@ public:
     buf[x] = val;
     return true;
   }
+
   T getWithIgnoreOutOfRangeData(const int x)
   {
     if (x < 0 || width <= x)
@@ -100,6 +128,14 @@ public:
 
     for (int i = 0; i < copyLength && i + destBeginX < width; i++)
     {
+      if (isMaskConditionEnable)
+      {
+        if (maskConditionData == src.buf[i + srcBeginX])
+        {
+          // データが無視する対象と合致するため、上書き処理を行わない
+          continue;
+        }
+      }
       buf[i + destBeginX] = src.buf[i + srcBeginX];
     }
   }
@@ -116,6 +152,14 @@ public:
 
     for (int i = 0; i < copyLength; i++)
     {
+      if (isMaskConditionEnable)
+      {
+        if (maskConditionData == src.buf[i + srcBeginX])
+        {
+          // データが無視する対象と合致するため、上書き処理を行わない
+          continue;
+        }
+      }
       buf[(i + destBeginX) % width] = src.buf[i + srcBeginX];
     }
   }
