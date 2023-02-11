@@ -4,3 +4,4 @@
 #pragma once
 #include "MemoryBank.hpp"
 #include "Memory1d.hpp"
+#include "Memory2d.hpp"
