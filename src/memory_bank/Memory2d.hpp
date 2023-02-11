@@ -114,11 +114,7 @@ public:
 
   bool setWithIgnoreOutOfRangeData(const int x, const int y, const T val)
   {
-    if (x < 0 || width <= x)
-    {
-      return false;
-    }
-    if (y < 0 || height <= y)
+    if ((x < 0 || width <= x) || (y < 0 || height <= y))
     {
       return false;
     }
@@ -129,13 +125,9 @@ public:
 
   T getWithIgnoreOutOfRangeData(const int x, const int y)
   {
-    if (x < 0 || width <= x)
+    if ((x < 0 || width <= x) || (y < 0 || height <= y))
     {
       return outOfRangeData;
-    }
-    if (y < 0 || height <= y)
-    {
-      return false;
     }
     return buf[calcIndexPos(x, y)];
   }
@@ -147,17 +139,8 @@ public:
   /// @return 取得した要素
   T getDataPerodic(const int x, const int y)
   {
-    int modX, modY;
-    if (x < 0)
-    {
-      modX = width - (-x % width);
-      modY = height - (-y % height);
-    }
-    else
-    {
-      modX = x % width;
-      modY = y % height;
-    }
+    int modX = (x < 0) ? (width - (-x % width)) : (x % width);
+    int modY = (y < 0) ? (height - (-y % height)) : (y % height);
 
     return buf[calcIndexPos(modX, modY)];
   }
@@ -168,17 +151,8 @@ public:
   /// @param value 設定する値
   void setDataPerodic(const int x, const int y, const T value)
   {
-    int modX, modY;
-    if (x < 0)
-    {
-      modX = width - (-x % width);
-      modY = height - (-y % height);
-    }
-    else
-    {
-      modX = x % width;
-      modY = y % height;
-    }
+    int modX = (x < 0) ? (width - (-x % width)) : (x % width);
+    int modY = (y < 0) ? (height - (-y % height)) : (y % height);
     buf[calcIndexPos(modX, modY)] = value;
   }
 
@@ -260,6 +234,8 @@ public:
     // コピーするサイズ
     int newWidth = toX - fromX;
     int newHeight = toY - fromY;
+
+    // コピー先のインスタンスを生成
     std::shared_ptr<Memory2d<T>> newMem(new Memory2d<T>(newWidth, newHeight, initialData));
     for (int v = 0; v < newHeight; v++)
       for (int u = 0; u < newWidth; u++)
