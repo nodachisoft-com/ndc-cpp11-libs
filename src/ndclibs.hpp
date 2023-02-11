@@ -14,6 +14,7 @@
 // 各機能へのヘッダーを記述
 #include "exception/index.hpp"
 #include "file/index.hpp"
+#include "geometry/index.hpp"
 #include "hash/index.hpp"
 #include "image/index.hpp"
 #include "noise/index.hpp"
