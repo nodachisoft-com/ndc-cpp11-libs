@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../exception/index.hpp"
 
 template <class T>
@@ -6,6 +7,8 @@ class Memory1d
 {
   T *buf = NULL;
   T outOfRangeData;
+
+  T initialData;
 
   /// @brief 他の Memory1d データで上書きする際に、特定のデータを無視するか
   bool isMaskConditionEnable = false;
@@ -48,6 +51,7 @@ public:
     {
       buf[i] = initialValue;
     }
+    initialData = initialValue;
   }
 
   ~Memory1d()
@@ -185,7 +189,7 @@ public:
   /// @param from
   /// @param to
   /// @param copyTo
-  void getCopyRange(const int from, const int to, Memory1d<T> &copyTo)
+  std::shared_ptr<Memory1d<T>> getCopyRange(const int from, const int to)
   {
     if (0 > from || width <= to || from > to)
     {
@@ -194,11 +198,14 @@ public:
       msg += ":out of range.";
       throw ArgumentValidatioinException(msg);
     }
+
+    // コピーするサイズ
     int newWidth = to - from;
-    copyTo.resizeMemory(newWidth);
+    std::shared_ptr<Memory1d<T>> newMem(new Memory1d<T>(newWidth, initialData));
     for (int i = 0; i < newWidth; i++)
     {
-      copyTo.setWithIgnoreOutOfRangeData(i, buf[from + i]);
+      newMem->setWithIgnoreOutOfRangeData(i, buf[from + i]);
     }
+    return newMem;
   }
 };

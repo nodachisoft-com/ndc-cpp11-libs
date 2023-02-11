@@ -293,3 +293,19 @@ TEST(Memory1d, writeMemory1dWithPerodicOutOfRange_succ004)
   EXPECT_EQ(memBase.getDataPerodic(1), 1);
   EXPECT_EQ(memBase.getDataPerodic(2), 555);
 }
+
+// メモリ情報の一部をコピーした別メモリを取得する
+TEST(Memory1d, getCopyRange_succ001)
+{
+  Memory1d<int> memBase(5, 0);
+
+  for (int i = 0; i < 5; i++)
+  {
+    memBase.setWithIgnoreOutOfRangeData(i, i);
+  }
+  std::shared_ptr<Memory1d<int> > copyMem = memBase.getCopyRange(1,3);
+
+  EXPECT_EQ(copyMem->size(), 2);
+  EXPECT_EQ(copyMem->getDataPerodic(0), 1);
+  EXPECT_EQ(copyMem->getDataPerodic(1), 2);
+}
