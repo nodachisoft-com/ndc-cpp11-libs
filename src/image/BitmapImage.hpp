@@ -8,7 +8,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-/// @brief RBB形式の画素情報
+#include "DebugFontData.hpp"
+
+/// @brief RGB形式の画素情報
 typedef struct
 {
   unsigned char r;
@@ -50,8 +52,14 @@ private:
   long Bmp_image_size;               /// @brief 画像部分のファイルサイズ (バイト)
   long Bmp_xppm;                     /// @brief 水平解像度 (ppm)
   long Bmp_yppm;                     /// @brief 垂直解像度 (ppm)
+  ImageDataStruct imgp;              /// 画像データ本体
 
-  ImageDataStruct imgp; /// 画像データ本体
+  BitmapImage *fontImage = NULL; // 文字描画のフォントデータ読み込み先
+  // std::string fontPath("debugfont.bmp"); // 読み込むフォントデータのパス
+  int fontWidth = 11;  // フォントの幅サイズ(px)
+  int fontHeight = 21; // フォントの高さ(px)
+
+  bool initializeFontdata(); // フォントデータを読み込む
 
 public:
   /// @brief コンストラクタ
@@ -87,4 +95,26 @@ public:
 
   /// @brief 画像の縦方向ピクセル数を取得する
   long getHeight();
+
+  /// @brief 画像を指定の色で塗りつぶす
+  /// @param[in] color 塗りつぶす色
+  void clear(ColorRGB &color);
+
+  /// @brief
+  ///  等幅フォント（1文字当たり11px、高さ 21px）で文字を描画する。
+  ///  利用する初回にフォント画像情報を読み込む。
+  /// @param[in] x 文字を描画する開始位置 x 座標
+  /// @param[in] y 文字を描画する開始位置 y 座標
+  /// @param[in] text 描画する文字列
+  /// @param[in] color フォントの色情報（RGB）
+  void writeText(const int x, const int y, const std::string text, ColorRGB &color);
+
+  /// @brief
+  ///  等幅フォント（1文字当たり11px、高さ 21px）で１文字を描画する。
+  ///  利用する初回にフォント画像情報を読み込む。
+  /// @param[in] x 文字を描画する開始位置 x 座標
+  /// @param[in] y 文字を描画する開始位置 y 座標
+  /// @param[in] oneText 描画する文字
+  /// @param[in] color フォントの色情報（RGB）
+  void writeChar(const int x, const int y, const char oneText, ColorRGB &color);
 };
