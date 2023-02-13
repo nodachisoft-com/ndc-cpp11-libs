@@ -115,7 +115,7 @@ public:
   {
     if (x < 0)
     {
-      return buf[width - (-x % width)];
+      return buf[(width - (-x % width)) % width];
     }
     return buf[x % width];
   }
@@ -128,7 +128,7 @@ public:
   {
     if (x < 0)
     {
-      buf[width - (-x % width)] = value;
+      buf[(width - (-x % width) % width)] = value;
     }
     else
     {
