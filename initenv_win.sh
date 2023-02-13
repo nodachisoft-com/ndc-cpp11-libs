@@ -10,5 +10,9 @@ cmake -G "MinGW Makefiles" ..
 # コンパイル実施
 make
 
-# 出来上がったライブラリをライブラリのパスにコピー
-mkdir lib/dev/
+# 出来上がったライブラリをプロジェクト参照先ライブラリのパスにコピー
+cd ../../../
+cp -r tmp/googletest/build/lib/lib*.a lib/dev/gtest/lib/
+cp -r tmp/googletest/googlemock/include/gmock lib/dev/gtest/include/
+cp -r tmp/googletest/googletest/include/gtest lib/dev/gtest/include/
+rm -rf tmp/*
