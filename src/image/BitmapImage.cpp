@@ -37,8 +37,7 @@ BitmapImage::~BitmapImage()
   if (fontImage != NULL)
   {
     // フォントデータ読み込み済みなら解放する
-    free(fontImage);
-    fontImage = NULL;
+    delete fontImage;
   }
 }
 
