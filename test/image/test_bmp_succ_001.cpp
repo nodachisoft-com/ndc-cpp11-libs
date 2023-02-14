@@ -2,6 +2,8 @@
 #include <test_common/index.hpp>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // 新しく画像データを作成し、左上に赤い横線を引く
 TEST(BitmapImage, case1)
 {

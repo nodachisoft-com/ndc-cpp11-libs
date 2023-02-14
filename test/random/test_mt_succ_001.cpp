@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../src/random/index.hpp"
 
+using namespace nl;
+
 // 整数で[0,10]の範囲で 10,000 回乱数取得し、
 // 生成された値の偏りが 1 割以上の差となっていないことを
 // 確認する

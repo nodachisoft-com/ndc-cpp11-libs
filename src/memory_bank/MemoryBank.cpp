@@ -2,6 +2,8 @@
 #include "MemoryBank.hpp"
 #include "../hash/index.hpp"
 
+using namespace nl;
+
 /**
  * コンストラクタ
  * @brief スケーラブルなバイト列操作用のクラスを初期化する

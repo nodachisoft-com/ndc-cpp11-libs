@@ -1,6 +1,8 @@
 #include "FileAccessor.hpp"
 #include "FileAccessMgr.hpp"
 
+using namespace nl;
+
 FileAccessor::FileAccessor(std::string _filepath)
 {
   filePath = _filepath;

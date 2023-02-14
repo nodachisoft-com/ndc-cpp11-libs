@@ -2,6 +2,8 @@
 #include <test_common/index.hpp>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // 新しく画像データを作成して、１文字を描画する
 TEST(BitmapImage, writeChar_case001)
 {

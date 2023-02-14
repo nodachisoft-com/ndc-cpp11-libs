@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <test_common/index.hpp>
 #include "../../src/ndclibs.hpp"
-
+using namespace nl;
 // CRC32 コードが想定通りであること
 TEST(GeoCollision, powOfDistance_Point_To_LineSegment_succ001)
 {

@@ -1,5 +1,7 @@
 #include "FileApiConvert.hpp"
 
+using namespace nl;
+
 std::string FileApiConvert::wrappedGetCwd()
 {
 #if defined(_WIN32) && defined(__GNUC__)

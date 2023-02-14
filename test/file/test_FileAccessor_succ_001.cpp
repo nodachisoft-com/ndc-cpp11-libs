@@ -3,7 +3,7 @@
 #include "../../src/ndclibs.hpp"
 
 #include <string>
-
+using namespace nl;
 // 存在しないファイルへのアクセス処理
 TEST(FileAccessor, fa_constructor_case1)
 {

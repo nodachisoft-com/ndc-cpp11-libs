@@ -3,6 +3,8 @@
 #include <math.h>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // Voronoi 図形で画像を生成し、CRC32 チェックを行う
 TEST(NdcVoronoi, genMap_case001)
 {

@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // １次元で確保したメモリのサイズを取得する
 TEST(Memory1d, size_succ001)
 {
@@ -303,7 +305,7 @@ TEST(Memory1d, getCopyRange_succ001)
   {
     memBase.setWithIgnoreOutOfRangeData(i, i);
   }
-  std::shared_ptr<Memory1d<int> > copyMem = memBase.getCopyRange(1,3);
+  std::shared_ptr<Memory1d<int>> copyMem = memBase.getCopyRange(1, 3);
 
   EXPECT_EQ(copyMem->size(), 2);
   EXPECT_EQ(copyMem->getDataPerodic(0), 1);

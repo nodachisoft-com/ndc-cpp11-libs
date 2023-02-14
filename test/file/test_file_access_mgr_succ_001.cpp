@@ -4,6 +4,8 @@
 
 #include <string>
 
+using namespace nl;
+
 // カレントディレクトリのパスを取得する
 TEST(FileAccessMgr, curDir_case1)
 {

@@ -1,5 +1,7 @@
 #include "NdcVoronoi.hpp"
 
+using namespace nl;
+
 NdcVoronoi::NdcVoronoi(const int _randomSeed, const unsigned char typeRange, int px, int py)
 {
   randomSeed = _randomSeed;

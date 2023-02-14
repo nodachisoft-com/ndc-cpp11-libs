@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <cstring>
 
+using namespace nl;
+
 TEST(SerializeBuffer, testcase1)
 {
   EXPECT_EQ(3, 3);

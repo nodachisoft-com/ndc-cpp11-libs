@@ -1,20 +1,25 @@
 #pragma once
 #include <vector>
 
-class SerializeBuffer
+namespace nl
 {
-private:
-  std::vector<char> buffer;
-  long readoffset;
 
-public:
-  SerializeBuffer();
+  class SerializeBuffer
+  {
+  private:
+    std::vector<char> buffer;
+    long readoffset;
 
-  void setOffsetToHead();
+  public:
+    SerializeBuffer();
 
-  SerializeBuffer *appendInt(int v);
-  int readInt();
+    void setOffsetToHead();
 
-  SerializeBuffer *appendFloat(float v);
-  float readFloat();
-};
+    SerializeBuffer *appendInt(int v);
+    int readInt();
+
+    SerializeBuffer *appendFloat(float v);
+    float readFloat();
+  };
+
+}

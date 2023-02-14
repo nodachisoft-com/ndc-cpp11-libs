@@ -1,6 +1,8 @@
 #include "Crc32.hpp"
 #include <stdio.h>
 
+using namespace nl;
+
 Crc32::Crc32()
 {
   hash = 0xffffffff;

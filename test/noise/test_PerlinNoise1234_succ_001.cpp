@@ -3,6 +3,8 @@
 #include <math.h>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // PerlinNoise で同じ位置で同じ結果が得られるかの確認を行う
 TEST(PerlinNoise1234, MT19937_HF_case001)
 {

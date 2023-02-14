@@ -1,5 +1,7 @@
 #include "BitmapImage.hpp"
 
+using namespace nl;
+
 BitmapImage::BitmapImage(const std::string filename)
 {
   BitmapImage(filename.c_str());

@@ -1,5 +1,7 @@
 #include "GeoCollision.hpp"
 
+using namespace nl;
+
 float GeoCollision::powOfDistance_Point_To_LineSegment(const float px, const float py,
                                                        const float t1x, const float t1y,
                                                        const float t2x, const float t2y)

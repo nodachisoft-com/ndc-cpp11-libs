@@ -1,5 +1,7 @@
 #include "DebugFontData.hpp"
 
+using namespace nl;
+
 unsigned char DebugFontData::getGreyScale256(const int x, const int y)
 {
   int index = y * width + x;

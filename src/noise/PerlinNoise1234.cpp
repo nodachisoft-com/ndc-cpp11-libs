@@ -1,5 +1,7 @@
 #include "PerlinNoise1234.hpp"
 
+using namespace nl;
+
 PerlinNoise1234::PerlinNoise1234(int _randseed)
 {
   randseed = _randseed;

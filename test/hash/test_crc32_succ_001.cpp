@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // CRC32 コードが想定通りであること
 TEST(Crc32, case1)
 {

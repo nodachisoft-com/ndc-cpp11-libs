@@ -1,6 +1,8 @@
 #include <random>
 #include "MtRandomizer.hpp"
 
+using namespace nl;
+
 MtRandomizer::MtRandomizer(int _seed)
 {
   seed = _seed;

@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../src/ndclibs.hpp"
 
+using namespace nl;
+
 // 各種 append と read が正しく動作すること
 TEST(MemoryBank, succ001)
 {

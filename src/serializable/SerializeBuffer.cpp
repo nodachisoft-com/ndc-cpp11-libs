@@ -1,6 +1,8 @@
 #include "../ndclibs.hpp"
 #include "SerializeBuffer.hpp"
 
+using namespace nl;
+
 // コンストラクタ
 SerializeBuffer::SerializeBuffer()
 {

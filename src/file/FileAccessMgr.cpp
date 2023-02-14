@@ -1,5 +1,7 @@
 #include "FileAccessMgr.hpp"
 
+using namespace nl;
+
 FileAccessMgr::FileAccessMgr()
 {
 }
