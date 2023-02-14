@@ -6,6 +6,7 @@
     "bierner.markdown-mermaid",
     "ms-vscode.makefile-tools",
     "wayou.vscode-todo-highlight",
-    "vscode-icons-team.vscode-icons"
+    "vscode-icons-team.vscode-icons",
+    "ms-vscode.hexeditor"
   ]
 }
