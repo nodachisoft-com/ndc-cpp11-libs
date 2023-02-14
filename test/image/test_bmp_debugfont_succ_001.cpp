@@ -12,7 +12,18 @@ TEST(BitmapImage, writeChar_case001)
   image.clear(BASE_COLOR);
 
   ColorRGB COLOR_RED{0xff, 0x00, 0x00}; // 赤
-  image.writeChar(10, 10, 'A', COLOR_RED);
+  // for (int v = -20; v < 71; v += 15)
+  //{
+  //   for (int u = -20; u < 71; u += 15)
+  //   {
+  //  image.writeChar(u, v, 'A', COLOR_RED);
+  image.writeChar(10, 10, 'E', COLOR_RED);
+  image.writeChar(20, 10, 'F', COLOR_RED);
+  image.writeChar(30, 10, 'G', COLOR_RED);
+  image.writeChar(40, 10, 'H', COLOR_RED);
+
+  //  }
+  //}
 
   image.WriteBmp(TESTTMP_DIR + "test_writeChar_case001.bmp");
 }

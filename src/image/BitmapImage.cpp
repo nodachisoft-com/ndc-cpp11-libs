@@ -343,7 +343,7 @@ void BitmapImage::writeText(const int x, const int y, const std::string text, Co
   }
 }
 
-void BitmapImage::writeChar(const int destX, const int destY, const char ch, ColorRGB &color)
+void BitmapImage::writeChar(const int destBeginX, const int destBeginY, const char ch, ColorRGB &color)
 {
   if (fontImage == NULL)
   {
@@ -359,26 +359,34 @@ void BitmapImage::writeChar(const int destX, const int destY, const char ch, Col
   // コピーするフォント画像データの開始 x 座標を求める
   int fontImgBeginX = (ch - ' ') * fontWidth;
 
+  // std::cout << "fontImgBeginX = " << fontImgBeginX << std::endl;
+
   for (int y = 0; y < fontHeight; y++)
   {
     for (int x = 0; x < fontWidth; x++)
     {
-      if ((destX + x > imgp.width) || (destY + y > imgp.height))
+      int destX = destBeginX + x;
+      int destY = destBeginY + y;
+      if ((destX < 0) || (destX >= imgp.width) ||
+          (destY < 0) || (destY >= imgp.height))
       {
         // 描画先がデータ範囲外
         continue;
       }
 
-      // 乗算でフォント画像を書き込み。白色は透明化
-      ColorRGB fontColor = fontImage->get(fontImgBeginX + x, y);
-      ColorRGB beforeColor = get(destX + x, destY + y);
-      float times = 1.0f - ((255 - fontColor.r) / 255.0f);
-      ColorRGB updateColor;
-      updateColor.r = (unsigned char)beforeColor.r * times;
-      updateColor.g = (unsigned char)beforeColor.g * times;
-      updateColor.b = (unsigned char)beforeColor.b * times;
+      // フォント画像を書き込み。白色は透明化
+      // フォント画像が黒色に近い程、フォント色側に書き込み先の元色を近づけることで、印字を表現。
+      ColorRGB fontBaseColor = fontImage->get(fontImgBeginX + x, y);
+      ColorRGB beforeColor = get(destX, destY);
 
-      set(destX + x, destY + y, updateColor);
+      // 0.0f は字に近い。1.0f は字から遠い
+      float distance = 1.0f - (fontBaseColor.r / 255.0f);
+      ColorRGB updateColor;
+      updateColor.r = (unsigned char)(color.r * distance + beforeColor.r * (1.0f - distance));
+      updateColor.g = (unsigned char)(color.g * distance + beforeColor.g * (1.0f - distance));
+      updateColor.b = (unsigned char)(color.b * distance + beforeColor.b * (1.0f - distance));
+
+      set(destX, destY, updateColor);
     }
   }
 }
