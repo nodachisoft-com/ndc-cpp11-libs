@@ -104,12 +104,14 @@ bool FileAccessor::readFileSync()
 
 bool FileAccessor::writeFileSync()
 {
-  FILE *fp = fopen(filePath.c_str(), "w");
+  FILE *fp = fopen(filePath.c_str(), "wb");
   long size = memory->getUsingSize();
+
   for (int i = 0; i < size; i++)
   {
     fputc(memory->get(i), fp);
   }
+  std::cout << std::endl;
   fclose(fp);
   filetype = FileType::FILE;
   fileStatus = FileStatus::AVAILABLE;
@@ -165,7 +167,7 @@ bool FileAccessor::appendStringToFileSync(const std::string filepath, const std:
 {
 
   // 文字列追記処理を行う間、保持される FILE へのハンドラ
-  FILE *appendWriteFp = fopen(filepath.c_str(), "a");
+  FILE *appendWriteFp = fopen(filepath.c_str(), "ab");
   if (appendWriteFp == NULL)
   {
     // ハンドラ取得失敗
