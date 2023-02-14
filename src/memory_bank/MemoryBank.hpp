@@ -36,7 +36,7 @@ class MemoryBank
   int curPos = 0;
 
   /// 保持するバイト列が格納される各メモリスロットへの参照を持つメモリスロット配列
-  std::vector<char *> memory;
+  std::vector<unsigned char *> memory;
 
 public:
   /// @brief スケーラブルなバイト列操作用のクラスを初期化する
@@ -53,13 +53,13 @@ public:
   /// @param[in] index 取得するバイト列の要素番号
   /// @return 取得したバイトデータ。
   /// @exception OutOfRangeAccessException - 保持するバイト列の範囲外にアクセス
-  char get(const int index);
+  unsigned char get(const int index);
 
   /// @brief バイト列の n 番目の値を上書きする
   /// @param[in] index 上書きするバイト列の要素番号
   /// @param[in] value 上書きするバイトデータ
   /// @exception OutOfRangeAccessException - 保持するバイト列の範囲外にアクセス
-  void set(const int index, const char value);
+  void set(const int index, const unsigned char value);
 
   /// @brief バイト列の末尾に指定した char を追記する
   /// @param[in] value 追記するバイトデータ

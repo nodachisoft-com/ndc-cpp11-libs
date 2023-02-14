@@ -6,27 +6,31 @@ using namespace nl;
 
 int main()
 {
+  std::string path = "./debug/fa_crc32_largefile_case001.bin";
+  FileAccessor faWrite(path);
 
-  /*
-    FileAccessor fa("BBBB.txt");
-    fa.appendStringSync("demobbbbb");
-    fa.appendStringSync("DDDDD");
-  */
-
-  const std::string TESTTMP_DIR("./debug");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/001");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/002");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/003");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004/ab");
-  FileAccessMgr::makedir(TESTTMP_DIR + "/makedir_case2/004/cde");
-
-  std::vector<FileAccessor> files = FileAccessMgr::getDirsRecursively("./debug");
-
-  std::cout << files.size() << std::endl;
-  for (int i = 0; i < files.size(); i++)
+  MemoryBank mem;
+  // for (int i = 0; i < 1024 * 16; i++)
+  for (int i = 0; i < 15; i++)
   {
-    std::cout << "FILE :" << files[i].getFilePath() << std::endl;
+    unsigned char val = i % 14;
+    mem.appendByte(val);
   }
+
+  faWrite.setMemoryBank(&mem);
+  std::cout << "memory size(write):" << mem.getUsingSize() << std::endl;
+
+  faWrite.writeFileSync();
+
+  // 改めてファイルを読み込み
+  FileAccessor faRead(path);
+  faRead.readFileSync();
+
+  std::cout << "memory size(read):" << faRead.getMemoryBank()->getUsingSize() << std::endl;
+  // debug
+  for (int i = 0; i < faRead.getMemoryBank()->getUsingSize(); i++)
+  {
+    std::cout << "[" << i << " = " << (int)(faRead.getMemoryBank()->get(i)) << "] ";
+  }
+  std::cout << std::endl;
 }

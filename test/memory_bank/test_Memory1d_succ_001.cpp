@@ -94,6 +94,9 @@ TEST(Memory1d, setDataPerodic_succ001)
     if (mem.getDataPerodic(i) != i)
     {
       isExpected = false;
+      int width = 3;
+      std::cout << i << " is "
+                << " index=[" << ((width - (-i % width) % width)) << "]";
     }
   }
   EXPECT_EQ(isExpected, true);

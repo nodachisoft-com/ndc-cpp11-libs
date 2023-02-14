@@ -29,7 +29,7 @@ MemoryBank::~MemoryBank()
   }
 }
 
-char MemoryBank::get(const int index)
+unsigned char MemoryBank::get(const int index)
 {
   if (index < 0 || index > endPos)
   {
@@ -43,11 +43,11 @@ char MemoryBank::get(const int index)
   }
   int slotNo = index / memoryBlockSize;
   int offset = index % memoryBlockSize;
-  char result = memory[slotNo][offset];
+  unsigned char result = memory[slotNo][offset];
   return result;
 }
 
-void MemoryBank::set(const int index, const char value)
+void MemoryBank::set(const int index, const unsigned char value)
 {
   if (index < 0 || index > endPos)
   {
@@ -85,7 +85,7 @@ MemoryBank *MemoryBank::appendByte(const unsigned char value)
 template <typename X>
 MemoryBank *MemoryBank::append(const X value)
 {
-  char *byteArray = (char *)(void *)&value;
+  unsigned char *byteArray = (unsigned char *)(void *)&value;
   for (int i = 0; i < sizeof(X); i++)
   {
     appendByte(byteArray[i]);
@@ -299,7 +299,7 @@ void MemoryBank::debug()
 bool MemoryBank::useNewMemorySlot()
 {
   // char *newBlock = (char *)malloc(sizeof(char) * memoryBlockSize);
-  char *newBlock = (char *)calloc(memoryBlockSize, sizeof(int));
+  unsigned char *newBlock = (unsigned char *)calloc(memoryBlockSize, sizeof(unsigned char));
   if (newBlock == NULL)
   {
     return false;
