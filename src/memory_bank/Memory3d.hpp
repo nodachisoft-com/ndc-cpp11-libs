@@ -154,9 +154,9 @@ namespace nl
     /// @return 取得した要素
     T getDataPerodic(const int x, const int y, const int z)
     {
-      int modX = (x < 0) ? (width - (-x % width)) : (x % width);
-      int modY = (y < 0) ? (height - (-y % height)) : (y % height);
-      int modZ = (z < 0) ? (depth - (-z % depth)) : (z % depth);
+      int modX = (x < 0) ? (width - (-x % width)) % width : (x % width);
+      int modY = (y < 0) ? (height - (-y % height)) % height : (y % height);
+      int modZ = (z < 0) ? (depth - (-z % depth)) % depth : (z % depth);
       return buf[calcIndexPos(modX, modY, modZ)];
     }
 
@@ -166,9 +166,9 @@ namespace nl
     /// @param value 設定する値
     void setDataPerodic(const int x, const int y, const int z, const T value)
     {
-      int modX = (x < 0) ? (width - (-x % width)) : (x % width);
-      int modY = (y < 0) ? (height - (-y % height)) : (y % height);
-      int modZ = (z < 0) ? (depth - (-z % depth)) : (z % depth);
+      int modX = (x < 0) ? (width - (-x % width)) % width : (x % width);
+      int modY = (y < 0) ? (height - (-y % height)) % height : (y % height);
+      int modZ = (z < 0) ? (depth - (-z % depth)) % depth : (z % depth);
       buf[calcIndexPos(modX, modY, modZ)] = value;
     }
 

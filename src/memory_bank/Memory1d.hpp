@@ -130,7 +130,7 @@ namespace nl
     {
       if (x < 0)
       {
-        buf[(width - (-x % width) % width)] = value;
+        buf[(width - (-x % width)) % width] = value;
       }
       else
       {
