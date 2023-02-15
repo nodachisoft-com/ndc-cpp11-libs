@@ -308,38 +308,16 @@ bool BitmapImage::initializeFontdata()
       fontImage->set(u, v, color);
     }
   }
-
-  // フォントデータの出力
-  // std::cout << "FONT IMAGE:" << fontImage->getWidth() << "," << fontImage->getHeight();
-  // int fontWidth = fontImage->getWidth();
-  // int fontHeight = fontImage->getHeight();
-
-  // 仮
-  // unsigned char fontdata[] = {0x00, 0xff};
-  /*
-  printf("static unsigned char DEBUG_FONT_DATA[]=\"");
-  for (int v = 0; v < fontHeight; v++)
-  {
-    for (int u = 0; u < fontWidth; u++)
-    {
-      ColorRGB c = fontImage->get(u, v);
-      char eightLevelDepth = (c.r / 32) + '0';
-      // printf("%c", eightLevelDepth);
-    }
-    // printf("\n");
-  }
-  printf("\";");
-  */
-
   return true;
 }
 
-void BitmapImage::writeText(const int x, const int y, const std::string text, ColorRGB &color)
+void BitmapImage::writeText(const int destBeginX, const int destBeginY, const std::string text, ColorRGB &color)
 {
-  if (fontImage == NULL)
+  int size = text.size();
+  for (int index = 0; index < size; index++)
   {
-    // フォントデータを読み込む
-    initializeFontdata();
+    const char drawCh = text[index];
+    writeChar(destBeginX + index * fontWidth, destBeginY, drawCh, color);
   }
 }
 
@@ -358,8 +336,6 @@ void BitmapImage::writeChar(const int destBeginX, const int destBeginY, const ch
   }
   // コピーするフォント画像データの開始 x 座標を求める
   int fontImgBeginX = (ch - ' ') * fontWidth;
-
-  // std::cout << "fontImgBeginX = " << fontImgBeginX << std::endl;
 
   for (int y = 0; y < fontHeight; y++)
   {
