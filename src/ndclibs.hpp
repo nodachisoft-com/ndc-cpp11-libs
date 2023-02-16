@@ -21,3 +21,4 @@
 #include "random/index.hpp"
 #include "memory_bank/index.hpp"
 #include "serializable/index.hpp"
+#include "timewatch/index.hpp"

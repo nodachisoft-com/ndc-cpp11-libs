@@ -1,7 +1,7 @@
 /**
- * @brief
+ * @brief 時間管理を行う機能を提供する
  */
 #pragma once
 
-#include "PerlinNoise1234.hpp"
-#include "NdcVoronoi.hpp"
+#include "ScheduleTask.hpp"
+#include "TimeWatch.hpp"

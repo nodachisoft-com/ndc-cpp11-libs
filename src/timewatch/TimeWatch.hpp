@@ -7,6 +7,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <chrono>
+#include <iomanip>
 #include "ScheduleTask.hpp"
 
 namespace nl
@@ -22,7 +24,9 @@ namespace nl
     float appSpeed;
 
     /// @brief 計測した時間の合計
-    long timeFromStartMs;
+    int64_t timeFromStartMs;
+
+    bool stopFlag;
 
   public:
     /// @brief コンストラクタ
@@ -41,7 +45,7 @@ namespace nl
 
     void setAppSpeed(const float speed);
 
-    void addRealTime(const long deltaTimeMs);
+    void addRealTime(const int64_t deltaTimeMs);
 
     /// @brief タスクを追加する。スケジュールタスクコードは 0 以上である検査をする
     /// @param task 計測のため末尾に追加するタスク
@@ -63,11 +67,11 @@ namespace nl
 
     /// @brief 計測を開始（Start）してからの累積時間をミリ秒で返す
     /// @return 累積時間（ms）
-    long getTimeFromStartMs();
+    int64_t getTimeFromStartMs();
 
     /// @brief 現在の時刻を UnitTime 形式で MS 単位で返す
     /// @return 現在時刻(ms)
-    static long getNowMs();
+    static int64_t getNowMs();
 
     /// @brief 現在の時刻を ISO8601 形式（YYYYMMDDThh:mm:ss.sss+09:00 形式で返す）
     /// @return 時刻を ISO8601 形式の文字列

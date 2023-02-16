@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../src/random/index.hpp"
+#include "../../src/ndclibs.hpp"
 
 using namespace nl;
 
