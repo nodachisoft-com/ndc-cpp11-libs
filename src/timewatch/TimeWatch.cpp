@@ -8,43 +8,119 @@ TimeWatch::TimeWatch() : tasklist({}), appSpeed(1.0f), timeFromStartMs(0L), stop
 
 void TimeWatch::start()
 {
+  stopFlag = false;
 }
 
-void TimeWatch::stop() {}
-
-void TimeWatch::removeCompletedTasks()
+void TimeWatch::stop()
 {
+  stopFlag = true;
 }
+
+// void TimeWatch::removeCompletedTasks()
+//{
+// }
 
 void TimeWatch::removeWholeTasks()
 {
+  tasklist.clear();
 }
 
 void TimeWatch::setAppSpeed(const float speed)
 {
+  appSpeed = speed;
 }
 
 void TimeWatch::addRealTime(const int64_t deltaTimeMs)
 {
+  if (stopFlag)
+  {
+    return;
+  }
+  int deltaTimePlus = deltaTimeMs * appSpeed;
+  timeFromStartMs += deltaTimePlus;
+  int leftTimeMs = deltaTimePlus;
+  int size = tasklist.size();
+  for (int i = 0; i < size; i++)
+  {
+    // ScheduleTask eachTask = tasklist[i];
+    leftTimeMs = tasklist[i].addProgressMs(leftTimeMs);
+    if (leftTimeMs == 0)
+    {
+      // 時間がタスクに使われた
+      break;
+    }
+  }
 }
-void TimeWatch::pushTask(const ScheduleTask task)
+void TimeWatch::pushTask(ScheduleTask &task)
 {
+  if (task.getTaskcode() < 0)
+  {
+    std::string message;
+    message += "task code must be more than 0. taskcode=[";
+    message += task.getTaskcode();
+    message += "]";
+
+    // タスクコードが 0 未満であり想定外
+    throw ArgumentValidatioinException(message);
+  }
+  tasklist.push_back(task);
 }
-void TimeWatch::checkTaskCompleted(const int taskcode)
+
+bool TimeWatch::checkTaskCompleted(const int taskcode)
 {
+  int size = tasklist.size();
+  for (int i = 0; i < size; i++)
+  {
+    int eachTaskcode = tasklist[i].getTaskcode();
+    if (taskcode == eachTaskcode)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 int TimeWatch::getNowProgressingTaskcode()
 {
-  return 0;
+  int result = -1;
+  int size = tasklist.size();
+  for (int i = 0; i < size; i++)
+  {
+    if (!tasklist[i].isCompleted())
+    {
+      result = tasklist[i].getTaskcode();
+      break;
+    }
+  }
+  return result;
 }
-float TimeWatch::getTaskProgress()
+float TimeWatch::getProcessingTaskProgress()
 {
-  return 0.0f;
+  float result = 1.0f;
+  int size = tasklist.size();
+  for (int i = 0; i < size; i++)
+  {
+    if (!tasklist[i].isCompleted())
+    {
+      result = tasklist[i].getTaskProgress();
+      break;
+    }
+  }
+  return result;
 }
 float TimeWatch::getWholeTasksProgress()
 {
-  return 0.0f;
+  float result = 0.0f;
+  int64_t wholeAmount = 0;
+  int64_t progressAmount = 0;
+
+  int size = tasklist.size();
+  for (int i = 0; i < size; i++)
+  {
+    wholeAmount += tasklist[i].getRelTimeMs();
+    progressAmount += tasklist[i].getProgressMs();
+  }
+  return progressAmount / (float)wholeAmount;
 }
 int64_t TimeWatch::getTimeFromStartMs()
 {

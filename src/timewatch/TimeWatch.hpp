@@ -10,6 +10,7 @@
 #include <chrono>
 #include <iomanip>
 #include "ScheduleTask.hpp"
+#include "../exception/index.hpp"
 
 namespace nl
 {
@@ -40,7 +41,7 @@ namespace nl
     /// @brief
     ///  完了済みのタスクを削除する。
     ///  全体の進捗計測対象から除外され、過去の完了済みタスクは参照不可となる
-    void removeCompletedTasks();
+    // void removeCompletedTasks();
     void removeWholeTasks();
 
     void setAppSpeed(const float speed);
@@ -49,17 +50,17 @@ namespace nl
 
     /// @brief タスクを追加する。スケジュールタスクコードは 0 以上である検査をする
     /// @param task 計測のため末尾に追加するタスク
-    void pushTask(const ScheduleTask task);
+    void pushTask(ScheduleTask &task);
 
-    void checkTaskCompleted(const int taskcode);
+    bool checkTaskCompleted(const int taskcode);
 
     /// @brief 現在計測中のタスクのタスクコードを返す。計測中のタスクがない場合、 -1 を返す
     /// @return 計測中のタスクコード。ないなら -1 を返す
     int getNowProgressingTaskcode();
 
-    /// @brief 現在処理中タスクの進捗を計算して返す
+    /// @brief 現在処理中タスクの進捗を計算して返す。タスクが無ければ 1.0f を返す
     /// @return 0.0～1.0f で進捗率を返す
-    float getTaskProgress();
+    float getProcessingTaskProgress();
 
     /// @brief 全体タスクから実施完了したぶんの進捗を計算して返す
     /// @return 0.0～1.0f で進捗率を返す
