@@ -17,6 +17,7 @@
 #include "geometry/index.hpp"
 #include "hash/index.hpp"
 #include "image/index.hpp"
+#include "log/index.hpp"
 #include "noise/index.hpp"
 #include "random/index.hpp"
 #include "memory_bank/index.hpp"
