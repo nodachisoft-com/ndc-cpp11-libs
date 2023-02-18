@@ -1,19 +1,29 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <regex>
 #include "../timewatch/index.hpp"
 
 namespace nl
 {
   class Logger
   {
+    // 出力するログレベルに対応
     // constexpr outputLv = 1; // 0: DEBUG, 1:INFO, 2:ERROR
 
   private:
     bool isOutputToConsole;
     bool isOutputToFile;
+    bool isFiltered;
+    std::regex filterCondition;
+
     void outputToConsole(const std::string &msg, const std::string &logLevel)
     {
+      // フィルタ条件に合致しない場合は出力しない
+      if (!isFilterTarget(msg))
+      {
+        return;
+      }
       if (isOutputToConsole)
       {
         std::string timestamp = TimeWatch::getNowMsAsStr_hhmmssSSS();
@@ -21,9 +31,31 @@ namespace nl
       }
     }
 
+    void outputToFile(const std::string &msg, const std::string &logLevel)
+    {
+      // TODO: ファイルへの非同期出力をここに記述
+    }
+
+    /// @brief フィルタが ON であり、フィルタ対象かを判定する
+    /// @param msg フィルタ確認する対象文字列
+    /// @return フィルタ対象であれば true、対象外であれば false を返す
+    bool isFilterTarget(const std::string &msg)
+    {
+      return (isFiltered && std::regex_match(msg, filterCondition));
+    }
+
   public:
     Logger();
     Logger(std::string filepath);
+    ~Logger();
+
+    /// @brief 指定した文字にログのメッセージ部が部分一致した時のみ出力対象とする
+    /// @param substr 部分一致チェック文字列
+    void doFilter(const std::string substr);
+
+    /// @brief 部分一致用のフィルタを解除する
+    void removeFilter();
+
     void debugLog(const std::string &msg);
     void infoLog(const std::string &msg);
     void errorLog(const std::string &msg);
