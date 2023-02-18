@@ -20,6 +20,11 @@ void TimeWatch::stop()
 //{
 // }
 
+bool TimeWatch::isStart()
+{
+  return !stopFlag;
+}
+
 void TimeWatch::removeWholeTasks()
 {
   tasklist.clear();
@@ -28,6 +33,11 @@ void TimeWatch::removeWholeTasks()
 void TimeWatch::setAppSpeed(const float speed)
 {
   appSpeed = speed;
+}
+
+const float TimeWatch::getAppSpeed()
+{
+  return appSpeed;
 }
 
 void TimeWatch::addRealTime(const int64_t deltaTimeMs)
@@ -51,8 +61,9 @@ void TimeWatch::addRealTime(const int64_t deltaTimeMs)
     }
   }
 }
-void TimeWatch::pushTask(ScheduleTask &task)
+void TimeWatch::pushTask(ScheduleTask task)
 {
+
   if (task.getTaskcode() < 0)
   {
     std::string message;
@@ -74,7 +85,7 @@ bool TimeWatch::checkTaskCompleted(const int taskcode)
     int eachTaskcode = tasklist[i].getTaskcode();
     if (taskcode == eachTaskcode)
     {
-      return true;
+      return tasklist[i].isCompleted();
     }
   }
   return false;
@@ -96,7 +107,7 @@ int TimeWatch::getNowProgressingTaskcode()
 }
 float TimeWatch::getProcessingTaskProgress()
 {
-  float result = 1.0f;
+  float result = -1.0f;
   int size = tasklist.size();
   for (int i = 0; i < size; i++)
   {
@@ -115,6 +126,11 @@ float TimeWatch::getWholeTasksProgress()
   int64_t progressAmount = 0;
 
   int size = tasklist.size();
+  if (size == 0)
+  {
+    // 一つもタスクが存在しないなら 0.0f を返す
+    return 0.0f;
+  }
   for (int i = 0; i < size; i++)
   {
     wholeAmount += tasklist[i].getRelTimeMs();
