@@ -1,8 +1,14 @@
+/**
+ * @brief
+ *  TimeWatch に渡すことで、複数のタスクの積み上げ、残り時間を管理可能とする
+ *
+ */
 #pragma once
 #include <stdint.h>
 
 namespace nl
 {
+  /// @brief タスクにかかる時間、残り時間、終了済みかを管理する
   class ScheduleTask
   {
   private:
@@ -19,8 +25,10 @@ namespace nl
     bool _isCompleted;
 
   public:
-    /// @brief コンストラクタ
-    ScheduleTask(const int _taskcode, const int64_t _relTimeMs);
+    /// @brief コンストラクタ。初期化を実施
+    /// @param taskcode タスクを識別可能とするコード
+    /// @param relTimeMs タスク処理に必要とする時間（ミリ秒）
+    ScheduleTask(const int taskcode, const int64_t relTimeMs);
 
     /// @brief ミリ秒を経過時間として加算する
     /// @param addDeltaTimeMs 追加する経過時間
@@ -34,10 +42,12 @@ namespace nl
     /// @brief タスクコードを返す
     int getTaskcode();
 
-  public: // Accessor Methods
+  public: // ===== Accessor Methods =======
     /// @brief タスク処理に必要とする時間（ミリ秒）を返す
     int64_t getRelTimeMs();
 
+    /// @brief タスクで進行した時間をミリ秒で返す
+    /// @return 進行済みの時間（ミリ秒） [0, relTimeMs] の間で結果を返す
     int64_t getProgressMs();
 
     /// @brief タスクが完了していれば true が返る

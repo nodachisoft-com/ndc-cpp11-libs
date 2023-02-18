@@ -67,3 +67,12 @@ buildentry: cleantest $(RUN_TMP_ENTRY_EXEC_FILE) run
 
 run:
 	$(RUN_TMP_ENTRY_EXEC_FILE)
+
+# うまく動かない
+compile:
+	find ./src/ -type d | xargs -I{} mkdir -p ./tmp/compile/{}
+	find ./src/ -name *.cpp | xargs -I{} gcc -c {} -o ./tmp/compile/{}.o
+	find ./test/ -type d | xargs -I{} mkdir -p ./tmp/compile/{}
+	find ./test/ -name test_*.cpp | xargs -I{} gcc -c {} -o ./tmp/compile/{}.o $(TEST_INCDIR)
+	find ./tmp/compile/ -name *.o -print0 | xargs -0 | xargs -I{} ${CC} ${CFLAGS} {} -o ./tmp/compile/test.exe ${TEST_LIBDIR} ${TEST_LIBS}
+	./tmp/compile/test.exe
