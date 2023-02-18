@@ -24,15 +24,21 @@ void Logger::removeFilter()
 
 void Logger::debugLog(const std::string &msg)
 {
+  setFontColorRGB(100, 100, 150);
   outputToConsole(msg, "DEBUG");
+  resetColor();
 }
 
 void Logger::infoLog(const std::string &msg)
 {
+  setFontColorRGB(0, 155, 255);
   outputToConsole(msg, "INFO ");
+  resetColor();
 }
 
 void Logger::errorLog(const std::string &msg)
 {
+  setFontColorRGB(205, 30, 0);
   outputToConsole(msg, "ERROR");
+  resetColor();
 }

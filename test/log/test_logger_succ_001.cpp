@@ -10,8 +10,8 @@ TEST(Logger, case1)
   logger.doFilter("aaa");
   // logger.debugLog("this is a test DEBUG log!");
   // logger.infoLog("this is a test INFO log!");
-  // logger.infoLog("this is a test INFO log!aaabbbccc");
+  logger.infoLog("this is a test INFO log!aaabbbccc");
   // logger.errorLog("this is a test ERROR log!");
-  // logger.errorLog("this is a test ERROR logddddd!aaagggg");
-  // logger.debugLog("this is a filter test aaa desu!!");
+  logger.errorLog("this is a test ERROR logddddd!aaagggg");
+  logger.debugLog("this is a filter test aaa desu!!");
 }

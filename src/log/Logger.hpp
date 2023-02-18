@@ -44,6 +44,27 @@ namespace nl
       return (isFiltered && std::regex_match(msg, filterCondition));
     }
 
+    // エスケープシーケンスを標準出力する
+    void escSeq(char const *controlSequence, char const function)
+    {
+      printf("\x1B[");
+      printf(controlSequence);
+      putchar(function);
+    }
+
+    // RGB を指定して文字の色を変更する
+    void setFontColorRGB(const unsigned char r, const unsigned char g, const unsigned char b)
+    {
+      char buf[64];
+      sprintf(buf, "38;2;%d;%d;%d", r, g, b);
+      escSeq(buf, 'm');
+    }
+
+    void resetColor()
+    { // 色情報をリセット
+      escSeq("0", 'm');
+    }
+
   public:
     Logger();
     Logger(std::string filepath);
