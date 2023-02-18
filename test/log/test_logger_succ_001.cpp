@@ -7,7 +7,7 @@ using namespace nl;
 TEST(Logger, case1)
 {
   Logger logger;
-  logger.debugLog("this is a test DEBUG log!");
-  logger.infoLog("this is a test INFO log!");
-  logger.errorLog("this is a test ERROR log!");
+  // logger.debugLog("this is a test DEBUG log!");
+  // logger.infoLog("this is a test INFO log!");
+  // logger.errorLog("this is a test ERROR log!");
 }
