@@ -39,7 +39,7 @@ bool NdcVoronoi::init(const int _randomSeed, const unsigned char typeRange, int 
       point[index].type = rand.getRndInt(0, typeRange);
     }
   }
-  isInit = true;
+  isInit = true; // 初期化完了フラグをたてる
   return true;
 }
 

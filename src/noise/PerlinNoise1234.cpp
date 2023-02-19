@@ -2,8 +2,23 @@
 
 using namespace nl;
 
-PerlinNoise1234::PerlinNoise1234(int _randseed)
+PerlinNoise1234::PerlinNoise1234()
+    : isInit(false)
 {
+}
+
+PerlinNoise1234::PerlinNoise1234(int _randseed)
+    : isInit(false)
+{
+  init(_randseed);
+}
+
+bool PerlinNoise1234::init(int _randseed)
+{
+  if (isInit)
+  {
+    return false;
+  }
   randseed = _randseed;
   MtRandomizer rand(_randseed);
 
@@ -28,6 +43,9 @@ PerlinNoise1234::PerlinNoise1234(int _randseed)
   {
     perm[i + 256] = perm[i];
   }
+
+  isInit = true; // 初期化完了
+  return true;
 }
 
 float PerlinNoise1234::grad1(int hash, float x)

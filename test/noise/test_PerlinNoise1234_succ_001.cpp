@@ -60,3 +60,49 @@ TEST(PerlinNoise1234, MT19937_HF_case002)
   EXPECT_EQ(fa.calcMemoryCrc32(), 278549108); // BITMAP 構造体 + データ本体
   EXPECT_EQ(crc.getHash(), 2085138398);       // データ本体のみの CRC32
 }
+
+// デフォルトコンストラクタ後に改めて初期化を行うケースで正常に処理が行えること
+// 2回目以降で 初期化は失敗すること
+TEST(PerlinNoise1234, Constructor_case001)
+{
+  PerlinNoise1234 pn;
+  EXPECT_EQ(pn.init(100), true);  // 初期化に成功
+  EXPECT_EQ(pn.init(200), false); // 初期化に失敗
+  int width = 70;
+  int height = 46;
+  int noisePointX = 8;
+  int noisePointY = 8;
+
+  Crc32 crc;
+  for (int v = 0; v < height; v++)
+  {
+    for (int u = 0; u < width; u++)
+    {
+      float res = pn.pnoise2((u * noisePointX) / (float)width, (v * noisePointY) / (float)height, noisePointX, noisePointY, 255.0f);
+      crc.calcUpdate((unsigned char)res);
+    }
+  }
+  EXPECT_EQ(crc.getHash(), 2085138398); // データ本体のみの CRC32
+}
+
+// コンストラクタで初期化しているなら２回目の初期化に失敗すること
+TEST(PerlinNoise1234, Constructor_case002)
+{
+  PerlinNoise1234 pn(100);
+  EXPECT_EQ(pn.init(200), false);
+  int width = 70;
+  int height = 46;
+  int noisePointX = 8;
+  int noisePointY = 8;
+
+  Crc32 crc;
+  for (int v = 0; v < height; v++)
+  {
+    for (int u = 0; u < width; u++)
+    {
+      float res = pn.pnoise2((u * noisePointX) / (float)width, (v * noisePointY) / (float)height, noisePointX, noisePointY, 255.0f);
+      crc.calcUpdate((unsigned char)res);
+    }
+  }
+  EXPECT_EQ(crc.getHash(), 2085138398); // データ本体のみの CRC32
+}

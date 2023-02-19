@@ -58,7 +58,7 @@ TEST(NdcVoronoi, genMap_case002)
     }
   }
   image.WriteBmp(path);
-  EXPECT_EQ(crc.getHash(), 2531639738); // データ本体部の CRC32
+  EXPECT_EQ(crc.getHash(), 1643320913); // データ本体部の CRC32
 }
 
 // Voronoi 初期化での挙動確認

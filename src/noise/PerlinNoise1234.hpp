@@ -13,6 +13,8 @@ namespace nl
   class PerlinNoise1234
   {
   private:
+    /// @brief 初期化済みなら true
+    bool isInit;
     int randseed;
 
     float fade(float t)
@@ -69,7 +71,15 @@ namespace nl
     float grad4(int hash, float x, float y, float z, float t);
 
   public:
+    PerlinNoise1234();
     PerlinNoise1234(int randomSeed);
+
+    /// @brief
+    ///   デフォルトコンストラクタ後に初期化するための専用メソッド。
+    ///   一回のみ有効
+    /// @param randomSeed
+    /// @return 処理成功で true。初期化済みなら false
+    bool init(int randomSeed);
 
     float noise1(float x);
     float noise2(float x, float y);
