@@ -7,6 +7,7 @@ using namespace nl;
 TEST(Logger, case1)
 {
   Logger logger;
+  logger.infoLog("Here is the log before limited with str aaa");
   logger.doFilter("aaa");
   // logger.debugLog("this is a test DEBUG log!");
   // logger.infoLog("this is a test INFO log!");

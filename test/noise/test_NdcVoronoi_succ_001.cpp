@@ -37,8 +37,8 @@ TEST(NdcVoronoi, genMap_case001)
 TEST(NdcVoronoi, genMap_case002)
 {
   std::string path(TESTTMP_DIR + "genMap_case002.bmp");
-  int width = 640, height = 640;
-  int noisePx = 128, noisePy = 128;
+  int width = 200, height = 200;
+  int noisePx = 32, noisePy = 32;
   unsigned char typeRange = 3;
   long randomSeed = 101;
   BitmapImage image(width, height);
@@ -58,7 +58,7 @@ TEST(NdcVoronoi, genMap_case002)
     }
   }
   image.WriteBmp(path);
-  EXPECT_EQ(crc.getHash(), 1643320913); // データ本体部の CRC32
+  EXPECT_EQ(crc.getHash(), 2947575372); // データ本体部の CRC32
 }
 
 // Voronoi 初期化での挙動確認

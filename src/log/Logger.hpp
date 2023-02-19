@@ -19,11 +19,17 @@ namespace nl
 
     void outputToConsole(const std::string &msg, const std::string &logLevel)
     {
-      // フィルタ条件に合致しない場合は出力しない
-      if (!isFilterTarget(msg))
+      // フィルタ機能は有効であるか判定
+      if (isFiltered)
       {
-        return;
+
+        // フィルタ条件に合致しない場合は出力しない
+        if (!isFilterTarget(msg))
+        {
+          return;
+        }
       }
+
       if (isOutputToConsole)
       {
         std::string timestamp = TimeWatch::getNowMsAsStr_hhmmssSSS();
@@ -41,7 +47,7 @@ namespace nl
     /// @return フィルタ対象であれば true、対象外であれば false を返す
     bool isFilterTarget(const std::string &msg)
     {
-      return (isFiltered && std::regex_match(msg, filterCondition));
+      return (std::regex_match(msg, filterCondition));
     }
 
     // エスケープシーケンスを標準出力する
