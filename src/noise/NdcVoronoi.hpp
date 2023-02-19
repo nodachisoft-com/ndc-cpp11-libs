@@ -13,6 +13,7 @@ namespace nl
   class NdcVoronoi
   {
   private:
+    bool isInit;
     int randomSeed;
     int width;
     int height;
@@ -56,14 +57,28 @@ namespace nl
     }
 
   public:
-    /// @brief Voronoi 図形の定義を設定し初期化する
+    /// @brief デフォルトコンストラクタ定義
+    NdcVoronoi(void);
+
+    /// @brief Voronoi 図形の定義を設定し初期化する。px * py * Point サイズのメモリを使用する。
     /// @param randomSeed 乱数を定義
     /// @param typeRange Voronoi の計算点がもつ種類 [0, typeRange] の範囲で乱数決定
     /// @param[in] px ループする X 方向の幅（Ex:256）
     /// @param[in] py ループする Y 方向の高さ（Ex:256）
     NdcVoronoi(const int randomSeed, const unsigned char typeRange, int px, int py);
 
+    /// @brief Voronoi 図形の定義を設定し初期化する。px * py * Point サイズのメモリを使用する。
+    /// @param randomSeed 乱数を定義
+    /// @param typeRange Voronoi の計算点がもつ種類 [0, typeRange] の範囲で乱数決定
+    /// @param[in] px ループする X 方向の幅（Ex:256）
+    /// @param[in] py ループする Y 方向の高さ（Ex:256）
+    /// @return 正常に初期化完了で true。初期化済みだったり異常終了した場合は false
+    bool init(const int randomSeed, const unsigned char typeRange, int px, int py);
+
     ~NdcVoronoi();
+
+    /// @brief メモリ解放処理を行う。init処理時にも必要であれば事前に呼び出しをする
+    void free();
 
     /// @brief Voronoi Diagram Noise 2D
     /// @param[in] x 位置の指定。 [0.0-px) でループ

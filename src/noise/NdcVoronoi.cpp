@@ -2,8 +2,25 @@
 
 using namespace nl;
 
-NdcVoronoi::NdcVoronoi(const int _randomSeed, const unsigned char typeRange, int px, int py)
+NdcVoronoi::NdcVoronoi(void)
+    : isInit(false), point(nullptr)
 {
+  isInit = false;
+  point = nullptr;
+}
+NdcVoronoi::NdcVoronoi(const int _randomSeed, const unsigned char typeRange, int px, int py)
+    : isInit(false), point(nullptr)
+{
+  init(_randomSeed, typeRange, px, py);
+}
+
+bool NdcVoronoi::init(const int _randomSeed, const unsigned char typeRange, int px, int py)
+{
+  if (isInit)
+  {
+    // 既に初期化済み
+    return false;
+  }
   randomSeed = _randomSeed;
   MtRandomizer rand(_randomSeed);
   width = px;
@@ -22,11 +39,22 @@ NdcVoronoi::NdcVoronoi(const int _randomSeed, const unsigned char typeRange, int
       point[index].type = rand.getRndInt(0, typeRange);
     }
   }
+  isInit = true;
+  return true;
 }
 
 NdcVoronoi::~NdcVoronoi()
 {
-  delete[] point;
+  free();
+}
+
+void NdcVoronoi::free()
+{
+  if (point != nullptr)
+  {
+    delete[] point;
+    point = nullptr;
+  }
 }
 
 unsigned char NdcVoronoi::pos2(float x, float y)
