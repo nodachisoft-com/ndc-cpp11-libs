@@ -7,7 +7,9 @@ namespace nl
   template <class T>
   class Memory2d
   {
-    T *buf = NULL;
+  private:
+    bool isInit;
+    T *buf = nullptr;
     T outOfRangeData;
 
     T initialData;
@@ -31,15 +33,27 @@ namespace nl
     }
 
   public:
+    Memory2d()
+        : isInit(false)
+    {
+    }
+
     Memory2d(const int _width, const int _height, const T initialValue)
+        : isInit(false)
+    {
+      init(_width, _height, initialValue);
+    }
+    bool init(const int _width, const int _height, const T initialValue)
     {
       resizeMemory(_width, _height);
       setWholeData(initialValue);
+      isInit = true;
+      return true;
     }
 
     void resizeMemory(const int _width, const int _height)
     {
-      if (buf != NULL)
+      if (buf != nullptr)
       {
         // 初回の初期化以外では前回確保分のメモリ削除を行う
         delete[] buf;
