@@ -65,7 +65,7 @@ bool FileAccessor::readFileSync()
     return false;
   }
 
-  long fileByteSize = ftell(fp);
+  filesize = ftell(fp);
 
   if (fseek(fp, 0L, SEEK_SET) != 0)
   {
