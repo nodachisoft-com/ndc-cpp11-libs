@@ -27,10 +27,10 @@ bool NdcVoronoi::init(const int _randomSeed, const unsigned char typeRange, int 
   height = py;
 
   // Voronoi の計算用の格子点の位置を作成
-  point = new Point[px * py];
-  for (int v = 0; v < py; v++)
+  point = new Point[width * height];
+  for (int v = 0; v < height; v++)
   {
-    for (int u = 0; u < px; u++)
+    for (int u = 0; u < width; u++)
     {
       // 隣接する点を超えない範囲で乱数で位置に変化を加える
       int index = calcPosIndex(u, v); // v * px + u;
