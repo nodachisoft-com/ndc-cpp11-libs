@@ -121,7 +121,6 @@ float TimeWatch::getProcessingTaskProgress()
 }
 float TimeWatch::getWholeTasksProgress()
 {
-  float result = 0.0f;
   int64_t wholeAmount = 0;
   int64_t progressAmount = 0;
 
@@ -152,11 +151,11 @@ int64_t TimeWatch::getNowMs()
 
 std::string TimeWatch::getNowMsAsStrIso8601()
 {
-  auto t3 = time(nullptr);
-  auto tmv3 = tm();
-  auto error3 = localtime_s(&tmv3, &t3);
+  auto nowtime = time(nullptr);
+  auto tmv = tm();
+  localtime_s(&tmv, &nowtime);
   char buf[256] = {0};
-  strftime(buf, 256, "%Y/%m/%d %H:%M:%S%z\n", &tmv3);
+  strftime(buf, 256, "%Y/%m/%d %H:%M:%S%z\n", &tmv);
   return std::string(buf);
 }
 

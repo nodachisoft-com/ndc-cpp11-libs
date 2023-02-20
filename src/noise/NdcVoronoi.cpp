@@ -86,7 +86,7 @@ unsigned char NdcVoronoi::pos2(float x, float y)
   float leftX = floorX;
   float upperY = floorY;
   float rightX = isRightLoop ? width : floorX + 1;
-  float bottomY = isRightLoop ? height : floorY + 1;
+  float bottomY = isBottomLoop ? height : floorY + 1;
 
   float distUL = dist_pow2(x, y, leftX + UL.x, upperY + UL.y);
   float distUR = dist_pow2(x, y, rightX + UR.x, upperY + UR.y);

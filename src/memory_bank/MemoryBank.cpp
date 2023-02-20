@@ -86,7 +86,8 @@ template <typename X>
 MemoryBank *MemoryBank::append(const X value)
 {
   unsigned char *byteArray = (unsigned char *)(void *)&value;
-  for (int i = 0; i < sizeof(X); i++)
+  int size = (int)sizeof(X);
+  for (int i = 0; i < size; i++)
   {
     appendByte(byteArray[i]);
   }
@@ -133,7 +134,8 @@ void MemoryBank::read(X &value)
   // short result = 0;
   char *mem = (char *)(void *)(&value);
 
-  for (int i = 0; i < sizeof(X); i++)
+  int size = (int)sizeof(X);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -167,7 +169,8 @@ short MemoryBank::readShort()
   short result = 0;
   char *mem = (char *)(void *)(&result);
 
-  for (int i = 0; i < sizeof(short); i++)
+  int size = (int)sizeof(short);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -180,7 +183,8 @@ int MemoryBank::readInt()
   int result = 0;
   char *mem = (char *)(void *)(&result);
 
-  for (int i = 0; i < sizeof(int); i++)
+  int size = (int)sizeof(int);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -193,7 +197,8 @@ long MemoryBank::readLong()
   long result = 0;
   char *mem = (char *)(void *)(&result);
 
-  for (int i = 0; i < sizeof(long); i++)
+  int size = (int)sizeof(long);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -206,7 +211,8 @@ float MemoryBank::readFloat()
   float result = 0;
   char *mem = (char *)(void *)(&result);
 
-  for (int i = 0; i < sizeof(float); i++)
+  int size = (int)sizeof(float);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -218,7 +224,8 @@ double MemoryBank::readDouble()
 {
   double result = 0;
   char *mem = (char *)(void *)(&result);
-  for (int i = 0; i < sizeof(double); i++)
+  int size = (int)sizeof(double);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }
@@ -230,7 +237,8 @@ bool MemoryBank::readBool()
 {
   bool result = false;
   char *mem = (char *)(void *)(&result);
-  for (int i = 0; i < sizeof(bool); i++)
+  int size = (int)sizeof(bool);
+  for (int i = 0; i < size; i++)
   {
     mem[i] = readChar();
   }

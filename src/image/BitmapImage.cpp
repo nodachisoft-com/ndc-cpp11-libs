@@ -108,10 +108,10 @@ void BitmapImage::ReadBmp(const char *filename)
     {
       int x = j;
       int y = imgp.height - i - 1; // BMP はデータと画像の Y 軸は反転
-      int pos = imgp.width * y + j;
-      imgp.data[pos].b = Bmp_Data[j * 3];
-      imgp.data[pos].g = Bmp_Data[j * 3 + 1];
-      imgp.data[pos].r = Bmp_Data[j * 3 + 2];
+      int pos = imgp.width * y + x;
+      imgp.data[pos].b = Bmp_Data[x * 3];
+      imgp.data[pos].g = Bmp_Data[x * 3 + 1];
+      imgp.data[pos].r = Bmp_Data[x * 3 + 2];
     }
   }
 
@@ -185,10 +185,10 @@ void BitmapImage::WriteBmp(const char *filename)
     {
       int x = j;
       int y = imgp.height - i - 1; // BMP はデータと画像の Y 軸は反転
-      int pos = imgp.width * y + j;
-      Bmp_Data[j * 3] = imgp.data[pos].b;
-      Bmp_Data[j * 3 + 1] = imgp.data[pos].g;
-      Bmp_Data[j * 3 + 2] = imgp.data[pos].r;
+      int pos = imgp.width * y + x;
+      Bmp_Data[x * 3] = imgp.data[pos].b;
+      Bmp_Data[x * 3 + 1] = imgp.data[pos].g;
+      Bmp_Data[x * 3 + 2] = imgp.data[pos].r;
     }
     for (int j = imgp.width * 3; j < real_width; j++)
     {
