@@ -128,6 +128,31 @@ MemoryBank *MemoryBank::appendCharArrayWithLength(const char value[])
   return this;
 }
 
+MemoryBank *MemoryBank::appendCharArray(const char value[])
+{
+  int len = strlen(value);
+
+  //  文字列本体を記録
+  for (int i = 0; i < len; i++)
+  {
+    appendByte(value[i]);
+  }
+  return this;
+}
+
+MemoryBank *MemoryBank::appendString(const std::string value)
+{
+  int len = value.size();
+  const char *charArray = value.c_str();
+
+  //  文字列本体を記録
+  for (int i = 0; i < len; i++)
+  {
+    appendByte(charArray[i]);
+  }
+  return this;
+}
+
 template <typename X>
 void MemoryBank::read(X &value)
 {

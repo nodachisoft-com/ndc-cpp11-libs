@@ -84,6 +84,16 @@ public:
   /// @return Builder パターン実現のための Instance 本体への参照
   MemoryBank *appendCharArrayWithLength(const char value[]);
 
+  /// @brief バイト列の末尾に char[] 型を追加する。文字列の NULL は追加されないことに注意。
+  /// @param value 追加する文字列
+  /// @return Builder パターン実現のための Instance 本体への参照
+  MemoryBank *appendCharArray(const char value[]);
+
+  /// @brief バイト列の末尾に String データの文字列を追加する。文字列の NULL は追加されないことに注意。
+  /// @param value 追加する文字列
+  /// @return Builder パターン実現のための Instance 本体への参照
+  MemoryBank *appendString(const std::string value);
+
   /// @brief 読み取りカーソル位置から char データを読み取りカーソルを進める
   /// @return カーソル位置から読み取った char データ
   char readChar();

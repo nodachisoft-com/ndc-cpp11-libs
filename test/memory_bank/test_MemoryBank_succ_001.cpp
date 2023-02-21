@@ -122,6 +122,25 @@ TEST(MemoryBank, succ005)
   EXPECT_EQ('B', buf.readChar());
 }
 
+// appendCharArray で想定通りのバイト列データが追加されること
+TEST(MemoryBank, appendCharArray_succ001)
+{
+  MemoryBank buf;
+  Crc32 crc;
+  buf.appendCharArray("Test");
+  buf.appendCharArray("001");
+  buf.appendString("abcd");
+  buf.appendString("EFGH");
+
+  char result[32] = {0};
+  for (int i = 0; i < 15; i++)
+  {
+    result[i] = buf.get(i);
+  }
+  std::string resultStr(result);
+  EXPECT_EQ(resultStr, "Test001abcdEFGH");
+}
+
 // MemoryBank の crc32 結果と Crc32 クラスの結果を突合する
 TEST(MemoryBank, crc_largedata)
 {
