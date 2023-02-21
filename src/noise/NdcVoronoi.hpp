@@ -30,7 +30,7 @@ namespace nl
     /// @return floor 結果
     int fastfloor(float x)
     {
-      return (((int)(x) < (x)) ? ((int)x) : ((int)x - 1));
+      return (((int)(x) <= (x)) ? ((int)x) : ((int)x - 1));
     }
 
     /// @brief

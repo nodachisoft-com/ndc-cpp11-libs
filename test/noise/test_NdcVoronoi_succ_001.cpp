@@ -39,15 +39,13 @@ TEST(NdcVoronoi, genMap_case002)
 {
   std::string path(TESTTMP_DIR + "genMap_case002.bmp");
   int width = 100, height = 100;
-  int noisePx = 100, noisePy = 100;
+  int noisePx = 20, noisePy = 20;
   unsigned char typeRange = 3;
   long randomSeed = 101;
   BitmapImage image(width, height);
   ColorRGB colorTable[4] = {
       {200, 0, 0}, {0, 200, 0}, {0, 0, 200}, {200, 200, 0}};
 
-  // TODO: MemoryBank に突っ込んで diff を撮る！
-  MemoryBank memo;
   NdcVoronoi voro(randomSeed, typeRange, noisePx, noisePy);
   Crc32 crc;
   for (int v = 0; v < height; v++)
@@ -57,14 +55,9 @@ TEST(NdcVoronoi, genMap_case002)
       unsigned char res = voro.pos2(u * noisePx / (float)width, v * noisePy / (float)height);
       crc.calcUpdate(res);
       image.set(u, v, colorTable[res]);
-      memo.appendByte(res);
     }
   }
-  EXPECT_EQ(crc.getHash(), 2004865003); // データ本体部の CRC32
-
-  FileAccessor fa("voronoi_test_diff1.txt");
-  fa.setMemoryBank(&memo);
-  fa.writeFileSync();
+  EXPECT_EQ(crc.getHash(), 2484090371); // データ本体部の CRC32
   image.WriteBmp(path);
 }
 
