@@ -1,0 +1,40 @@
+#include "Rectangle2d.hpp"
+
+using namespace nl;
+
+Rectangle2d::Rectangle2d() : Lx(0.0f), Rx(0.0f), Uy(0.0f), By(0.0f) {}
+
+Rectangle2d::Rectangle2d(const Vector2d LeftUpperPoint, const Vector2d RightButtomPoint)
+{
+    set2PointAsRectangle(LeftUpperPoint, RightButtomPoint);
+}
+
+void Rectangle2d::set2PointAsRectangle(const Vector2d p1, Vector2d p2)
+{
+    Lx = (p1.x < p2.x) ? p1.x : p2.x; // 左 x 座標を求める
+    Rx = (p1.x < p2.x) ? p2.x : p1.x; // 右 x 座標を求める
+    Uy = (p1.y < p2.y) ? p1.y : p2.y; // 上 y 座標を求める
+    By = (p1.y < p2.y) ? p2.y : p1.y; // 下 y 座標を求める
+}
+
+Vector2d Rectangle2d::getLeftUpperPoint()
+{
+    Vector2d result(Lx, Uy);
+    return result;
+}
+
+Vector2d Rectangle2d::getRightButtomPoint()
+{
+    Vector2d result(Rx, By);
+    return result;
+}
+
+float Rectangle2d::getWidth()
+{
+    return Lx - Rx;
+}
+
+float Rectangle2d::getHeight()
+{
+    return Uy - By;
+}

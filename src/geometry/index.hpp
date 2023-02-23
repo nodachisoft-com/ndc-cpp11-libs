@@ -3,3 +3,5 @@
  */
 #pragma once
 #include "GeoCollision.hpp"
+#include "Vector2d.hpp"
+#include "Rectangle2d.hpp"

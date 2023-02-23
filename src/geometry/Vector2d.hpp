@@ -1,0 +1,25 @@
+/**
+ * @brief 2次元空間上での Vector を扱う機能を提供する
+ */
+
+#pragma once
+namespace nl
+{
+  class Vector2d
+  {
+  public:
+    /// @brief ベクトルの x 成分
+    float x;
+    /// @brief ベクトルの y 成分
+    float y;
+
+  public:
+    /// @brief ベクトル成分を (0.0f, 0.0f) で初期化する
+    Vector2d();
+
+    /// @brief ベクトル成分を (x , y) で初期化する
+    /// @param x 初期化する x 成分
+    /// @param y 初期化する y 成分
+    Vector2d(const float x, const float y);
+  };
+}
