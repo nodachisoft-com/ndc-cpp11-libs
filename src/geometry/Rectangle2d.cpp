@@ -9,7 +9,7 @@ Rectangle2d::Rectangle2d(const Vector2d LeftUpperPoint, const Vector2d RightButt
     set2PointAsRectangle(LeftUpperPoint, RightButtomPoint);
 }
 
-void Rectangle2d::set2PointAsRectangle(const Vector2d p1, Vector2d p2)
+void Rectangle2d::set2PointAsRectangle(const Vector2d p1, const Vector2d p2)
 {
     Lx = (p1.x < p2.x) ? p1.x : p2.x; // 左 x 座標を求める
     Rx = (p1.x < p2.x) ? p2.x : p1.x; // 右 x 座標を求める
@@ -23,7 +23,7 @@ Vector2d Rectangle2d::getLeftUpperPoint()
     return result;
 }
 
-Vector2d Rectangle2d::getRightButtomPoint()
+Vector2d Rectangle2d::getRightBottomPoint()
 {
     Vector2d result(Rx, By);
     return result;
@@ -31,10 +31,10 @@ Vector2d Rectangle2d::getRightButtomPoint()
 
 float Rectangle2d::getWidth()
 {
-    return Lx - Rx;
+    return Rx - Lx;
 }
 
 float Rectangle2d::getHeight()
 {
-    return Uy - By;
+    return By - Uy;
 }

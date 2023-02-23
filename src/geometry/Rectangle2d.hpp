@@ -3,6 +3,7 @@
  *  四角形を扱う機能を提供する
  *  ２次元のデカルト座標上で、四角形を構成する４頂点は、 x,y 座標軸に対して 0度か 90度である。
  *  (30度回転などは表現できない)
+ *  左上を 原点 (0,0) とし、コンピュータの画面で FullHD は右下は (1920, 1080) のように扱う
  */
 #pragma once
 #include "Vector2d.hpp"
@@ -32,7 +33,7 @@ namespace nl
     Vector2d getLeftUpperPoint();
 
     /// @brief 四角形の右下の点
-    Vector2d getRightButtomPoint();
+    Vector2d getRightBottomPoint();
 
     /// @brief  四角形の幅の長さを計算して返す
     /// @return 四角形の幅の長さ
@@ -46,6 +47,12 @@ namespace nl
     /// @brief 与えられた 2 点から、四角形の左上、右下を計算してセットする
     /// @param p1 与えられた点 1
     /// @param p2 与えられた点 2
-    void set2PointAsRectangle(const Vector2d p1, Vector2d p2);
+    void set2PointAsRectangle(const Vector2d p1, const Vector2d p2);
+
+  public: // ===== アクセサメソッド =====
+    float getLeftX() const { return Lx; }
+    float getRightX() const { return Rx; }
+    float getUpperY() const { return Uy; }
+    float getBottomY() const { return By; }
   };
 }

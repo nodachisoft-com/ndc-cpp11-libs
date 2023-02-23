@@ -100,10 +100,10 @@ TestTargetPre:
 
 # テスト用オブジェクト、メインモジュール用オブジェクトをリンクして UT 用 EXE を出力する
 .PHONY: TestTargetMain
-TestTargetMain: $(TEST_OBJECTS) $(OBJECTS)
+TestTargetMain: $(OBJECTS) $(TEST_OBJECTS)
 	@echo -e ${MSG_B}Compile DONE.${MSG_E}
 	@echo -e ${MSG_B}Linking Unit-Test Executable.${MSG_E}
-	$(CXX) $(CFLAGS) -L./lib/dev/gtest/lib  -lgtest_main -lgtest -o $(TEST_TARGET) $^
+	$(CXX) $(CFLAGS) -L./lib/dev/gtest/lib -o $(TEST_TARGET) $^  -lgtest_main -lgtest
 
 # src 内のビルド（cpp → object）定義
 $(OBJROOT)/%.o : $(SRCROOT)/%.cpp
