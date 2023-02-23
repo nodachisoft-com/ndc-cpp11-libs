@@ -1,7 +1,8 @@
-debug/
-publish/
+debug/**
+!debug/.gitkeep
+publish/**
+!publish/**/.gitkeep
 lib/dev/gtest/lib/
 lib/dev/gtest/include/
 tmp/compile/src/*
 tmp/compile/test/*
-!.gitkeep
