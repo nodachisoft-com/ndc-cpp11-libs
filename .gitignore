@@ -1,6 +1,0 @@
-debug/
-publish/
-lib/dev/gtest/lib/
-lib/dev/gtest/include/
-tmp/compile/src/*
-tmp/compile/test/*
