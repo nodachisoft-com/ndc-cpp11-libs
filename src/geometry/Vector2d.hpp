@@ -21,5 +21,32 @@ namespace nl
     /// @param x 初期化する x 成分
     /// @param y 初期化する y 成分
     Vector2d(const float x, const float y);
+
+    /// @brief 長さを 1 に正規化した Unit Vector を計算する。
+    Vector2d normalize() const;
+
+    /// @brief ベクトルの長さを計算する。
+    /// @return ベクトルの長さ
+    float magnitude() const;
+
+    Vector2d operator+(const Vector2d &other) const
+    {
+      return Vector2d(x + other.x, y + other.y);
+    }
+
+    Vector2d operator-(const Vector2d &other) const
+    {
+      return Vector2d(x - other.x, y - other.y);
+    }
+
+    Vector2d operator*(float scalar) const
+    {
+      return Vector2d(x * scalar, y * scalar);
+    }
+
+    Vector2d operator/(float scalar) const
+    {
+      return Vector2d(x / scalar, y / scalar);
+    }
   };
 }
