@@ -44,9 +44,19 @@ namespace nl
       return Vector2d(x * scalar, y * scalar);
     }
 
+    Vector2d operator*(int scalar) const
+    {
+      return Vector2d(x * scalar, y * scalar);
+    }
+
     Vector2d operator/(float scalar) const
     {
       return Vector2d(x / scalar, y / scalar);
+    }
+
+    Vector2d operator/(int scalar) const
+    {
+      return Vector2d(x / (float)scalar, y / (float)scalar);
     }
   };
 }
