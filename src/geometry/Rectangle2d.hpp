@@ -7,6 +7,7 @@
  */
 #pragma once
 #include "Vector2d.hpp"
+#include "Point2d.hpp"
 
 namespace nl
 {
@@ -27,13 +28,13 @@ namespace nl
 
   public: // ======= メソッド定義 ==========
     Rectangle2d();
-    Rectangle2d(const Vector2d LeftUpperPoint, const Vector2d RightButtomPoint);
+    Rectangle2d(const Point2d LeftUpperPoint, const Point2d RightButtomPoint);
 
     /// @brief 四角形の左上の点
-    Vector2d getLeftUpperPoint();
+    Point2d getLeftUpperPoint();
 
     /// @brief 四角形の右下の点
-    Vector2d getRightBottomPoint();
+    Point2d getRightBottomPoint();
 
     /// @brief  四角形の幅の長さを計算して返す
     /// @return 四角形の幅の長さ
@@ -47,7 +48,7 @@ namespace nl
     /// @brief 与えられた 2 点から、四角形の左上、右下を計算してセットする
     /// @param p1 与えられた点 1
     /// @param p2 与えられた点 2
-    void set2PointAsRectangle(const Vector2d p1, const Vector2d p2);
+    void set2PointAsRectangle(const Point2d p1, const Point2d p2);
 
   public: // ===== アクセサメソッド =====
     float getLeftX() const { return Lx; }

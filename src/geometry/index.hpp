@@ -5,3 +5,5 @@
 #include "GeoCollision.hpp"
 #include "Vector2d.hpp"
 #include "Rectangle2d.hpp"
+#include "Point2d.hpp"
+#include "Size2d.hpp"
