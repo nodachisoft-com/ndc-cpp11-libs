@@ -1,8 +1,8 @@
 #include "fsqrt.hpp"
-#include "iostream"
+// #include "iostream"
 
 using namespace nl;
-
+/*
 Fsqrt::Fsqrt()
 {
   sqrt_tables = std::vector<std::vector<float>>(MAX_DIGITS);
@@ -71,3 +71,4 @@ float Fsqrt::fsqrt(float x)
 
   return y0 * (1.0f - t) + y1 * t;
 }
+*/

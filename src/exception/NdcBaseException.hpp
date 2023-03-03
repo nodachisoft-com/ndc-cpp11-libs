@@ -36,8 +36,14 @@ namespace nl
     using NdcBaseException::NdcBaseException;
   };
 
-  /// @brief 機能に渡された引数が想定外である時に発生する例ギア
+  /// @brief 機能に渡された引数が想定外である時に発生する例外
   class ArgumentValidatioinException : public NdcBaseException
+  {
+    using NdcBaseException::NdcBaseException;
+  };
+
+  /// @brief 対象のデータが存在していない
+  class TargetNotFoundException : public NdcBaseException
   {
     using NdcBaseException::NdcBaseException;
   };

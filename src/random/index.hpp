@@ -3,4 +3,4 @@
  */
 #pragma once
 #include "MtRandomizer.hpp"
-
+#include "WeightRandom.hpp"
