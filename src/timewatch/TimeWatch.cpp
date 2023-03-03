@@ -144,9 +144,11 @@ int64_t TimeWatch::getTimeFromStartMs()
 
 int64_t TimeWatch::getNowMs()
 {
-  time_t now = time(nullptr);
-  time_t mnow = now * 1000;
-  return (int64_t)mnow;
+  // time_t now = time(nullptr);
+  // time_t mnow = now * 1000;
+  // return (int64_t)mnow;
+  uint64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  return ms;
 }
 
 std::string TimeWatch::getNowMsAsStrIso8601()
