@@ -23,7 +23,7 @@ namespace nl
 
     NdcVoronoi voronoi;
     PerlinNoise1234 xNoise1;
-    PerlinNoise1234 xNoise2; // TODO : なぜか画像が出力されなくなる
+    PerlinNoise1234 xNoise2;
     PerlinNoise1234 yNoise1;
     PerlinNoise1234 yNoise2;
 
