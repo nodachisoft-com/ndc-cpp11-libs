@@ -9,7 +9,7 @@ using namespace nl;
 // Voronoi 図形で画像を生成し、CRC32 チェックを行う
 TEST(NdcVoronoi, genMap_case001)
 {
-  std::string path(TESTTMP_DIR + "genMap_case001.bmp");
+  std::string path(TESTTMP_DIR + "NdcVoronoi_genMap_case001.bmp");
   int width = 640, height = 640;
   int noisePx = 4, noisePy = 4;
   unsigned char typeRange = 3;
@@ -37,7 +37,7 @@ TEST(NdcVoronoi, genMap_case001)
 // Voronoi 図形で生成点の多い画像を生成し、CRC32 チェックを行う
 TEST(NdcVoronoi, genMap_case002)
 {
-  std::string path(TESTTMP_DIR + "genMap_case002.bmp");
+  std::string path(TESTTMP_DIR + "NdcVoronoi_genMap_case002.bmp");
   int width = 100, height = 100;
   int noisePx = 20, noisePy = 20;
   unsigned char typeRange = 3;
