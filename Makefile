@@ -2,6 +2,8 @@
 # 主要なターゲットは以下の通り。
 #
 #  make test       : 本体プログラム、テストコード をコンパイルし単体テスト実行
+#  make test-テスト対象クラス  : gtest の gtest_filter オプションを使用した単体テストを実行
+#  make testtmp    : お試しテストエントリコードを gtest を使わずにビルドし実行
 #  make publish    : 最終出力先のプログラム（ライブラリ）、includes を作成
 #  make clean      : 生成物を全てクリアする
 #
@@ -28,8 +30,6 @@ TEST_CLAGS = -std=c++17
 MSG_B="\033[0;36m[INFO `date "+%H:%M:%S"`] "
 MSG_E=" \033[0m"
 
-# お試しエントリポイント用実行ファイル名
-RUN_TMP_ENTRY_EXEC_FILE  = ./debug/tmp_entry.out
 
 # コンパイル対象のソースコード一覧を作成
 # SECROOTから再帰的にソースファイルを検索 し
@@ -94,6 +94,12 @@ TEST_TARGET = ./debug/test.out
 $(TEST_TARGET): ObjectTargetFlow TestTargetPre TestTargetMain
 		@echo -e ${MSG_B}DONE.${MSG_E}
 
+
+RUN_TMP_ENTRY_EXEC_FILE  = ./debug/tmp_entry.out
+$(RUN_TMP_ENTRY_EXEC_FILE): ObjectTargetFlow RunTmpEntryTargetPre RunTmpEntryTargetMain
+		@echo -e ${MSG_B}DONE.${MSG_E}
+
+
 .PHONY: TestTargetPre
 TestTargetPre:
 	@echo -e ${MSG_B}Compile Test Sources.${MSG_E}
@@ -104,6 +110,19 @@ TestTargetMain: $(OBJECTS) $(TEST_OBJECTS)
 	@echo -e ${MSG_B}Compile DONE.${MSG_E}
 	@echo -e ${MSG_B}Linking Unit-Test Executable.${MSG_E}
 	$(CXX) $(CFLAGS) -L./lib/dev/gtest/lib -o $(TEST_TARGET) $^  -lgtest_main -lgtest
+
+# お試し用コンパイル開始メッセージ
+.PHONY: RunTmpEntryTargetPre
+RunTmpEntryTargetPre:
+	@echo -e ${MSG_B}Compile Sources.${MSG_E}
+
+# お試し用テストエントリポイント、メインモジュール用オブジェクトをリンクしてお試し用 EXE を出力する
+.PHONY: RunTmpEntryTargetMain
+RunTmpEntryTargetMain: $(OBJECTS) ./test/tmp_entry/tmpentry.cpp
+	@echo -e ${MSG_B}Compile DONE.${MSG_E}
+	@echo -e ${MSG_B}Linking Unit-Test Executable.${MSG_E}
+	$(CXX) $(CFLAGS)  -o $(RUN_TMP_ENTRY_EXEC_FILE) $^
+
 
 # src 内のビルド（cpp → object）定義
 $(OBJROOT)/%.o : $(SRCROOT)/%.cpp
@@ -127,6 +146,16 @@ clean_publish:
 test: $(TEST_TARGET) clean_test
 	@echo -e ${MSG_B}Exec Test.${MSG_E}
 	$(TEST_TARGET)
+	@echo -e ${MSG_B}DONE.${MSG_E}
+
+test-%: $(TEST_TARGET) clean_test
+	@echo -e ${MSG_B}Exec Test.${MSG_E}
+	$(TEST_TARGET)  --gtest_filter=${@:test-%=%}*
+	@echo -e ${MSG_B}DONE.${MSG_E}
+
+testtmp: $(RUN_TMP_ENTRY_EXEC_FILE) clean_test
+	@echo -e ${MSG_B}Exec Temp Test.${MSG_E}
+	$(RUN_TMP_ENTRY_EXEC_FILE)
 	@echo -e ${MSG_B}DONE.${MSG_E}
 
 .PHONY: clean_test

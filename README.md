@@ -121,4 +121,4 @@ int main(void)
 > g++ -o main.out main.cpp -L./publish/libs -lNdclibs -g
 ```
 
--L には塔プロジェクトの publish 配下にあるライブラリの位置を指定します。
+-L には当プロジェクトの publish 配下にあるライブラリの位置を指定します。
