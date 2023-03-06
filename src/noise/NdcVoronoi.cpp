@@ -59,6 +59,23 @@ void NdcVoronoi::free()
 
 unsigned char NdcVoronoi::pos2(float x, float y)
 {
+  while (x < 0)
+  {
+    x += width;
+  }
+  while (x >= width)
+  {
+    x -= width;
+  }
+  while (y < 0)
+  {
+    y += height;
+  }
+  while (y >= height)
+  {
+    y -= height;
+  }
+
   // 最寄りの 4 点
   Point UL, UR, BL, BR;
   bool isRightLoop = false;
