@@ -285,6 +285,26 @@ std::string MemoryBank::readStringWithLength()
   return result;
 }
 
+// MemoryBank のカーソル位置を先頭にセットし、すべてのメモリを文字列として読み込んだ後、
+// 末尾に終端文字（\0）を付与して返す。読み取ったぶんのカーソル位置を進める
+std::string MemoryBank::readStringToEnd()
+{
+  setCurPosToHead();
+
+  int length = getUsingSize();
+  char *newCharArray;
+  newCharArray = new char[length + 1];
+  // char newCharArray[length + 1];
+  for (int i = 0; i < length; i++)
+  {
+    newCharArray[i] = readChar();
+  }
+  newCharArray[length] = '\0'; // 終端文字を追加
+  std::string result(newCharArray);
+  delete[] newCharArray; // 領域の解放
+  return result;
+}
+
 // バイト列保存領域として確保しているメモリ使用量を取得する
 // @return バッファのメモリ使用量
 int MemoryBank::getAllocMemorySize()
