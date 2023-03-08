@@ -155,3 +155,13 @@ TEST(MemoryBank, crc_largedata)
   EXPECT_EQ(485967120, buf.calcCrc32());
   EXPECT_EQ(485967120, crc.getHash());
 }
+
+// MemoryBank で
+TEST(MemoryBank, readStringToEnd_001)
+{
+  MemoryBank buf;
+  buf.appendString("This is a test."); // 書き込み
+  buf.appendString("ABCD.");           // 書き込み
+
+  EXPECT_EQ("This is a test.ABCD.", buf.readStringToEnd()); // 読み込み結果が書き込みと一致
+}

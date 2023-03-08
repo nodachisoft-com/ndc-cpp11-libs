@@ -126,6 +126,10 @@ public:
   /// @return カーソル位置から読み取った std::string データ
   std::string readStringWithLength();
 
+  /// @brief MemoryBank に読み込んだファイルデータを全て文字列として読み取り String 型で返す
+  /// @return MemoryBank の最後までを読み取った文字列データ
+  std::string readStringToEnd();
+
   /// @brief 読み取りカーソル位置から指定した型データを読み取り、カーソルを進める
   /// @param[out] value データを読み取り上書きする先の変数
   template <typename X>
