@@ -2,4 +2,5 @@
  * @brief 辞書機能を提供する
  */
 #pragma once
-#include "Dic.hpp"
+#include "EntityBase.hpp"
+#include "DBTable.hpp"
