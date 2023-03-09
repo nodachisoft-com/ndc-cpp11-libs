@@ -53,3 +53,16 @@ std::string CSVReader::getCell(int col, int row)
   }
   return data[row][col];
 }
+
+std::vector<std::string> CSVReader::getRowCellList(int rowIndex)
+{
+
+  int rowSize = data.size();
+  if (rowIndex < 0 || rowSize < rowIndex)
+  {
+    std::string msg;
+    msg += "CSVReader::getRowCellList(" + std::to_string(rowIndex) + ") is out of range.";
+    throw OutOfRangeAccessException(msg);
+  }
+  return data[rowIndex];
+}

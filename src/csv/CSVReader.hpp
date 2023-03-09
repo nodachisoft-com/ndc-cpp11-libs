@@ -25,6 +25,17 @@ namespace nl
     /// @return 指定したセルデータの文字列
     std::string getCell(int col, int row);
 
+    /// @brief 読み込み済みデータの行数を返す
+    /// @return 辞書データの行数
+    int rowsize()
+    {
+      return data.size();
+    }
+
+    /// @brief 対象の行のセルを文字列配列で返す
+    /// @return 対象の行のセルを文字列配列
+    std::vector<std::string> getRowCellList(int rowIndex);
+
   private:
     /// @brief 読み込み後のデータ
     std::vector<std::vector<std::string>> data;
