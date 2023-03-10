@@ -4,7 +4,8 @@
 #include <string>
 
 using namespace nl;
-using namespace std::literals::string_literals;
+// using namespace std::literals::string_literals;
+using namespace std::string_literals;
 
 /// @brief テスト用の DBTable Entity
 class TestEntity : public EntityBase
@@ -28,11 +29,10 @@ public:
 
 TEST(DBTable, readCSV_case001)
 {
-
-  std::string csv_data = std::string()
-                             .append("TEST_TABLE\n")
-                             .append("Apple,100,4.32,Hello,TRUE\n")
-                             .append("Banana,-33,-45.67,I'm Test User!,FALSE");
+  // CSV データを定義
+  std::string csv_data = "TEST_TABLE\n"s +
+                         "Apple,100,4.32,Hello,TRUE\n"s +
+                         "Banana,-33,-45.67,I'm Test User!,FALSE"s;
 
   CSVReader reader(',', '\\');
   reader.readCsv(csv_data);
@@ -54,11 +54,10 @@ TEST(DBTable, readCSV_case001)
 // コメント行が無視されることを確認する
 TEST(DBTable, readCSV_case002)
 {
-
-  std::string csv_data = std::string()
-                             .append("TEST_TABLE\n")
-                             .append("# Apple,100,4.32,Hello,TRUE\n")
-                             .append("Banana,-33,-45.67,I'm Test User!,FALSE");
+  // CSV データを定義
+  std::string csv_data = "TEST_TABLE\n"s +
+                         "# Apple,100,4.32,Hello,TRUE\n"s +
+                         "Banana,-33,-45.67,I'm Test User!,FALSE"s;
 
   CSVReader reader(',', '\\');
   reader.readCsv(csv_data);
