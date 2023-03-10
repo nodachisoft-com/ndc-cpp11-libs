@@ -47,4 +47,10 @@ namespace nl
   {
     using NdcBaseException::NdcBaseException;
   };
+
+  /// @brief 対象のデータが存在していない
+  class NotImplException : public NdcBaseException
+  {
+    using NdcBaseException::NdcBaseException;
+  };
 };
