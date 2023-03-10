@@ -157,7 +157,6 @@ std::string TimeWatch::getTimezone()
   std::time_t time_now_t = std::chrono::system_clock::to_time_t(now);
   std::tm now_tm = *std::localtime(&time_now_t);
   char buf[512];
-  // std::strftime(buf, 512, "%Y-%m-%d %H:%M:%S %z", &now_tm);
   std::strftime(buf, 6, "%z", &now_tm);
   return std::string(buf);
 }
