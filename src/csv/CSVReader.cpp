@@ -10,24 +10,24 @@ void CSVReader::readCsv(const std::string &csv_data)
   while (std::getline(stream, line))
   {
     std::vector<std::string> row;
-    size_t start = 0, end = 0;
+    size_t start = 0, index = 0;
     bool escape = false;
-    while (end < line.size())
+    while (index < line.size())
     {
-      if (line[end] == escape_char_)
+      if (line[index] == escape_char_)
       {
         escape = true;
       }
-      else if (line[end] == delimiter_ && !escape)
+      else if (line[index] == delimiter_ && !escape)
       {
-        row.push_back(line.substr(start, end - start));
-        start = end + 1;
+        row.push_back(line.substr(start, index - start));
+        start = index + 1;
       }
       else
       {
         escape = false;
       }
-      end++;
+      index++;
     }
     row.push_back(line.substr(start));
     result.push_back(row);

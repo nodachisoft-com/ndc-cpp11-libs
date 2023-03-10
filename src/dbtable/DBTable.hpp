@@ -5,7 +5,8 @@
 #include <unordered_map>
 #include "../csv/CSVReader.hpp"
 #include "EntityBase.hpp"
-#include "../exception/index.hpp"
+#include "../exception/NdcBaseException.hpp"
+#include "../log/Logger.hpp"
 
 namespace nl
 {
@@ -31,6 +32,7 @@ namespace nl
     /// @return 読み込んだデータ行。重複などのエラー検知データは対象外。
     int readCSV(CSVReader &csv)
     {
+      Logger logger;
       int rowsize = csv.rowsize();
       if (rowsize <= 1)
       {
@@ -43,10 +45,26 @@ namespace nl
       for (int i = 1; i < rowsize; i++)
       {
         std::vector<std::string> rowdata = csv.getRowCellList(i);
+        if (rowdata.size() == 0)
+        {
+          // データが存在しない
+          logger.errorLog("DBTable::readCSV rowdata.size() is 0.");
+          continue;
+        }
+        if (rowdata[0][0] == '#')
+        {
+          // コメント行で読込スキップする
+          continue;
+        }
+
         std::string pk = rowdata[0];
+
         if (isPkDataExist(pk))
         {
-          std::cout << "PK Duplicate. PK=[" << pk << "]" << std::endl;
+          logger.errorLog(std::string()
+                              .append("PK Duplicate. PK=[")
+                              .append(pk)
+                              .append("]"));
           continue;
         }
         XxxEntity entity;

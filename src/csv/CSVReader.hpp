@@ -14,7 +14,9 @@ namespace nl
     /// @param escape_char CSV セル内のエスケープコード
     CSVReader(char delimiter, char escape_char) : delimiter_(delimiter), escape_char_(escape_char) {}
 
-    /// @brief 2次元の文字列データ
+    /// @brief
+    ///   文字列データを CSV データとして読み込む。
+    ///   行の先頭文字が "#" ならコメント行としてスキップする
     /// @param csv_data 読み込む CSVデータ
     /// @return
     void readCsv(const std::string &csv_data);
