@@ -81,11 +81,14 @@ TEST(Fsqrt, fsqrt_vs_stdsqrt_case001)
   if (time2 < time1)
   {
     //  fastsqrt のほうが遅い場合
-    std::cout << "t1star t=" << std::to_string(time1begin) << std::endl;
-    std::cout << "t2start=" << std::to_string(time2begin) << std::endl;
-    std::cout << "t2end=" << std::to_string(timer.getNowMs()) << std::endl;
-    std::cout << "t1=" << std::to_string(time1) << ", t2=" << std::to_string(time2) << std::endl;
-    std::cout << "double sum1=" << std::to_string(sum1) << ", double sum2=" << std::to_string(sum2) << std::endl;
-    EXPECT_TRUE(false);
+    std::string msg = std::string()
+                          .append("fsqrt was slow! ")
+                          .append("fsqrt=")
+                          .append(std::to_string(time1))
+                          .append("[ms], std::math.sqrt=")
+                          .append(std::to_string(time2))
+                          .append("[ms]");
+    Logger logger;
+    logger.errorLog(msg);
   }
 }

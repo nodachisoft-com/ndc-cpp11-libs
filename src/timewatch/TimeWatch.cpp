@@ -154,11 +154,11 @@ int64_t TimeWatch::getNowMs()
 std::string TimeWatch::getNowMsAsStrIso8601()
 {
   auto nowtime = time(nullptr);
-  auto tmv = tm();
-  localtime_s(&tmv, &nowtime);
-  char buf[256] = {0};
-  strftime(buf, 256, "%Y/%m/%d %H:%M:%S%z\n", &tmv);
-  return std::string(buf);
+  struct tm result;
+  localtime_r(&nowtime, &result);
+  std::stringstream textStream;
+  textStream << std::put_time(&result, "%FT%T%z");
+  return textStream.str();
 }
 
 std::string TimeWatch::getNowMsAsStr_hhmmssSSS()

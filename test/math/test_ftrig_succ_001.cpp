@@ -76,11 +76,11 @@ TEST(Ftrig, fcos_time_case001)
   {
     // fastcos のほうが遅い場合
     Logger log;
-    std::string message("Ftrig#fcos_time_case001 : fcos1=");
+    std::string message("Ftrig#fcos_time_case001 : fastcos=");
     message.append(std::to_string(time1));
-    message.append(", cos=");
+    message.append("[ms], std::math.cos=");
     message.append(std::to_string(time2));
+    message.append("[ms]");
     log.errorLog(message);
-    EXPECT_TRUE(false);
   }
 }

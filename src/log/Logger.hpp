@@ -54,7 +54,7 @@ namespace nl
     void escSeq(char const *controlSequence, char const function)
     {
       printf("\x1B[");
-      printf(controlSequence);
+      printf("%s", controlSequence);
       putchar(function);
     }
 
