@@ -97,6 +97,8 @@ namespace nl
     /// @return 現在時刻(ms)
     static int64_t getNowMs();
 
+    static std::string getTimezone();
+
     /// @brief 現在の時刻を ISO8601 形式（YYYYMMDDThh:mm:ss.sss+09:00 形式で返す）
     /// @return 時刻を ISO8601 形式の文字列
     static std::string getNowMsAsStrIso8601();

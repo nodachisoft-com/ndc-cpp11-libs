@@ -151,14 +151,25 @@ int64_t TimeWatch::getNowMs()
   return ms;
 }
 
+std::string TimeWatch::getTimezone()
+{
+  auto now = std::chrono::system_clock::now();
+  std::time_t time_now_t = std::chrono::system_clock::to_time_t(now);
+  std::tm now_tm = *std::localtime(&time_now_t);
+  char buf[512];
+  // std::strftime(buf, 512, "%Y-%m-%d %H:%M:%S %z", &now_tm);
+  std::strftime(buf, 6, "%z", &now_tm);
+  return std::string(buf);
+}
+
 std::string TimeWatch::getNowMsAsStrIso8601()
 {
-  auto nowtime = time(nullptr);
-  struct tm result;
-  localtime_r(&nowtime, &result);
-  std::stringstream textStream;
-  textStream << std::put_time(&result, "%FT%T%z");
-  return textStream.str();
+  auto dt = std::chrono::system_clock::now();
+  std::time_t time_now_t = std::chrono::system_clock::to_time_t(dt);
+  std::tm now_tm = *std::localtime(&time_now_t);
+  char buf[512];
+  std::strftime(buf, 512, "%Y-%m-%dT%H:%M:%S%z", &now_tm);
+  return std::string(buf);
 }
 
 std::string TimeWatch::getNowMsAsStr_hhmmssSSS()
