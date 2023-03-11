@@ -76,7 +76,7 @@ namespace nl
       return insertCount;
     }
 
-    /// @brief Primary Key をもつデータが辞書内に存在するかを判定する
+    /// @brief Primary Key をもつデータがテーブル内に存在するかを判定する
     /// @param pk Primary Key
     /// @return Primary Key データが存在する場合 true を返す
     bool isPkDataExist(std::string pk)
@@ -89,6 +89,9 @@ namespace nl
       return data.size();
     }
 
+    /// @brief Primary Key が完全一致するデータをテーブル内から取得する
+    /// @param pk Primary Key
+    /// @return Primary Key データが存在する場合、対象データを一見返す
     std::vector<XxxEntity> getByPK(std::string pk)
     {
       std::vector<XxxEntity> result;
@@ -98,9 +101,31 @@ namespace nl
       }
       return result;
     }
+
+    /// @brief テーブル名を返す
+    /// @return テーブル名
     std::string getTablename()
     {
       return tablename;
+    }
+
+    /// @brief Primary Key が前方一致するデータをテーブル内から取得する
+    /// @param pkStartWith Primary Key に対して前方一致検索する文字列
+    /// @return 条件に一致する Entity のリスト
+    std::vector<XxxEntity> selectStartWithByPK(std::string pkStartWith)
+    {
+      std::vector<XxxEntity> result;
+      for (auto itr = data.begin(); itr != data.end(); ++itr)
+      {
+        std::string keyName(itr->first);
+
+        if (keyName.size() >= pkStartWith.size() &&
+            std::equal(std::begin(pkStartWith), std::end(pkStartWith), std::begin(keyName)))
+        {
+          result.push_back(data[keyName]);
+        }
+      }
+      return result;
     }
   };
 }

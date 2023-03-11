@@ -75,3 +75,26 @@ TEST(DBTable, readCSV_case002)
   EXPECT_EQ(rec.s, "I'm Test User!");
   EXPECT_EQ(rec.b, false);
 }
+
+// SelectStartWith で前方一致検索できることを確認する
+TEST(DBTable, readCSV_SelectStartWith_case001)
+{
+  // CSV データを定義
+  std::string csv_data = "TEST_TABLE\n"s +
+                         "Apple,100,4.32,Hello,TRUE\n"s +
+                         "Banana,-33,-45.67,I'm Test User!,FALSE\n"s +
+                         "Maple,55,0.33,Yeah,FALSE\n"s +
+                         "Potate,77,0.11,OOOH,TRUE\n"s +
+                         "Blueberry,1,0.004,EYE,FALSE"s;
+
+  CSVReader reader(',', '\\');
+  reader.readCsv(csv_data);
+
+  DBTable<TestEntity> testTable;
+  EXPECT_EQ(testTable.readCSV(reader), 5); // 5 行読み込み
+  EXPECT_EQ(testTable.size(), 5);          // 5 行読み込み
+
+  // Primary Key で検索
+  std::vector<TestEntity> result = testTable.selectStartWithByPK("B");
+  EXPECT_EQ(result.size(), 2); // Banana, Blueberry
+}
