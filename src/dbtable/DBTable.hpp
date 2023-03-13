@@ -119,7 +119,7 @@ namespace nl
         XxxEntity entity;
         entity.setPK(pk);
         entity.setData(rowdata);
-        entity.setDataToColumnData(columnNameList, rowdata);
+        entity.setDataToColumnData(columnNameList, columnTypeList, rowdata);
         insertCount++;
         data[pk] = entity;
       }

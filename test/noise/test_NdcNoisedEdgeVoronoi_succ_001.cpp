@@ -36,9 +36,9 @@ TEST(NdcNoisedEdgeVoronoi, pos2_case001)
       image.set(u, v, colorTable[res]);
     }
   }
-  std::cout << "CRC=" << std::to_string(crc.getHash()) << std::endl;
+  // std::cout << "CRC=" << std::to_string(crc.getHash()) << std::endl;
   image.WriteBmp(path);
-  std::cout << "WROTE BMP!" << std::endl;
+  // std::cout << "WROTE BMP!" << std::endl;
   // EXPECT_EQ(crc.getHash(), 161513028); // データ本体部の CRC32
 }
 

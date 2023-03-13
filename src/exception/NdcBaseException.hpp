@@ -48,8 +48,14 @@ namespace nl
     using NdcBaseException::NdcBaseException;
   };
 
-  /// @brief 対象のデータが存在していない
+  /// @brief コードは未実装
   class NotImplException : public NdcBaseException
+  {
+    using NdcBaseException::NdcBaseException;
+  };
+
+  /// @brief 想定外のデータ形式
+  class WrongDataFormatException : public NdcBaseException
   {
     using NdcBaseException::NdcBaseException;
   };

@@ -14,7 +14,6 @@ TEST(TimeWatch, getNowMs_case001)
 TEST(TimeWatch, getNowMsAsStrIso8601_case001)
 {
   std::string time = TimeWatch::getNowMsAsStrIso8601();
-  std::cout << "TEST===" << time << std::endl;
   EXPECT_EQ(time.size(), 24);
 }
 
