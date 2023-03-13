@@ -31,10 +31,12 @@ TEST(DBTable, readCSV_case001)
 {
   // CSV データを定義
   std::string csv_data = "TEST_TABLE\n"s +
+                         "ID,PRICE,SIZE,MESSAGE,BUYABLE\n"s +
+                         "STRING,INT,FLOAT,STRING,BOOL\n"s +
                          "Apple,100,4.32,Hello,TRUE\n"s +
                          "Banana,-33,-45.67,I'm Test User!,FALSE"s;
 
-  CSVReader reader(',', '\\');
+  CSVReader reader(',', '\\', '#');
   reader.readCsv(csv_data);
 
   DBTable<TestEntity> testTable;
@@ -56,10 +58,12 @@ TEST(DBTable, readCSV_case002)
 {
   // CSV データを定義
   std::string csv_data = "TEST_TABLE\n"s +
+                         "ID,PRICE,SIZE,MESSAGE,BUYABLE\n"s +
+                         "STRING,INT,FLOAT,STRING,BOOL\n"s +
                          "# Apple,100,4.32,Hello,TRUE\n"s +
                          "Banana,-33,-45.67,I'm Test User!,FALSE"s;
 
-  CSVReader reader(',', '\\');
+  CSVReader reader(',', '\\', '#');
   reader.readCsv(csv_data);
 
   DBTable<TestEntity> testTable;
@@ -77,17 +81,20 @@ TEST(DBTable, readCSV_case002)
 }
 
 // SelectStartWith で前方一致検索できることを確認する
+// Entity から列名を指定して文字列での値を取得できることを確認する
 TEST(DBTable, readCSV_SelectStartWith_case001)
 {
   // CSV データを定義
   std::string csv_data = "TEST_TABLE\n"s +
+                         "ID,PRICE,SIZE,MESSAGE,BUYABLE\n"s +
+                         "STRING,INT,FLOAT,STRING,BOOL\n"s +
                          "Apple,100,4.32,Hello,TRUE\n"s +
                          "Banana,-33,-45.67,I'm Test User!,FALSE\n"s +
                          "Maple,55,0.33,Yeah,FALSE\n"s +
-                         "Potate,77,0.11,OOOH,TRUE\n"s +
+                         "PotateBurn,77,0.11,OOOH,TRUE\n"s +
                          "Blueberry,1,0.004,EYE,FALSE"s;
 
-  CSVReader reader(',', '\\');
+  CSVReader reader(',', '\\', '#');
   reader.readCsv(csv_data);
 
   DBTable<TestEntity> testTable;
@@ -97,4 +104,7 @@ TEST(DBTable, readCSV_SelectStartWith_case001)
   // Primary Key で検索
   std::vector<TestEntity> result = testTable.selectStartWithByPK("B");
   EXPECT_EQ(result.size(), 2); // Banana, Blueberry
+
+  result = testTable.selectStartWithByPK("Potate");
+  EXPECT_EQ(result[0].getData("MESSAGE"), "OOOH");
 }

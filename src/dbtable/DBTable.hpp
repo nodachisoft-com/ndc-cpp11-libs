@@ -20,11 +20,16 @@ namespace nl
     /// @brief 辞書データを格納する
     std::unordered_map<std::string, XxxEntity> data;
 
+    /// @brief カラム名一覧を格納する
+    std::vector<std::string> columnNameList;
+
+    /// @brief カラムのデータ型定義（ STRING, INT, FLOAT, BOOL )
+    std::vector<std::string> columnTypeList;
+
   public:
     /// @brief 初期化
-    DBTable()
+    DBTable() : tablename(), data({}), columnNameList({}), columnTypeList({})
     {
-      data = std::unordered_map<std::string, XxxEntity>{};
     }
 
     /// @brief CSV データを辞書データとして読み込む
@@ -34,31 +39,75 @@ namespace nl
     {
       Logger logger;
       int rowsize = csv.rowsize();
-      if (rowsize <= 1)
+      if (rowsize <= 2)
       {
+        // 検証：DB データとして読み込むためのメタ情報が足りていない
         throw ArgumentValidatioinException("csv data is too short.");
       }
       // テーブル名取得
       tablename = csv.getRowCellList(0).at(0);
+      if (tablename.size() == 0)
+      {
+        // 検証：DB データとして読み込むテーブル名が空
+        throw ArgumentValidatioinException("tablename is too Empty.");
+      }
+
+      // カラム定義一覧を取得
+      columnNameList = csv.getRowCellList(1);
+      int columnNameListSize = columnNameList.size();
+
+      // カラムのデータ型定義を取得
+      columnTypeList = csv.getRowCellList(2);
+      int columnTypeListSize = columnTypeList.size();
+
+      // 検証：カラム定義一覧とカラムデータ型一覧の数が不一致
+      if (columnNameListSize != columnTypeListSize)
+      {
+        throw ArgumentValidatioinException(
+            "ColumnNameList.size() != ColumnTypeList.size()"s + " Tablename=["s + tablename + "]"s);
+      }
+      // 検証：カラム名が存在しない
+      if (columnNameListSize == 0)
+      {
+        throw ArgumentValidatioinException("ColumnNameList is Empty!"s + " Tablename=["s + tablename + "]"s);
+      }
 
       int insertCount = 0;
-      for (int i = 1; i < rowsize; i++)
+      for (int i = 3; i < rowsize; i++)
       {
         std::vector<std::string> rowdata = csv.getRowCellList(i);
-        if (rowdata.size() == 0)
+        int rowDataSize = rowdata.size();
+        if (rowDataSize == 0)
         {
           // データが存在しない
-          logger.errorLog("DBTable::readCSV rowdata.size() is 0.");
+          logger.errorLog("DBTable::readCSV rowdata.size()=0."s +
+                          " Tablename=["s + tablename + "] "s +
+                          " CSV LINE="s + std::to_string(i) + " th."s);
           continue;
         }
-        if (rowdata[0][0] == '#')
+
+        if (rowDataSize < columnNameListSize)
         {
-          // コメント行で読込スキップする
+          // データの数がカラムの数未満であり、不足している。行データを出力する
+          std::string msg = "DBTable::readCSV rowdata.size()="s +
+                            std::to_string(rowDataSize) +
+                            ". too short. "s +
+                            " Tablename=["s + tablename + "] "s;
+          msg.append("rowdata=[");
+          for (int j = 0; j < rowDataSize; i++)
+          {
+            msg.append(std::to_string(j));
+            if (j < rowDataSize - 1)
+            {
+              msg.append(",");
+            }
+            msg.append("]");
+          }
+          logger.errorLog(msg);
           continue;
         }
 
         std::string pk = rowdata[0];
-
         if (isPkDataExist(pk))
         {
           logger.errorLog(std::string()
@@ -70,6 +119,7 @@ namespace nl
         XxxEntity entity;
         entity.setPK(pk);
         entity.setData(rowdata);
+        entity.setDataToColumnData(columnNameList, rowdata);
         insertCount++;
         data[pk] = entity;
       }

@@ -6,9 +6,14 @@ void CSVReader::readCsv(const std::string &csv_data)
 {
   std::vector<std::vector<std::string>> result;
   std::istringstream stream(csv_data);
-  std::string line;
+  std::string line; // 読み込み行
   while (std::getline(stream, line))
   {
+    if (line[0] == comment_char_)
+    {
+      // コメントする対象である
+      continue;
+    }
     std::vector<std::string> row;
     size_t start = 0, index = 0;
     bool escape = false;

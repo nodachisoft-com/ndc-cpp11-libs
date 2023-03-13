@@ -12,7 +12,8 @@ namespace nl
     /// @brief CSV データ読み込み時のデリミタやエスケープコードの設定を行う
     /// @param delimiter CSV のデリミタ指定
     /// @param escape_char CSV セル内のエスケープコード
-    CSVReader(char delimiter, char escape_char) : delimiter_(delimiter), escape_char_(escape_char) {}
+    /// @param comment_char CSV セルの頭にあれば読み込みをスキップする文字
+    CSVReader(char delimiter, char escape_char, char comment_char) : delimiter_(delimiter), escape_char_(escape_char), comment_char_(comment_char) {}
 
     /// @brief
     ///   文字列データを CSV データとして読み込む。
@@ -47,5 +48,8 @@ namespace nl
 
     /// @brief エスケープコード
     char escape_char_;
+
+    /// @brief コメント行として無視する先頭文字
+    char comment_char_;
   };
 }

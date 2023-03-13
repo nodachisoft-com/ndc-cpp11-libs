@@ -11,7 +11,7 @@ TEST(CSVReader, curDir_case1)
 {
 
   std::string csv_data = "apple,banana,orange\npear,grape,kiwi\\,mango\n";
-  CSVReader reader(',', '\\');
+  CSVReader reader(',', '\\', '#');
   reader.readCsv(csv_data);
 
   EXPECT_EQ("apple", reader.getCell(0, 0));
