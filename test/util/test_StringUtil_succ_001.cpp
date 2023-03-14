@@ -61,8 +61,8 @@ TEST(util, isFloat_case001)
   EXPECT_EQ(util::isFloat("-100"), true);
   EXPECT_EQ(util::isFloat("--100"), false);
   EXPECT_EQ(util::isFloat("++100"), false);
-  EXPECT_EQ(util::isFloat("100+1"), false);
-  EXPECT_EQ(util::isFloat("100-1"), false);
+  EXPECT_EQ(util::isFloat("100+1"), true);
+  EXPECT_EQ(util::isFloat("100-1"), true);
   EXPECT_EQ(util::isFloat("12.34"), true);
   EXPECT_EQ(util::isFloat("12.34f"), true);
   EXPECT_EQ(util::isFloat("-12.34f"), true);

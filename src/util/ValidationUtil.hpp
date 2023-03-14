@@ -27,7 +27,7 @@ namespace nl
 
     /// @brief 数値であるかを判別
     /// @param[in] str 判定する文字列
-    static inline bool isInt(const std::string str)
+    static inline bool isInt(const std::string &str)
     {
       return std::regex_match(str, _inner::RegInt);
     }
@@ -35,7 +35,7 @@ namespace nl
     /// @brief 数値(Float)であるかを判別
     /// @param[in] str 判定する文字列
     /// @return 数値(Float)なら true を返す
-    static inline bool isFloat(const std::string str)
+    static inline bool isFloat(const std::string &str)
     {
       try
       {
@@ -51,9 +51,10 @@ namespace nl
     /// @brief 文字が "true" であれば treu を返す
     /// @param[in] str 判定する文字列
     /// @return 判定結果（ true or false )
-    static inline bool isBool(const std::string str)
+    static inline bool isBool(const std::string &str)
     {
-      return util::convToLowercase(str) == "true" ? true : false;
+      std::string convStr = util::convToLowercase(str);
+      return (convStr == "true" || convStr == "false") ? true : false;
     }
   }
 }

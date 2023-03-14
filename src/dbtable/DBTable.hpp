@@ -71,6 +71,11 @@ namespace nl
       {
         throw ArgumentValidatioinException("ColumnNameList is Empty!"s + " Tablename=["s + tablename + "]"s);
       }
+      // 検証：カラム名に重複がないかチェック
+      if (util::isDuplicateElemInArray(columnNameList))
+      {
+        throw ArgumentValidatioinException("Column Duplicate Detected!"s);
+      }
 
       int insertCount = 0;
       for (int i = 3; i < rowsize; i++)
@@ -117,9 +122,17 @@ namespace nl
           continue;
         }
         XxxEntity entity;
-        entity.setPK(pk);
         entity.setData(rowdata);
-        entity.setDataToColumnData(columnNameList, columnTypeList, rowdata);
+        bool isValid = entity.setDataToColumnData(columnNameList, columnTypeList, rowdata);
+        if (!isValid)
+        {
+          // データを Entity に変換できなかった
+          logger.errorLog(std::string()
+                              .append("Could'nt Convert to Entity. PK=[")
+                              .append(pk)
+                              .append("]"));
+          continue;
+        }
         insertCount++;
         data[pk] = entity;
       }

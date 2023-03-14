@@ -43,16 +43,20 @@ namespace nl
                              std::vector<std::string> rowdata)
     {
       int size = columnNameList.size();
+      _pk = rowdata[0]; // 必須項目の Primary Key 値にセット
       for (int i = 0; i < size; i++)
       {
         std::string key = columnNameList[i];
-        if (dataMap.count(key) != 0)
+        // if (dataMap.count(key) != 0)
+        // {
+        //   // 検査：キー重複を検知
+        //   throw ArgumentValidatioinException(
+        //       "Column Duplicate Detected! ColumnName=["s + key + "]"s);
+        // }
+        if (!validateDataConvertibleFromString(columnTypeList[i], rowdata[i]))
         {
-          // 検査：キー重複を検知
-          throw ArgumentValidatioinException(
-              "Column Duplicate Detected! ColumnName=["s + key + "]"s);
+          return false;
         }
-        validateDataConvertibleFromString(columnTypeList[i], rowdata[i]);
         dataMap[key] = rowdata[i];
       }
       return true;
@@ -109,31 +113,42 @@ namespace nl
         // STRING 型
         return true;
       }
-      else if (typeChar == 'I' && !util::isInt(data)) // INT 型だが、int に変換不可能
+      else if (typeChar == 'I')
       {
-        Logger logger;
-        logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
-        return false;
+        if (!util::isInt(data)) // INT 型だが、int に変換不可能
+        {
+          Logger logger;
+          logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
+          return false;
+        }
       }
-      else if (typeChar == 'F' && !util::isFloat(data)) // FLOAT 型だが、float に変換不可能
+      else if (typeChar == 'F')
       {
+        if (!util::isFloat(data)) // FLOAT 型だが、float に変換不可能
+        {
 
-        Logger logger;
-        logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
-        return false;
+          Logger logger;
+          logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
+          return false;
+        }
       }
-      else if (typeChar == 'B' && !util::isBool(data)) // BOOL 型だが、bool に変換不可能
+      else if (typeChar == 'B')
       {
-        Logger logger;
-        logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
-        return false;
+        if (!util::isBool(data)) // BOOL 型だが、bool に変換不可能
+        {
+          Logger logger;
+          logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
+          return false;
+        }
       }
       else
-      { // 渡されたデータ型が不明
+      {
+        // 渡されたデータ型が不明
         Logger logger;
         logger.errorLog("DBTable Unknown Type. type=["s + type + "]"s);
         return false;
       }
+
       return true;
     }
   };
