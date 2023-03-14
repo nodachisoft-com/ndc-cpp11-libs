@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <regex>
+#include "StringUtil.hpp"
 
 namespace nl
 {
@@ -8,8 +9,8 @@ namespace nl
   {
     namespace _inner
     {
-      // ±記号を表記可能な数字であることを判別すr
-      static const std::regex RegNumber(R"([\+\-]?[0-9]+)");
+      /// @brief ±記号を表記可能な数字であることを判別する
+      static const std::regex RegInt(R"([\+\-]?[0-9]+)");
     }
 
     template <class T>
@@ -24,9 +25,35 @@ namespace nl
       return (min <= checkVal && checkVal <= max) ? true : false;
     }
 
+    /// @brief 数値であるかを判別
+    /// @param[in] str 判定する文字列
     static inline bool isInt(const std::string str)
     {
-      return std::regex_match(str, _inner::RegNumber);
+      return std::regex_match(str, _inner::RegInt);
+    }
+
+    /// @brief 数値(Float)であるかを判別
+    /// @param[in] str 判定する文字列
+    /// @return 数値(Float)なら true を返す
+    static inline bool isFloat(const std::string str)
+    {
+      try
+      {
+        std::stof(str);
+      }
+      catch (std::invalid_argument &)
+      {
+        return false;
+      }
+      return true;
+    }
+
+    /// @brief 文字が "true" であれば treu を返す
+    /// @param[in] str 判定する文字列
+    /// @return 判定結果（ true or false )
+    static inline bool isBool(const std::string str)
+    {
+      return util::convToLowercase(str) == "true" ? true : false;
     }
   }
 }

@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include "../exception/index.hpp"
+#include "../util/ValidationUtil.hpp"
 
 using namespace std::literals;
 
@@ -32,7 +33,7 @@ namespace nl
       throw TargetNotFoundException("No Impl Entity");
     }
 
-    /// @brief
+    /// @brief 列名に紐づけてデータを文字列型で格納する。列名検索時に利用可能。
     /// @param columnNameList カラム名称一覧
     /// @param columnTypeList カラム型の一覧
     /// @param rowdata データ本体
@@ -57,15 +58,17 @@ namespace nl
       return true;
     }
 
+    /// @brief 指定した列名（カラム）が Entity に存在するかを確認する
+    /// @param columnName 列名
+    /// @return 存在する場合 true を返す
     bool isExistData(std::string columnName)
     {
-      if (dataMap.count(columnName) != 0)
-      {
-        return true;
-      }
-      return false;
+      return dataMap.count(columnName) == 0 ? false : true;
     }
 
+    /// @brief 対象の列名のデータを文字列型で取得する。列名が存在しない場合は空文字を返す
+    /// @param columnName 列名
+    /// @return 列名のデータを返す
     std::string getData(std::string columnName)
     {
       if (!isExistData(columnName))
@@ -75,17 +78,25 @@ namespace nl
       return dataMap[columnName];
     }
 
+    /// @brief Primary Key を取得する
+    /// @return Primary Key
     std::string getPK()
     {
       return _pk;
     }
 
-    void setPK(std::string pk)
+    /// @brief Primary Key をセットする
+    /// @param pk[in] Primary Key
+    void setPK(const std::string pk)
     {
       _pk = pk;
     }
 
   private:
+    /// @brief 渡されたデータの型定義に、データの文字列が変換可能かを検査する
+    /// @param type 型定義 'S' = STRING, 'I' = INT , 'F' = FLOAT, 'B' = BOOL
+    /// @param data データ文字列
+    /// @return 変換可能であれば true を返す
     bool validateDataConvertibleFromString(std::string type, std::string data)
     {
       if (type.size() == 0)
@@ -98,48 +109,29 @@ namespace nl
         // STRING 型
         return true;
       }
-      else if (typeChar == 'I')
-      {
-        // INT 型
-        try
-        {
-          std::stoi(data);
-        }
-        catch (std::invalid_argument &)
-        {
-          Logger logger;
-          logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
-          return false;
-        }
-      }
-      else if (typeChar == 'F')
-      {
-        // INT 型
-        try
-        {
-          std::stof(data);
-        }
-        catch (std::invalid_argument &)
-        {
-          Logger logger;
-          logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
-          return false;
-        }
-      }
-      else if (typeChar == 'B')
-      {
-        // BOOL 型
-        if (data != "TRUE" && data != "FALSE")
-        {
-          Logger logger;
-          logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
-          return false;
-        }
-      }
-      else
+      else if (typeChar == 'I' && !util::isInt(data)) // INT 型だが、int に変換不可能
       {
         Logger logger;
-        logger.errorLog("Unknown Data type. type=["s + type + "]"s);
+        logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
+        return false;
+      }
+      else if (typeChar == 'F' && !util::isFloat(data)) // FLOAT 型だが、float に変換不可能
+      {
+
+        Logger logger;
+        logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
+        return false;
+      }
+      else if (typeChar == 'B' && !util::isBool(data)) // BOOL 型だが、bool に変換不可能
+      {
+        Logger logger;
+        logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
+        return false;
+      }
+      else
+      { // 渡されたデータ型が不明
+        Logger logger;
+        logger.errorLog("DBTable Unknown Type. type=["s + type + "]"s);
         return false;
       }
       return true;

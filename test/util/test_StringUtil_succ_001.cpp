@@ -41,3 +41,39 @@ TEST(util, isInt_case001)
   EXPECT_EQ(util::isInt("100+1"), false);
   EXPECT_EQ(util::isInt("100-1"), false);
 }
+
+// isFloat のパターン確認
+TEST(util, isFloat_case001)
+{
+  EXPECT_EQ(util::isFloat("+"), false);
+  EXPECT_EQ(util::isFloat("-"), false);
+  EXPECT_EQ(util::isFloat("a"), false);
+  EXPECT_EQ(util::isFloat("A"), false);
+  EXPECT_EQ(util::isFloat("."), false);
+  EXPECT_EQ(util::isFloat("0"), true);
+  EXPECT_EQ(util::isFloat("9"), true);
+  EXPECT_EQ(util::isFloat("+0"), true);
+  EXPECT_EQ(util::isFloat("-0"), true);
+  EXPECT_EQ(util::isFloat("12"), true);
+  EXPECT_EQ(util::isFloat("1."), true);
+  EXPECT_EQ(util::isFloat(".1"), true);
+  EXPECT_EQ(util::isFloat("+100"), true);
+  EXPECT_EQ(util::isFloat("-100"), true);
+  EXPECT_EQ(util::isFloat("--100"), false);
+  EXPECT_EQ(util::isFloat("++100"), false);
+  EXPECT_EQ(util::isFloat("100+1"), false);
+  EXPECT_EQ(util::isFloat("100-1"), false);
+  EXPECT_EQ(util::isFloat("12.34"), true);
+  EXPECT_EQ(util::isFloat("12.34f"), true);
+  EXPECT_EQ(util::isFloat("-12.34f"), true);
+}
+// isBool のパターン確認
+TEST(util, isBool_case001)
+{
+  EXPECT_EQ(util::isBool("true"), true);
+  EXPECT_EQ(util::isBool("TrUE"), true);
+  EXPECT_EQ(util::isBool("TRUE"), true);
+  EXPECT_EQ(util::isBool("ABCD"), false);
+  EXPECT_EQ(util::isBool("FalSE"), false);
+  EXPECT_EQ(util::isBool("false"), false);
+}
