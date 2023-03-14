@@ -12,8 +12,8 @@
 #include <sstream>
 
 // 各機能へのヘッダーを記述
-
 #include "exception/index.hpp"
+#include "util/index.hpp"
 #include "file/index.hpp"
 #include "geometry/index.hpp"
 #include "hash/index.hpp"
