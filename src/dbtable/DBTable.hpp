@@ -6,7 +6,7 @@
 #include "../csv/CSVReader.hpp"
 #include "EntityBase.hpp"
 #include "../exception/NdcBaseException.hpp"
-#include "../log/Logger.hpp"
+#include "../log/index.hpp"
 
 namespace nl
 {
@@ -37,7 +37,7 @@ namespace nl
     /// @return 読み込んだデータ行。重複などのエラー検知データは対象外。
     int readCSV(CSVReader &csv)
     {
-      Logger logger;
+      // Logger logger;
       int rowsize = csv.rowsize();
       if (rowsize <= 2)
       {
@@ -84,10 +84,12 @@ namespace nl
         int rowDataSize = rowdata.size();
         if (rowDataSize == 0)
         {
+
           // データが存在しない
-          logger.errorLog("DBTable::readCSV rowdata.size()=0."s +
-                          " Tablename=["s + tablename + "] "s +
-                          " CSV LINE="s + std::to_string(i) + " th."s);
+          logger.error << "DBTable::readCSV rowdata.size()=0."
+                       << " Tablename=[" << tablename << "] "
+                       << " CSV LINE=" << i << " th." << std::endl;
+
           continue;
         }
 
@@ -108,17 +110,15 @@ namespace nl
             }
             msg.append("]");
           }
-          logger.errorLog(msg);
+          logger.error << msg << std::endl;
+
           continue;
         }
 
         std::string pk = rowdata[0];
         if (isPkDataExist(pk))
         {
-          logger.errorLog(std::string()
-                              .append("PK Duplicate. PK=[")
-                              .append(pk)
-                              .append("]"));
+          logger.error << "PK Duplicate. PK=[" << pk << "]" << std::endl;
           continue;
         }
         XxxEntity entity;
@@ -127,10 +127,7 @@ namespace nl
         if (!isValid)
         {
           // データを Entity に変換できなかった
-          logger.errorLog(std::string()
-                              .append("Could'nt Convert to Entity. PK=[")
-                              .append(pk)
-                              .append("]"));
+          logger.error << "Could'nt Convert to Entity. PK=[" << pk << "]" << std::endl;
           continue;
         }
         insertCount++;

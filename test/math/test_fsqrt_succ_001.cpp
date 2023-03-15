@@ -88,7 +88,6 @@ TEST(Fsqrt, fsqrt_vs_stdsqrt_case001)
                           .append("[ms], std::math.sqrt=")
                           .append(std::to_string(time2))
                           .append("[ms]");
-    Logger logger;
-    logger.errorLog(msg);
+    logger.error << msg << std::endl;
   }
 }

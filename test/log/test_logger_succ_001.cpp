@@ -6,13 +6,9 @@ using namespace nl;
 // 各種ログレベルが正しく出力されること
 TEST(Logger, case1)
 {
-  Logger logger;
-  logger.infoLog("Here is the log before limited with str aaa");
+  logger.info << "Here is the log before limited with str aaa" << std::endl;
   logger.doFilter("aaa");
-  // logger.debugLog("this is a test DEBUG log!");
-  // logger.infoLog("this is a test INFO log!");
-  logger.infoLog("this is a test INFO log!aaabbbccc");
-  // logger.errorLog("this is a test ERROR log!");
-  logger.errorLog("this is a test ERROR logddddd!aaagggg");
-  logger.debugLog("this is a filter test aaa desu!!");
+  logger.info << "this is a test INFO log!aaabbbccc" << std::endl;
+  logger.error << "this is a test ERROR logddddd!aaagggg" << std::endl;
+  logger.debug << "this is a filter test aaa desu!!" << std::endl;
 }

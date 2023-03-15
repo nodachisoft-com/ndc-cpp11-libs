@@ -1,36 +1,28 @@
 #include "../../src/ndclibs.hpp"
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace nl;
 
 int main()
 {
-  std::string path = "./debug/fa_crc32_largefile_case001.bin";
-  FileAccessor faWrite(path);
+  nl::logger.debug << "DEBUG Message!" << std::endl;
+  nl::logger.info << "INFO Message!" << std::endl;
+  nl::logger.warn << "WARN Message!" << std::endl;
+  nl::logger.error << "ERROR Message!" << std::endl;
 
-  MemoryBank mem;
-  // for (int i = 0; i < 1024 * 16; i++)
-  for (int i = 0; i < 15; i++)
+  nl::logger.doFilter("123");
+
+  nl::logger.info << "sss123bbbb" << std::endl;
+  nl::logger.info << "sssbbbb" << std::endl;
+  nl::logger.info << "123sbbbb" << std::endl;
+  nl::logger.info << "sbbbb123" << std::endl;
+  nl::logger.info << "11999OKKK" << std::endl;
+
+  std::vector<LogHistory> history = nl::logger.info.getLogHistory();
+  for (LogHistory elem : history)
   {
-    unsigned char val = i % 14;
-    mem.appendByte(val);
+    std::cout << "HIST:" << elem.timestamp << " : " << elem.logMessage << std::endl;
   }
-
-  faWrite.setMemoryBank(&mem);
-  std::cout << "memory size(write):" << mem.getUsingSize() << std::endl;
-
-  faWrite.writeFileSync();
-
-  // 改めてファイルを読み込み
-  FileAccessor faRead(path);
-  faRead.readFileSync();
-
-  std::cout << "memory size(read):" << faRead.getMemoryBank()->getUsingSize() << std::endl;
-  // debug
-  for (int i = 0; i < faRead.getMemoryBank()->getUsingSize(); i++)
-  {
-    std::cout << "[" << i << " = " << (int)(faRead.getMemoryBank()->get(i)) << "] ";
-  }
-  std::cout << std::endl;
 }

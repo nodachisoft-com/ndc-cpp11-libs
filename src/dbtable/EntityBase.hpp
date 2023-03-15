@@ -117,8 +117,9 @@ namespace nl
       {
         if (!util::isInt(data)) // INT 型だが、int に変換不可能
         {
-          Logger logger;
-          logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
+          logger.error << "DBTable Not INTEGER data. data=[" << data << "]" << std::endl;
+          // Logger logger;
+          // logger.errorLog("DBTable Not INTEGER data. data=["s + data + "]"s);
           return false;
         }
       }
@@ -126,9 +127,9 @@ namespace nl
       {
         if (!util::isFloat(data)) // FLOAT 型だが、float に変換不可能
         {
-
-          Logger logger;
-          logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
+          logger.error << "DBTable Not FLOAT data. data=[" << data << "]" << std::endl;
+          // Logger logger;
+          // logger.errorLog("DBTable Not FLOAT data. data=["s + data + "]"s);
           return false;
         }
       }
@@ -136,16 +137,18 @@ namespace nl
       {
         if (!util::isBool(data)) // BOOL 型だが、bool に変換不可能
         {
-          Logger logger;
-          logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
+          logger.error << "DBTable Not BOOL data. data=[" << data << "]" << std::endl;
+          // Logger logger;
+          // logger.errorLog("DBTable Not BOOL data. data=["s + data + "]"s);
           return false;
         }
       }
       else
       {
         // 渡されたデータ型が不明
-        Logger logger;
-        logger.errorLog("DBTable Unknown Type. type=["s + type + "]"s);
+        logger.error << "DBTable Unknown Type. type=[" << type << "]" << std::endl;
+        // Logger logger;
+        // logger.errorLog("DBTable Unknown Type. type=["s + type + "]"s);
         return false;
       }
 

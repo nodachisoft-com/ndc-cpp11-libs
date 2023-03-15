@@ -74,6 +74,6 @@ TEST(util, isBool_case001)
   EXPECT_EQ(util::isBool("TrUE"), true);
   EXPECT_EQ(util::isBool("TRUE"), true);
   EXPECT_EQ(util::isBool("ABCD"), false);
-  EXPECT_EQ(util::isBool("FalSE"), false);
-  EXPECT_EQ(util::isBool("false"), false);
+  EXPECT_EQ(util::isBool("FalSE"), true);
+  EXPECT_EQ(util::isBool("false"), true);
 }
