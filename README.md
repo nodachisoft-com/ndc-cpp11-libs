@@ -122,3 +122,14 @@ int main(void)
 ```
 
 -L には当プロジェクトの publish 配下にあるライブラリの位置を指定します。
+
+
+# lua
+
+[手順] lua
+wget <http://www.lua.org/ftp/lua-5.4.4.tar.gz>
+tar xvf lua-5.4.4.tar.gz
+cd lua-5.4.4
+mingw32-make mingw local clean
+rm lua-5.4.4.tar.gz
+./include/l*./lib/l*.a  Copy先
