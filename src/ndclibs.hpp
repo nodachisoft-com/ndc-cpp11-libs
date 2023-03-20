@@ -27,3 +27,4 @@
 #include "timewatch/index.hpp"
 #include "csv/index.hpp"
 #include "dbtable/index.hpp"
+#include "cmdInvoker/index.hpp"
